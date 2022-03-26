@@ -2,6 +2,7 @@ package org.junit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.domain.Study;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,7 +45,7 @@ public class ParameterTest {
     protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
       assertEquals(Study.class, targetType);
       return Study.builder()
-        .limitOfStudents(Integer.parseInt(source.toString()))
+        .limitCount(Integer.parseInt(source.toString()))
         .build();
     }
   }
@@ -55,7 +56,7 @@ public class ParameterTest {
     public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context) throws ArgumentsAggregationException {
       return Study.builder()
         .name(accessor.getString(0))
-        .limitOfStudents(accessor.getInteger(0))
+        .limitCount(accessor.getInteger(0))
         .build();
     }
   }

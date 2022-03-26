@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 import java.time.Duration;
+import org.junit.domain.Study;
+import org.junit.domain.StudyStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +23,7 @@ class StudyTest {
       () -> assertNotNull(study),
       () -> assertEquals(study.getStatus(), StudyStatus.DRAFT,
         () -> "생성 시 상태는 <%s> 여야 한다".formatted(StudyStatus.DRAFT)),
-      () -> assertEquals(study.getLimitOfStudents(), 0,
+      () -> assertEquals(study.getLimitCount(), 0,
         () -> "참석 인원은 <%d> 로 초기화 된다".formatted(0))
     );
   }
@@ -39,7 +41,7 @@ class StudyTest {
   @Test
   @DisplayName("AssertJ와 함께하는 테스트")
   void assertStatementWithAssertJ() {
-    assertThat(new Study().getLimitOfStudents()).isEqualTo(0);
+    assertThat(new Study().getLimitCount()).isEqualTo(0);
   }
 }
 
