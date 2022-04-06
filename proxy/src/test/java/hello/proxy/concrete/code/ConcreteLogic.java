@@ -9,5 +9,4 @@ public class ConcreteLogic {
     log.info("ConcreteLogic Called");
     return "data";
   }
-
 }

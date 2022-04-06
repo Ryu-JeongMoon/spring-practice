@@ -1,7 +1,7 @@
 package hello.proxy.pure.proxy;
 
-import hello.proxy.pure.proxy.code.ProxyPatternClient;
 import hello.proxy.pure.proxy.code.ProxyCacheSubject;
+import hello.proxy.pure.proxy.code.ProxyPatternClient;
 import hello.proxy.pure.proxy.code.RealSubject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -23,7 +23,8 @@ public class DecoratorPatternTest {
   @DisplayName("적용 후")
   void decorator() {
     RealComponent realComponent = new RealComponent();
-    MessageDecoratorComponent messageDecoratorComponent = new MessageDecoratorComponent(realComponent);
+    MessageDecoratorComponent messageDecoratorComponent = new MessageDecoratorComponent(
+      realComponent);
     DecoratorPatternClient client = new DecoratorPatternClient(messageDecoratorComponent);
 
     client.execute();

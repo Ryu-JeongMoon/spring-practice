@@ -1,0 +1,25 @@
+package hello.proxy.jdk.code;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
+public class TimeInvocationHandler implements InvocationHandler {
+
+  private final Object target;
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+    long startTime = System.currentTimeMillis();
+    Object result = method.invoke(target, args);
+    long endTime = System.currentTimeMillis();
+
+    log.info("result = {}", result);
+    log.info("execution time = {}", (endTime - startTime));
+
+    return result;
+  }
+}
