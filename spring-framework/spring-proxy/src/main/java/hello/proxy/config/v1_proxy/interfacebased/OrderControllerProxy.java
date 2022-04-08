@@ -1,4 +1,4 @@
-package hello.proxy.config.v1.interfacebased;
+package hello.proxy.config.v1_proxy.interfacebased;
 
 import hello.proxy.app.v1.OrderControllerV1;
 import hello.proxy.trace.TraceStatus;

@@ -1,4 +1,4 @@
-package hello.proxy.config.v2;
+package hello.proxy.config.v2_dynamicproxy;
 
 import hello.proxy.app.v1.OrderControllerImplV1;
 import hello.proxy.app.v1.OrderControllerV1;
@@ -6,7 +6,7 @@ import hello.proxy.app.v1.OrderRepositoryImplV1;
 import hello.proxy.app.v1.OrderRepositoryV1;
 import hello.proxy.app.v1.OrderServiceImplV1;
 import hello.proxy.app.v1.OrderServiceV1;
-import hello.proxy.config.v2.dynamic.LogTraceBasicHandler;
+import hello.proxy.config.v2_dynamicproxy.dynamic.LogTraceBasicHandler;
 import hello.proxy.trace.logtrace.LogTrace;
 import java.lang.reflect.Proxy;
 import org.springframework.context.annotation.Bean;

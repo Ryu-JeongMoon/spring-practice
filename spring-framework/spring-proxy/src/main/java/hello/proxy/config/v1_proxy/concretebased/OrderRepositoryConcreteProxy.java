@@ -1,21 +1,21 @@
-package hello.proxy.config.v1.interfacebased;
+package hello.proxy.config.v1_proxy.concretebased;
 
-import hello.proxy.app.v1.OrderRepositoryV1;
+import hello.proxy.app.v2.OrderRepositoryV2;
 import hello.proxy.trace.TraceStatus;
 import hello.proxy.trace.logtrace.LogTrace;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OrderRepositoryProxy implements OrderRepositoryV1 {
+public class OrderRepositoryConcreteProxy extends OrderRepositoryV2 {
 
-  private final OrderRepositoryV1 target;
+  private final OrderRepositoryV2 target;
   private final LogTrace logTrace;
 
   @Override
   public void save(String itemId) {
     TraceStatus traceStatus = null;
     try {
-      traceStatus = logTrace.begin("OrderRepositoryProxy Called");
+      traceStatus = logTrace.begin("OrderRepositoryConcreteProxy Called");
       target.save(itemId);
       logTrace.end(traceStatus);
     } catch (Exception e) {
