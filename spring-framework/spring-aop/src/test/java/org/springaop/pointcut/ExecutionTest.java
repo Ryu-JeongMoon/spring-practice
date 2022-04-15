@@ -1,10 +1,9 @@
 package org.springaop.pointcut;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,9 +29,16 @@ public class ExecutionTest {
   }
 
   @Test
-  @DisplayName("키워드 - 접근 제어자 - 반환 타입 - 패키지 - 메서드명 - 메서드 매개변수 형식")
+  @DisplayName("접근제어자? 반환타입 선언타입? 메서드명 (매개변수) 형식, 물음표는 생략 가능")
   void exactMatch() {
     pointcut.setExpression("execution(public String org.springaop.member.MemberServiceImpl.hello(String))");
+    assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+  }
+
+  @Test
+  @DisplayName("모든 메서드 매치")
+  void allMatch() {
+    pointcut.setExpression("execution(* *(..))");
     assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
   }
 
@@ -55,6 +61,13 @@ public class ExecutionTest {
   void suffixPatternMatch() {
     pointcut.setExpression("execution(* he*(..))");
     assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+  }
+
+  @Test
+  @DisplayName("메서드 이름 매치 - 존재하지 않는 메서드")
+  void notExistsMethodPatternMatch() {
+    pointcut.setExpression("execution(* nono(..))");
+    assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isFalse();
   }
 
   @Test
