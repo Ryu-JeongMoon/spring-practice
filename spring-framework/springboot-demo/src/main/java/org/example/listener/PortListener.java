@@ -1,4 +1,4 @@
-package org.example;
+package org.example.listener;
 
 import org.springframework.boot.web.context.WebServerApplicationContext;
 import org.springframework.boot.web.context.WebServerInitializedEvent;

@@ -1,4 +1,4 @@
-//package org.example;
+//package org.example.connector;
 //
 //import com.sun.jdi.connect.Connector;
 //import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -7,7 +7,7 @@
 //import org.springframework.stereotype.Component;
 //
 //@Component
-//public class AdditionalUndertowConnector {
+//public class AdditionalTomcatConnector {
 //
 //  @Bean
 //  public ServletWebServerFactory servletContainer() {
