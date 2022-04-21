@@ -9,13 +9,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.kafka.inbound.KafkaMessageDrivenChannelAdapter;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
-import org.springkafka.interactor.CountDownLatchHandler;
+import org.springframework.messaging.PollableChannel;
+import org.springkafka.interactor.InMemoryStoreHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,14 +28,20 @@ public class ConsumerChannelConfig {
 	private final SpringKafkaProperties springKafkaProperties;
 
 	@Bean
-	public DirectChannel consumerChannel() {
-		return new DirectChannel();
+	public PollableChannel consumerChannel() {
+		return new QueueChannel();
 	}
+
+	// @Bean
+	// @ServiceActivator(inputChannel = "consumerChannel")
+	// public CountDownLatchHandler countDownLatchHandler() {
+	// 	return new CountDownLatchHandler();
+	// }
 
 	@Bean
 	@ServiceActivator(inputChannel = "consumerChannel")
-	public CountDownLatchHandler countDownLatchHandler() {
-		return new CountDownLatchHandler();
+	public InMemoryStoreHandler inMemoryStoreHandler() {
+		return new InMemoryStoreHandler();
 	}
 
 	@Bean
@@ -64,9 +71,6 @@ public class ConsumerChannelConfig {
 	@Bean
 	public Map<String, Object> consumerConfigs() {
 		Map<String, Object> properties = new HashMap<>();
-
-		System.out.println("springKafkaProperties.bootstrapServers() = " + springKafkaProperties.bootstrapServers());
-
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, springKafkaProperties.bootstrapServers());
 		properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);

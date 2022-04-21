@@ -1,0 +1,14 @@
+spring:
+  kafka:
+    topic: test-topic
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: spring-integration-kafka
+
+logging:
+  level:
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: false
