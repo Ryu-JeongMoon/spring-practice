@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.GenericMessage;
-import org.springkafka.interactor.CountDownLatchHandler;
+import org.springkafka.handler.CountDownLatchHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +27,7 @@ class SpringKafkaApplicationTests {
 	@Autowired
 	private CountDownLatchHandler countDownLatchHandler;
 
-	private static String SPRING_INTEGRATION_KAFKA_TOPIC = "test_topic";
+	private static final String SPRING_INTEGRATION_KAFKA_TOPIC = "test_topic";
 
 	@Test
 	public void testIntegration() throws Exception {

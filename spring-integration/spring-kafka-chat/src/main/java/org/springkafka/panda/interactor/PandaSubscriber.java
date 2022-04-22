@@ -1,4 +1,4 @@
-package org.springkafka.interactor;
+package org.springkafka.panda.interactor;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,8 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.messaging.PollableChannel;
 import org.springframework.stereotype.Component;
 import org.springkafka.config.SpringKafkaProperties;
-import org.springkafka.model.Panda;
+import org.springkafka.handler.InMemoryStoreHandler;
+import org.springkafka.panda.model.Panda;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +30,11 @@ public record PandaSubscriber(
 	SpringKafkaProperties springKafkaProperties,
 	InMemoryStoreHandler inMemoryStoreHandler) {
 
+	/**
+	 * PollableChannel 의 receive 메서드는 인자가 있는 것과 없는 것으로 나뉜다<br/>
+	 * 있는 경우 -> timeout 걸고 큐에서 메세지를 가져오고<br/>
+	 * 없는 경우 -> 큐 상태와 관계 없이 땡겨오는데 큐가 비어있다면 busy-waiting 에 걸릴 수 있다<br/>
+	 */
 	public List<Panda> read() {
 		addAnotherListenerForTopics(springKafkaProperties.topic());
 

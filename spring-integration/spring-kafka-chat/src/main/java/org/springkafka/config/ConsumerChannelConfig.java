@@ -16,7 +16,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.messaging.PollableChannel;
-import org.springkafka.interactor.InMemoryStoreHandler;
+import org.springkafka.handler.InMemoryStoreHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,9 +27,13 @@ public class ConsumerChannelConfig {
 
 	private final SpringKafkaProperties springKafkaProperties;
 
+	/**
+	 * PollableChannel 사용 시 기본 생성자를 사용하면 Integer.MAX_VALUE 로 큐를 생성해버린다<br/>
+	 * 따라서 capacity 지정해주는 생성자를 사용해 큐 생성해야 한다
+	 */
 	@Bean
 	public PollableChannel consumerChannel() {
-		return new QueueChannel();
+		return new QueueChannel(50);
 	}
 
 	// @Bean
@@ -53,14 +57,18 @@ public class ConsumerChannelConfig {
 		return adapter;
 	}
 
+	/**
+	 * ConsumerFactory<K, V>로 인자를 넣어 받아오는데 <?, ?>로 설정되어 있기 때문에<br/>
+	 * Type Parameter Capturing 안 되는 문제가 있어 명시적으로 타입 캐스팅을 해줘야한다<br/>
+	 * IDE 에서는 redundant cast 라 하지만 없으면 구체화할 수 없기 때문에 컴파일 에러 뜸
+	 */
 	@Bean
 	@SuppressWarnings("unchecked")
 	public ConcurrentMessageListenerContainer<String, String> kafkaListenerContainer() {
-		return (ConcurrentMessageListenerContainer<String, String>)
-			new ConcurrentMessageListenerContainer<>(
-				consumerFactory(),
-				new ContainerProperties(springKafkaProperties.topic())
-			);
+		return new ConcurrentMessageListenerContainer<>(
+			consumerFactory(),
+			new ContainerProperties(springKafkaProperties.topic())
+		);
 	}
 
 	@Bean
@@ -79,3 +87,4 @@ public class ConsumerChannelConfig {
 		return properties;
 	}
 }
+

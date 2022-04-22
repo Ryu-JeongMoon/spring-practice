@@ -1,10 +1,10 @@
-package org.springkafka.interactor;
+package org.springkafka.panda.interactor;
 
 import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Component;
-import org.springkafka.model.Panda;
+import org.springkafka.panda.model.Panda;
 
 @Component
 public class PandaPublisher {

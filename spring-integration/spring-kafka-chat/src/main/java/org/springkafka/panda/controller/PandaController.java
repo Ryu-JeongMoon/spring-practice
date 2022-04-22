@@ -1,4 +1,4 @@
-package org.springkafka.controller;
+package org.springkafka.panda.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,9 +11,9 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springkafka.config.SpringKafkaProperties;
-import org.springkafka.interactor.PandaPublisher;
-import org.springkafka.interactor.PandaSubscriber;
-import org.springkafka.model.Panda;
+import org.springkafka.panda.interactor.PandaPublisher;
+import org.springkafka.panda.interactor.PandaSubscriber;
+import org.springkafka.panda.model.Panda;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +45,6 @@ public class PandaController {
 
 	@GetMapping("/read")
 	public Flux<List<Panda>> read() {
-		return Flux.just(pandaSubscriber.read());
+		return Flux.just(pandaSubscriber.read())
 	}
 }

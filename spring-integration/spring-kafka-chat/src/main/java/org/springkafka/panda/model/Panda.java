@@ -1,4 +1,4 @@
-package org.springkafka.model;
+package org.springkafka.panda.model;
 
 import lombok.Builder;
 import lombok.Data;
