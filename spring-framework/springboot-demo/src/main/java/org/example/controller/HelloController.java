@@ -8,6 +8,7 @@ import org.example.Panda;
 import org.example.service.HelloService;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,8 @@ public class HelloController {
 
   private final HelloService helloService;
 
-  @GetMapping("/hello")
+  @CrossOrigin(origins = "http://localhost:18080")
+  @GetMapping("/hello-panda")
   public String hello() {
     return helloService.getDeclaration();
   }

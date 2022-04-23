@@ -14,7 +14,7 @@ public class SpringbootDemoApplication {
     // listener registration -> StartingListener
     SpringApplication springApplication = new SpringApplication(SpringbootDemoApplication.class);
     springApplication.addListeners(new StartingListener());
-    springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
+    springApplication.setWebApplicationType(WebApplicationType.SERVLET);
     springApplication.run(args);
   }
 
@@ -43,4 +43,8 @@ SpringApplication.run(SpringbootDemoApplication.class, args);
 new SpringApplicationBuilder()
   .sources(SpringbootDemoApplication.class)
   .run(args);
+
+springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
+REACTIVE 로 설정 시 h2-console 접속 불가
+반드시 SERVLET 으로 돌릴 것
  */

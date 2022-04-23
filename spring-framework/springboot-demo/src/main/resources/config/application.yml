@@ -1,5 +1,4 @@
 server:
-  port: 0
   http2:
     enabled: true
   compression:
@@ -21,3 +20,15 @@ panda:
 spring:
   profiles:
     active: local
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+  datasource:
+    generate-unique-name: false
+
+  main:
+    allow-bean-definition-overriding: true
