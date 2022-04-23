@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class Panda {
 
   String name;
@@ -36,5 +38,20 @@ public class Panda {
       "name='" + name + '\'' +
       ", age=" + age +
       '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Panda panda = (Panda) o;
+    return getAge() == panda.getAge() && Objects.equals(getName(), panda.getName());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getName(), getAge());
   }
 }

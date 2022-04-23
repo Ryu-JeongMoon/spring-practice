@@ -17,3 +17,7 @@ panda:
   age: 55
   name: panda-bear
   weight: 999999
+
+spring:
+  profiles:
+    active: local
