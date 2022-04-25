@@ -33,7 +33,7 @@ public class HelloController {
     return helloService.getPanda();
   }
 
-  @GetMapping("/panda")
+  @GetMapping("/panda-hello")
   public EntityModel<Panda> getHateoasPanda() {
     return EntityModel.of(
       new Panda("hello", 15),
