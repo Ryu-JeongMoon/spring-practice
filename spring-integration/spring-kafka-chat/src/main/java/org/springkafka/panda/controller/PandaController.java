@@ -38,6 +38,8 @@ public class PandaController {
 		Panda panda = pandaPublisher.getRandomPanda();
 
 		Map<String, Object> headers = Collections.singletonMap(KafkaHeaders.TOPIC, springKafkaProperties.topic());
+		log.info("springKafkaProperties.topic() = {}", springKafkaProperties.topic());
+
 		producerChannel.send(new GenericMessage<>(panda, headers));
 
 		return Mono.just(panda);
@@ -45,6 +47,8 @@ public class PandaController {
 
 	@GetMapping("/read")
 	public Flux<List<Panda>> read() {
-		return Flux.just(pandaSubscriber.read())
+		log.info("[called] PandaController.read");
+
+		return Flux.just(pandaSubscriber.read());
 	}
 }

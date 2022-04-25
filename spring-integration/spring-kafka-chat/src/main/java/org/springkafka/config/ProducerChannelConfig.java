@@ -2,7 +2,6 @@ package org.springkafka.config;
 
 import java.util.Map;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +31,7 @@ public class ProducerChannelConfig {
 	}
 
 	@Bean
-	@ServiceActivator(inputChannel = "producerChannel")
+	@ServiceActivator(inputChannel = "memoryProducerChannel")
 	public MessageHandler kafkaMessageHandler() {
 		KafkaProducerMessageHandler<String, String> handler = new KafkaProducerMessageHandler<>(kafkaTemplate());
 		handler.setMessageKeyExpression(new LiteralExpression("spring-integration-kafka"));
@@ -46,13 +45,12 @@ public class ProducerChannelConfig {
 
 	@Bean
 	public ProducerFactory<String, String> producerFactory() {
-		Map<String, Object> properties = Map.of(
+		Map<String, Object> configs = Map.of(
 			ProducerConfig.LINGER_MS_CONFIG, 1,
-			ConsumerConfig.GROUP_ID_CONFIG, "spring-integration-kafka",
 			ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.bootstrapServers(),
 			ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class,
 			ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class
 		);
-		return new DefaultKafkaProducerFactory<>(properties);
+		return new DefaultKafkaProducerFactory<>(configs);
 	}
 }

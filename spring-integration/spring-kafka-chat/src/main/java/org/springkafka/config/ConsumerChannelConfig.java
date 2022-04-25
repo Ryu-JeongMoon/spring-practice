@@ -36,14 +36,8 @@ public class ConsumerChannelConfig {
 		return new QueueChannel(50);
 	}
 
-	// @Bean
-	// @ServiceActivator(inputChannel = "consumerChannel")
-	// public CountDownLatchHandler countDownLatchHandler() {
-	// 	return new CountDownLatchHandler();
-	// }
-
 	@Bean
-	@ServiceActivator(inputChannel = "consumerChannel")
+	@ServiceActivator(inputChannel = "memoryConsumerChannel")
 	public InMemoryStoreHandler inMemoryStoreHandler() {
 		return new InMemoryStoreHandler();
 	}
@@ -63,7 +57,6 @@ public class ConsumerChannelConfig {
 	 * IDE 에서는 redundant cast 라 하지만 없으면 구체화할 수 없기 때문에 컴파일 에러 뜸
 	 */
 	@Bean
-	@SuppressWarnings("unchecked")
 	public ConcurrentMessageListenerContainer<String, String> kafkaListenerContainer() {
 		return new ConcurrentMessageListenerContainer<>(
 			consumerFactory(),
@@ -72,7 +65,7 @@ public class ConsumerChannelConfig {
 	}
 
 	@Bean
-	public ConsumerFactory<?, ?> consumerFactory() {
+	public ConsumerFactory<String, String> consumerFactory() {
 		return new DefaultKafkaConsumerFactory<>(consumerConfigs());
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.context.IntegrationFlowContext;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public record PandaSubscriber(
 	ObjectMapper objectMapper,
 	PollableChannel consumerChannel,
+	DirectChannel producerChannel,
 	KafkaProperties kafkaProperties,
 	IntegrationFlowContext flowContext,
 	SpringKafkaProperties springKafkaProperties,
@@ -40,6 +42,7 @@ public record PandaSubscriber(
 
 		return inMemoryStoreHandler.getPAYLOADS()
 			.stream()
+			.peek(message -> log.info("message = {}", message))
 			.map(payload -> {
 				try {
 					return objectMapper.readValue(payload, Panda.class);
@@ -54,7 +57,7 @@ public record PandaSubscriber(
 		IntegrationFlow flow = IntegrationFlows
 			.from(Kafka.messageDrivenChannelAdapter(
 				new DefaultKafkaConsumerFactory<String, String>(consumerProperties), topics))
-			.channel("inputChannel").get();
+			.channel("memoryConsumerChannel").get();
 		this.flowContext.registration(flow).register();
 	}
 }
