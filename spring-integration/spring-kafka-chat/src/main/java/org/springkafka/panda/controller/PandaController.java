@@ -26,7 +26,7 @@ import reactor.core.publisher.Mono;
 @EnableConfigurationProperties(SpringKafkaProperties.class)
 public class PandaController {
 
-	private final DirectChannel producerChannel;
+	private final DirectChannel consoleProducerChannel;
 	private final PandaPublisher pandaPublisher;
 	private final PandaSubscriber pandaSubscriber;
 	private final SpringKafkaProperties springKafkaProperties;
@@ -40,7 +40,7 @@ public class PandaController {
 		Map<String, Object> headers = Collections.singletonMap(KafkaHeaders.TOPIC, springKafkaProperties.topic());
 		log.info("springKafkaProperties.topic() = {}", springKafkaProperties.topic());
 
-		producerChannel.send(new GenericMessage<>(panda, headers));
+		consoleProducerChannel.send(new GenericMessage<>(panda, headers));
 
 		return Mono.just(panda);
 	}

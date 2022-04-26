@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public record PandaSubscriber(
 	ObjectMapper objectMapper,
 	PollableChannel consumerChannel,
-	DirectChannel producerChannel,
+	DirectChannel consoleProducerChannel,
 	KafkaProperties kafkaProperties,
 	IntegrationFlowContext flowContext,
 	SpringKafkaProperties springKafkaProperties,

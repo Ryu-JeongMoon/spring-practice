@@ -26,7 +26,12 @@ public class ProducerChannelConfig {
 	private final SpringKafkaProperties kafkaProperties;
 
 	@Bean
-	public DirectChannel producerChannel() {
+	public DirectChannel fileProducerChannel() {
+		return new DirectChannel();
+	}
+
+	@Bean
+	public DirectChannel consoleProducerChannel() {
 		return new DirectChannel();
 	}
 

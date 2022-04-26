@@ -1,6 +1,7 @@
 package org.springkafka.config;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -26,6 +27,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.messaging.Message;
 import org.springkafka.SpringKafkaApplication;
+import org.springkafka.handler.ConsoleWriteHandler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 @IntegrationComponentScan(basePackageClasses = SpringKafkaApplication.class)
 public class KafkaConfig {
 
-	private final DirectChannel producerChannel;
+	private final DirectChannel fileProducerChannel;
+	private final DirectChannel consoleProducerChannel;
 	private final SpringKafkaProperties springKafkaProperties;
 
 	@Bean
@@ -87,10 +90,10 @@ public class KafkaConfig {
 	// AbstractMessageListenerContainer.AckMode.MANUAL -> ContainerProperties.AckMode.MANUAL 변경
 	@Bean
 	public IntegrationFlow fileWriterFlow() {
-		log.info("[called]");
+		log.info("[fileWriterFlow called]");
 
 		return IntegrationFlows
-			.from(producerChannel)
+			.from(fileProducerChannel)
 			.filter(Message.class,
 				m -> {
 					String receivedMessageKey = m.getHeaders().get(KafkaHeaders.RECEIVED_MESSAGE_KEY, String.class);
@@ -105,6 +108,24 @@ public class KafkaConfig {
 				.appendNewLine(true)
 				.flushWhenIdle(false)
 				.get())
+			.get();
+	}
+
+	@Bean
+	public IntegrationFlow consoleWriterFlow() {
+		log.info("[consoleWriterFlow called]");
+
+		return IntegrationFlows
+			.from(consoleProducerChannel)
+			.filter(Message.class,
+				m -> {
+					String messageKey = m.getHeaders().get(KafkaHeaders.RECEIVED_MESSAGE_KEY, String.class);
+					return true;
+				},
+				f -> f.throwExceptionOnRejection(true))
+			.<String[], String[]>transform(source -> Arrays.stream(source)
+				.map(s -> s.toUpperCase()).toArray(String[]::new))
+			.handle(new ConsoleWriteHandler())
 			.get();
 	}
 }
