@@ -96,8 +96,8 @@ public class KafkaConfig {
 			.from(fileProducerChannel)
 			.filter(Message.class,
 				m -> {
-					String receivedMessageKey = m.getHeaders().get(KafkaHeaders.RECEIVED_MESSAGE_KEY, String.class);
-					return receivedMessageKey == null || Integer.parseInt(receivedMessageKey) < 101;
+					Integer receivedMessageKey = m.getHeaders().get(KafkaHeaders.RECEIVED_MESSAGE_KEY, Integer.class);
+					return receivedMessageKey == null || receivedMessageKey < 101;
 				},
 				f -> f.throwExceptionOnRejection(true))
 			.<String, String>transform(String::toUpperCase)
@@ -123,8 +123,10 @@ public class KafkaConfig {
 					return true;
 				},
 				f -> f.throwExceptionOnRejection(true))
-			.<String[], String[]>transform(source -> Arrays.stream(source)
-				.map(s -> s.toUpperCase()).toArray(String[]::new))
+			.<String[], String[]>transform(source ->
+				Arrays.stream(source)
+					.map(String::toUpperCase)
+					.toArray(String[]::new))
 			.handle(new ConsoleWriteHandler())
 			.get();
 	}

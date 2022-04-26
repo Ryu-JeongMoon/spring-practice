@@ -25,8 +25,12 @@ public class FlowController {
 	private final SpringKafkaProperties springKafkaProperties;
 
 	@GetMapping("/flow")
-	public Mono<String> flowYahoo(@RequestParam String payload) {
-		Map<String, Object> headers = Collections.singletonMap(KafkaHeaders.TOPIC, springKafkaProperties.topic());
+	public Mono<String> flowYahoo(@RequestParam String payload, @RequestParam(required = false, defaultValue = "100") Integer messageKey) {
+		Map<String, Object> headers = Map.of(
+			KafkaHeaders.TOPIC, springKafkaProperties.topic(),
+			KafkaHeaders.RECEIVED_MESSAGE_KEY, messageKey
+		);
+
 		fileProducerChannel.send(new GenericMessage<>(payload, headers), 1000);
 
 		return Mono.just("%s ok~~".formatted(payload));
