@@ -76,6 +76,40 @@ class BasicController {
     return "basic/attribute"
   }
 
+  @GetMapping("/each")
+  fun each(model: Model): String {
+    model.addAttribute("users", addUsers())
+    return "basic/each"
+  }
+
+  @GetMapping("/condition")
+  fun condition(model: Model): String {
+    model.addAttribute("users", addUsers())
+    return "basic/condition"
+  }
+
+  @GetMapping("/comments")
+  fun comments(model: Model): String {
+    model.addAttribute("data", "kotlin")
+    return "basic/comments"
+  }
+
+  @GetMapping("/block")
+  fun block(model: Model): String {
+    model.addAttribute("users", addUsers())
+    return "basic/block"
+  }
+
+  @GetMapping("/javascript")
+  fun javascript(model: Model): String {
+    model.addAttribute("user", User("panda", 100))
+    model.addAttribute("users", addUsers())
+    return "basic/javascript"
+  }
+
+  private fun addUsers(): List<User> {
+    return listOf(User("panda", 15), User("bear", 25), User("pandabear", 35))
+  }
 }
 
 @Component
