@@ -34,12 +34,19 @@ dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
   runtimeOnly("com.h2database:h2")
 
+  implementation("org.mapstruct:mapstruct:1.4.2.Final")
+  annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
+  kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
+  implementation("com.github.pozo:mapstruct-kotlin:1.4.0.0")
+  kapt("com.github.pozo:mapstruct-kotlin-processor:1.4.0.0")
+
   implementation("com.querydsl:querydsl-jpa")
   kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
   kotlin.sourceSets.main {
     setBuildDir("$buildDir")
   }
 
+  testImplementation("org.mapstruct:mapstruct-processor:1.4.2.Final")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
@@ -48,6 +55,10 @@ tasks.withType<KotlinCompile> {
     freeCompilerArgs = listOf("-Xjsr305=strict")
     jvmTarget = "17"
   }
+}
+
+kotlin {
+  kotlinDaemonJvmArgs = listOf("--illegal-access=permit")
 }
 
 tasks.withType<Test> {
