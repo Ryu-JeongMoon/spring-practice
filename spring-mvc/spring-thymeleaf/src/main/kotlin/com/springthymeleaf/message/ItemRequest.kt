@@ -1,7 +1,7 @@
 package com.springthymeleaf.message
 
-data class ItemRequest(var id: Long?, var name: String?, var price: Int, var quantity: Int) {
-  constructor() : this(null, null, 0, 0)
+data class ItemRequest(var id: Long?, var name: String?, var price: Int?, var quantity: Int?) {
+  constructor() : this(null, null, null, null)
 }
 
 /*
