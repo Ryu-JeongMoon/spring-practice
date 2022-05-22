@@ -60,9 +60,11 @@ class ValidationItemControllerV1(
     }
 
     //특정 필드가 아닌 복합 룰 검증
-    val resultPrice: Int = itemRequest.price!! * itemRequest.quantity!!
-    if (resultPrice < 10000) {
-      errors["globalError"] = "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = $resultPrice"
+    if (itemRequest.price != null && itemRequest.quantity != null) {
+      val resultPrice: Int = itemRequest.price!! * itemRequest.quantity!!
+      if (resultPrice < 10000) {
+        errors["globalError"] = "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = $resultPrice"
+      }
     }
 
     //검증에 실패하면 다시 입력 폼으로
