@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
@@ -17,10 +19,16 @@ class ValidationItemControllerV2(
   private val itemRepository: ItemRepository,
   private val itemService: ItemService,
   private val itemRequestMapper: ItemRequestMapper,
-  private val itemResponseMapper: ItemResponseMapper
+  private val itemResponseMapper: ItemResponseMapper,
+  private val itemValidator: ItemValidator
 ) {
 
   private val log = LoggerFactory.getLogger(javaClass)
+
+  @InitBinder
+  fun init(webDataBinder: WebDataBinder) {
+    webDataBinder.addValidators(itemValidator)
+  }
 
   @GetMapping
   fun items(model: Model): String {
@@ -243,7 +251,7 @@ class ValidationItemControllerV2(
     return "redirect:/validation/v2/items/${savedItem.id}"
   }
 
-  @PostMapping("/add")
+  //  @PostMapping("/add")
   fun addItemV4(
     @ModelAttribute itemRequest: ItemRequest,
     bindingResult: BindingResult,
@@ -290,6 +298,49 @@ class ValidationItemControllerV2(
       }
     }
 
+    //검증에 실패하면 다시 입력 폼으로
+    if (bindingResult.hasErrors()) {
+      log.info("errors = {} ", bindingResult)
+      return "validation/v2/add-form"
+    }
+
+    //성공 로직
+    val item = itemRequestMapper.toEntity(itemRequest)
+    val savedItem: Item = itemRepository.save(item)
+    redirectAttributes.addAttribute("itemId", savedItem.id)
+    redirectAttributes.addAttribute("status", true)
+    return "redirect:/validation/v2/items/${savedItem.id}"
+  }
+
+  @PostMapping("/add")
+  fun addItemV5(
+    @ModelAttribute itemRequest: ItemRequest,
+    bindingResult: BindingResult,
+    redirectAttributes: RedirectAttributes
+  ): String {
+
+    itemValidator.validate(itemRequest, bindingResult)
+
+    //검증에 실패하면 다시 입력 폼으로
+    if (bindingResult.hasErrors()) {
+      log.info("errors = {} ", bindingResult)
+      return "validation/v2/add-form"
+    }
+
+    //성공 로직
+    val item = itemRequestMapper.toEntity(itemRequest)
+    val savedItem: Item = itemRepository.save(item)
+    redirectAttributes.addAttribute("itemId", savedItem.id)
+    redirectAttributes.addAttribute("status", true)
+    return "redirect:/validation/v2/items/${savedItem.id}"
+  }
+
+  //  @PostMapping("/add")
+  fun addItemV6(
+    @Validated @ModelAttribute itemRequest: ItemRequest,
+    bindingResult: BindingResult,
+    redirectAttributes: RedirectAttributes
+  ): String {
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
       log.info("errors = {} ", bindingResult)
