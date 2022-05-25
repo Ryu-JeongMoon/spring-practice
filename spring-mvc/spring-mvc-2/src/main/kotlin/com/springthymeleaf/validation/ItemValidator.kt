@@ -1,6 +1,6 @@
 package com.springthymeleaf.validation
 
-import com.springthymeleaf.message.ItemRequest
+import com.springthymeleaf.message.ItemSaveRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -13,12 +13,12 @@ class ItemValidator : Validator {
   private val log = LoggerFactory.getLogger(javaClass)
 
   override fun supports(clazz: Class<*>): Boolean {
-    return clazz.isAssignableFrom(ItemRequest::class.java)
+    return clazz.isAssignableFrom(ItemSaveRequest::class.java)
   }
 
   override fun validate(target: Any, errors: Errors) {
     log.info("object name => {}", errors.objectName)
-    target as ItemRequest
+    target as ItemSaveRequest
 
     if (!StringUtils.hasText(target.name)) {
       errors.rejectValue(

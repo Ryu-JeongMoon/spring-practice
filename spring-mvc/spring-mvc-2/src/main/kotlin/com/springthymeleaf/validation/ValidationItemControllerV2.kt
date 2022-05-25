@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class ValidationItemControllerV2(
   private val itemRepository: ItemRepository,
   private val itemService: ItemService,
-  private val itemRequestMapper: ItemRequestMapper,
+  private val itemSaveRequestMapper: ItemSaveRequestMapper,
   private val itemResponseMapper: ItemResponseMapper,
   private val itemValidator: ItemValidator
 ) {
@@ -50,41 +50,41 @@ class ValidationItemControllerV2(
 
   @GetMapping("/add")
   fun addForm(model: Model): String {
-    model.addAttribute("itemRequest", ItemRequest())
+    model.addAttribute("itemRequest", ItemSaveRequest())
     return "validation/v2/add-form"
   }
 
   //  @PostMapping("/add")
   fun addItemV1(
-    @ModelAttribute itemRequest: ItemRequest,
+    @ModelAttribute itemSaveRequest: ItemSaveRequest,
     bindingResult: BindingResult,
     redirectAttributes: RedirectAttributes
   ): String {
-    if (!StringUtils.hasText(itemRequest.name)) {
-      bindingResult.addError(FieldError("itemRequest", "name", "상품 이름은 필수입니다. 현재 값 = ${itemRequest.name}"))
+    if (!StringUtils.hasText(itemSaveRequest.name)) {
+      bindingResult.addError(FieldError("itemRequest", "name", "상품 이름은 필수입니다. 현재 값 = ${itemSaveRequest.name}"))
     }
 
-    if (itemRequest.price == null || itemRequest.price!! < 1000 || itemRequest.price!! > 1000000) {
+    if (itemSaveRequest.price == null || itemSaveRequest.price!! < 1000 || itemSaveRequest.price!! > 1000000) {
       bindingResult.addError(
         FieldError(
           "itemRequest",
           "price",
-          "가격은 1,000 ~ 1,000,000 까지 허용합니다. 현재 값 = ${itemRequest.price}"
+          "가격은 1,000 ~ 1,000,000 까지 허용합니다. 현재 값 = ${itemSaveRequest.price}"
         )
       )
     }
-    if (itemRequest.quantity == null || itemRequest.quantity!! >= 9999 || itemRequest.quantity!! < 10) {
+    if (itemSaveRequest.quantity == null || itemSaveRequest.quantity!! >= 9999 || itemSaveRequest.quantity!! < 10) {
       bindingResult.addError(
         FieldError(
           "itemRequest",
           "quantity",
-          "수량은 최대 9,999 까지 허용합니다. 현재 값 = ${itemRequest.quantity}"
+          "수량은 최대 9,999 까지 허용합니다. 현재 값 = ${itemSaveRequest.quantity}"
         )
       )
     }
 
-    if (itemRequest.price != null && itemRequest.quantity != null) {
-      val resultPrice: Int = itemRequest.price!! * itemRequest.quantity!!
+    if (itemSaveRequest.price != null && itemSaveRequest.quantity != null) {
+      val resultPrice: Int = itemSaveRequest.price!! * itemSaveRequest.quantity!!
       if (resultPrice < 10000) {
         bindingResult.addError(
           ObjectError(
@@ -102,7 +102,7 @@ class ValidationItemControllerV2(
     }
 
     //성공 로직
-    val item = itemRequestMapper.toEntity(itemRequest)
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem: Item = itemRepository.save(item)
     redirectAttributes.addAttribute("itemId", savedItem.id)
     redirectAttributes.addAttribute("status", true)
@@ -112,7 +112,7 @@ class ValidationItemControllerV2(
   /* rejectedValue 넣어준 버전 */
 //    @PostMapping("/add")
   fun addItemV2(
-    @ModelAttribute itemRequest: ItemRequest,
+    @ModelAttribute itemSaveRequest: ItemSaveRequest,
     bindingResult: BindingResult,
     redirectAttributes: RedirectAttributes
   ): String {
@@ -120,49 +120,49 @@ class ValidationItemControllerV2(
     log.info("object name = {}", bindingResult.objectName)
     log.info("target = {}", bindingResult.target)
 
-    if (!StringUtils.hasText(itemRequest.name)) {
+    if (!StringUtils.hasText(itemSaveRequest.name)) {
       bindingResult.addError(
         FieldError(
           "itemRequest",
           "name",
-          itemRequest.name,
+          itemSaveRequest.name,
           false,
           null,
           null,
-          "상품 이름은 필수입니다. 현재 값 = ${itemRequest.name}"
+          "상품 이름은 필수입니다. 현재 값 = ${itemSaveRequest.name}"
         )
       )
     }
 
-    if (itemRequest.price == null || itemRequest.price!! < 1000 || itemRequest.price!! > 1000000) {
+    if (itemSaveRequest.price == null || itemSaveRequest.price!! < 1000 || itemSaveRequest.price!! > 1000000) {
       bindingResult.addError(
         FieldError(
           "itemRequest",
           "price",
-          itemRequest.price,
+          itemSaveRequest.price,
           false,
           null,
           null,
-          "가격은 1,000 ~ 1,000,000 까지 허용합니다. 현재 값 = ${itemRequest.price}"
+          "가격은 1,000 ~ 1,000,000 까지 허용합니다. 현재 값 = ${itemSaveRequest.price}"
         )
       )
     }
-    if (itemRequest.quantity == null || itemRequest.quantity!! >= 9999 || itemRequest.quantity!! < 10) {
+    if (itemSaveRequest.quantity == null || itemSaveRequest.quantity!! >= 9999 || itemSaveRequest.quantity!! < 10) {
       bindingResult.addError(
         FieldError(
           "itemRequest",
           "quantity",
-          itemRequest.quantity,
+          itemSaveRequest.quantity,
           false,
           null,
           null,
-          "수량은 최대 9,999 까지 허용합니다. 현재 값 = ${itemRequest.quantity}"
+          "수량은 최대 9,999 까지 허용합니다. 현재 값 = ${itemSaveRequest.quantity}"
         )
       )
     }
 
-    if (itemRequest.price != null && itemRequest.quantity != null) {
-      val resultPrice: Int = itemRequest.price!! * itemRequest.quantity!!
+    if (itemSaveRequest.price != null && itemSaveRequest.quantity != null) {
+      val resultPrice: Int = itemSaveRequest.price!! * itemSaveRequest.quantity!!
       if (resultPrice < 10000) {
         bindingResult.addError(
           ObjectError(
@@ -182,7 +182,7 @@ class ValidationItemControllerV2(
     }
 
     //성공 로직
-    val item = itemRequestMapper.toEntity(itemRequest)
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem: Item = itemRepository.save(item)
     redirectAttributes.addAttribute("itemId", savedItem.id)
     redirectAttributes.addAttribute("status", true)
@@ -192,7 +192,7 @@ class ValidationItemControllerV2(
   /* errors.properties 사용 버전 */
 //  @PostMapping("/add")
   fun addItemV3(
-    @ModelAttribute itemRequest: ItemRequest,
+    @ModelAttribute itemSaveRequest: ItemSaveRequest,
     bindingResult: BindingResult,
     redirectAttributes: RedirectAttributes
   ): String {
@@ -200,14 +200,14 @@ class ValidationItemControllerV2(
     log.info("object name => {}", bindingResult.objectName)
     log.info("target => {}", bindingResult.target)
 
-    if (!StringUtils.hasText(itemRequest.name)) {
+    if (!StringUtils.hasText(itemSaveRequest.name)) {
       bindingResult.rejectValue(
         "name",
         "required"
       )
     }
 
-    if (itemRequest.price == null || itemRequest.price!! < 1000 || itemRequest.price!! > 1000000) {
+    if (itemSaveRequest.price == null || itemSaveRequest.price!! < 1000 || itemSaveRequest.price!! > 1000000) {
       bindingResult.rejectValue(
         "price",
         "range",
@@ -216,7 +216,7 @@ class ValidationItemControllerV2(
       )
     }
 
-    if (itemRequest.quantity == null || itemRequest.quantity!! >= 9999 || itemRequest.quantity!! < 10) {
+    if (itemSaveRequest.quantity == null || itemSaveRequest.quantity!! >= 9999 || itemSaveRequest.quantity!! < 10) {
       bindingResult.rejectValue(
         "quantity",
         "max",
@@ -225,8 +225,8 @@ class ValidationItemControllerV2(
       )
     }
 
-    if (itemRequest.price != null && itemRequest.quantity != null) {
-      val resultPrice: Int = itemRequest.price!! * itemRequest.quantity!!
+    if (itemSaveRequest.price != null && itemSaveRequest.quantity != null) {
+      val resultPrice: Int = itemSaveRequest.price!! * itemSaveRequest.quantity!!
       if (resultPrice < 10000) {
         bindingResult.rejectValue(
           "itemRequest",
@@ -244,7 +244,7 @@ class ValidationItemControllerV2(
     }
 
     //성공 로직
-    val item = itemRequestMapper.toEntity(itemRequest)
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem: Item = itemRepository.save(item)
     redirectAttributes.addAttribute("itemId", savedItem.id)
     redirectAttributes.addAttribute("status", true)
@@ -253,7 +253,7 @@ class ValidationItemControllerV2(
 
   //  @PostMapping("/add")
   fun addItemV4(
-    @ModelAttribute itemRequest: ItemRequest,
+    @ModelAttribute itemSaveRequest: ItemSaveRequest,
     bindingResult: BindingResult,
     redirectAttributes: RedirectAttributes
   ): String {
@@ -261,14 +261,14 @@ class ValidationItemControllerV2(
     log.info("object name => {}", bindingResult.objectName)
     log.info("target => {}", bindingResult.target)
 
-    if (!StringUtils.hasText(itemRequest.name)) {
+    if (!StringUtils.hasText(itemSaveRequest.name)) {
       bindingResult.rejectValue(
         "name",
         "required"
       )
     }
 
-    if (itemRequest.price == null || itemRequest.price!! < 1000 || itemRequest.price!! > 1000000) {
+    if (itemSaveRequest.price == null || itemSaveRequest.price!! < 1000 || itemSaveRequest.price!! > 1000000) {
       bindingResult.rejectValue(
         "price",
         "range",
@@ -277,7 +277,7 @@ class ValidationItemControllerV2(
       )
     }
 
-    if (itemRequest.quantity == null || itemRequest.quantity!! >= 9999 || itemRequest.quantity!! < 10) {
+    if (itemSaveRequest.quantity == null || itemSaveRequest.quantity!! >= 9999 || itemSaveRequest.quantity!! < 10) {
       bindingResult.rejectValue(
         "quantity",
         "max",
@@ -286,8 +286,8 @@ class ValidationItemControllerV2(
       )
     }
 
-    if (itemRequest.price != null && itemRequest.quantity != null) {
-      val resultPrice: Int = itemRequest.price!! * itemRequest.quantity!!
+    if (itemSaveRequest.price != null && itemSaveRequest.quantity != null) {
+      val resultPrice: Int = itemSaveRequest.price!! * itemSaveRequest.quantity!!
       if (resultPrice < 10000) {
         bindingResult.rejectValue(
           "itemRequest",
@@ -305,7 +305,7 @@ class ValidationItemControllerV2(
     }
 
     //성공 로직
-    val item = itemRequestMapper.toEntity(itemRequest)
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem: Item = itemRepository.save(item)
     redirectAttributes.addAttribute("itemId", savedItem.id)
     redirectAttributes.addAttribute("status", true)
@@ -314,12 +314,12 @@ class ValidationItemControllerV2(
 
   @PostMapping("/add")
   fun addItemV5(
-    @ModelAttribute itemRequest: ItemRequest,
+    @ModelAttribute itemSaveRequest: ItemSaveRequest,
     bindingResult: BindingResult,
     redirectAttributes: RedirectAttributes
   ): String {
 
-    itemValidator.validate(itemRequest, bindingResult)
+    itemValidator.validate(itemSaveRequest, bindingResult)
 
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
@@ -328,7 +328,7 @@ class ValidationItemControllerV2(
     }
 
     //성공 로직
-    val item = itemRequestMapper.toEntity(itemRequest)
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem: Item = itemRepository.save(item)
     redirectAttributes.addAttribute("itemId", savedItem.id)
     redirectAttributes.addAttribute("status", true)
@@ -337,7 +337,7 @@ class ValidationItemControllerV2(
 
   //  @PostMapping("/add")
   fun addItemV6(
-    @Validated @ModelAttribute itemRequest: ItemRequest,
+    @Validated @ModelAttribute itemSaveRequest: ItemSaveRequest,
     bindingResult: BindingResult,
     redirectAttributes: RedirectAttributes
   ): String {
@@ -348,7 +348,7 @@ class ValidationItemControllerV2(
     }
 
     //성공 로직
-    val item = itemRequestMapper.toEntity(itemRequest)
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem: Item = itemRepository.save(item)
     redirectAttributes.addAttribute("itemId", savedItem.id)
     redirectAttributes.addAttribute("status", true)
@@ -358,14 +358,14 @@ class ValidationItemControllerV2(
   @GetMapping("/{itemId}/edit")
   fun editForm(@PathVariable itemId: Long, model: Model): String {
     val item: Item = itemRepository.findById(itemId).orElseThrow()
-    val itemRequest = itemRequestMapper.toDto(item)
+    val itemRequest = itemSaveRequestMapper.toDto(item)
     model.addAttribute("itemRequest", itemRequest)
     return "validation/v2/edit-form"
   }
 
   @PostMapping("/{itemId}/edit")
-  fun edit(@PathVariable itemId: Long, @ModelAttribute itemRequest: ItemRequest): String {
-    itemService.edit(itemId, itemRequest)
+  fun edit(@PathVariable itemId: Long, @ModelAttribute itemSaveRequest: ItemSaveRequest): String {
+    itemService.edit(itemId, itemSaveRequest)
     return "redirect:/validation/v2/items/{itemId}"
   }
 }

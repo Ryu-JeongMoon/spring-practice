@@ -9,25 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-internal class ItemRequestTest {
+internal class ItemSaveRequestTest {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
   @Autowired
-  lateinit var itemRequestMapper: ItemRequestMapper
+  lateinit var itemSaveRequestMapper: ItemSaveRequestMapper
 
   @Test
   @DisplayName("업데이트 과연 ?!")
   fun updateFromDto() {
     val item = Item(1L, "panda", 5000, 5000)
-    val itemRequest = ItemRequest(null, "bear", 3000, 3000)
-    itemRequestMapper.updateFromDto(itemRequest, item)
+    val itemSaveRequest = ItemSaveRequest(null, "bear", 3000, 3000)
+    itemSaveRequestMapper.updateFromDto(itemSaveRequest, item)
 
     assertAll(
       { assertThat(item.id).isEqualTo(1L) },
-      { assertThat(item.name).isEqualTo(itemRequest.name) },
-      { assertThat(item.price).isEqualTo(itemRequest.price) },
-      { assertThat(item.quantity).isEqualTo(itemRequest.quantity) }
+      { assertThat(item.name).isEqualTo(itemSaveRequest.name) },
+      { assertThat(item.price).isEqualTo(itemSaveRequest.price) },
+      { assertThat(item.quantity).isEqualTo(itemSaveRequest.quantity) }
     )
   }
 }

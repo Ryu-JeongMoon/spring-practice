@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class MessageController(
   val itemRepository: ItemRepository,
   val itemService: ItemService,
-  val itemRequestMapper: ItemRequestMapper,
+  val itemSaveRequestMapper: ItemSaveRequestMapper,
   val itemResponseMapper: ItemResponseMapper
 ) {
 
@@ -34,13 +34,13 @@ class MessageController(
 
   @GetMapping("/add")
   fun addForm(model: Model): String {
-    model.addAttribute("item", ItemRequest())
+    model.addAttribute("item", ItemSaveRequest())
     return "message/add-form"
   }
 
   @PostMapping("/add")
-  fun addItem(@ModelAttribute itemRequest: ItemRequest, redirectAttributes: RedirectAttributes): String {
-    val item = itemRequestMapper.toEntity(itemRequest)
+  fun addItem(@ModelAttribute itemSaveRequest: ItemSaveRequest, redirectAttributes: RedirectAttributes): String {
+    val item = itemSaveRequestMapper.toEntity(itemSaveRequest)
     val savedItem = itemRepository.save(item)
 
     redirectAttributes.addAttribute("itemId", savedItem.id)
@@ -51,15 +51,15 @@ class MessageController(
   @GetMapping("/{itemId}/edit")
   fun editForm(@PathVariable itemId: Long, model: Model): String {
     val item = itemRepository.findById(itemId).orElseThrow()
-    val itemRequest = itemRequestMapper.toDto(item)
+    val itemRequest = itemSaveRequestMapper.toDto(item)
 
     model.addAttribute("item", itemRequest)
     return "message/edit-form"
   }
 
   @PostMapping("/{itemId}/edit")
-  fun edit(@PathVariable itemId: Long, @ModelAttribute itemRequest: ItemRequest): String {
-    itemService.edit(itemId, itemRequest)
+  fun edit(@PathVariable itemId: Long, @ModelAttribute itemSaveRequest: ItemSaveRequest): String {
+    itemService.edit(itemId, itemSaveRequest)
     return "redirect:/message/items/{itemId}"
   }
 }
