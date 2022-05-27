@@ -60,6 +60,6 @@ class MessageController(
   @PostMapping("/{itemId}/edit")
   fun edit(@PathVariable itemId: Long, @ModelAttribute itemSaveRequest: ItemSaveRequest): String {
     itemService.edit(itemId, itemSaveRequest)
-    return "redirect:/message/items/{itemId}"
+    return "redirect:/message/items/$itemId"
   }
 }
