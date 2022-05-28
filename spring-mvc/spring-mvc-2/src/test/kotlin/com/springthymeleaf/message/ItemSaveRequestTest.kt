@@ -20,7 +20,7 @@ internal class ItemSaveRequestTest {
   @DisplayName("업데이트 과연 ?!")
   fun updateFromDto() {
     val item = Item(1L, "panda", 5000, 5000)
-    val itemSaveRequest = ItemSaveRequest(null, "bear", 3000, 3000)
+    val itemSaveRequest = ItemSaveRequest("bear", 3000, 3000)
     itemSaveRequestMapper.updateFromDto(itemSaveRequest, item)
 
     assertAll(

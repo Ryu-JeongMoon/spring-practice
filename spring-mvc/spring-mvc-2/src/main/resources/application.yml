@@ -1,3 +1,10 @@
 spring:
   messages:
     basename: messages, errors
+
+# 첫 로그인 시도 시, jsession-id가 url-parameter로 달라붙는데
+# 명시적으로 나는 세션을 쿠키로만 추적하겠어! 하며 url-parameter 막기 위해 붙여주는 옵션
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
