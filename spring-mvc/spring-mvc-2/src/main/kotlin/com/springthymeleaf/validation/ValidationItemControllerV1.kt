@@ -44,7 +44,11 @@ class ValidationItemControllerV1(
   }
 
   @PostMapping("/add")
-  fun addItem(@ModelAttribute itemSaveRequest: ItemSaveRequest, redirectAttributes: RedirectAttributes, model: Model): String {
+  fun addItem(
+    @ModelAttribute itemSaveRequest: ItemSaveRequest,
+    redirectAttributes: RedirectAttributes,
+    model: Model
+  ): String {
     //검증 오류 결과를 보관
     val errors: MutableMap<String, String> = HashMap()
 

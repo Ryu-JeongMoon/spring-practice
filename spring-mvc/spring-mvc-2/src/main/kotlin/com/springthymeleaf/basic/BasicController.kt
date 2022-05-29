@@ -15,13 +15,13 @@ class BasicController {
   @GetMapping("/text-basic")
   fun textBasic(model: Model): String {
     model.addAttribute("data", "hello kotlin")
-    return "basic/text-basic";
+    return "basic/text-basic"
   }
 
   @GetMapping("/text-unescaped")
   fun textUnescaped(model: Model): String {
     model.addAttribute("data", "<b>hello unescaped kotlin</b>")
-    return "basic/text-unescaped";
+    return "basic/text-unescaped"
   }
 
   @GetMapping("/variable")
@@ -120,9 +120,7 @@ class HelloBean {
   }
 }
 
-data class User(val username: String, val age: Int) {
-
-}
+data class User(val username: String, val age: Int)
 
 /*
 [[${data}]]

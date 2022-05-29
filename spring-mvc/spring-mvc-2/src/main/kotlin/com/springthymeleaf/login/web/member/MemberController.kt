@@ -21,13 +21,13 @@ class MemberController(
 
   @GetMapping("/add")
   fun addForm(@ModelAttribute("member") member: Member): String {
-    return "members/add-member-form";
+    return "members/add-member-form"
   }
 
   @PostMapping("/add")
   fun add(@Validated @ModelAttribute member: Member, bindingResult: BindingResult): String {
     if (bindingResult.hasErrors())
-      return "members/add-member-form";
+      return "members/add-member-form"
 
     log.info("request member = {}", member)
 

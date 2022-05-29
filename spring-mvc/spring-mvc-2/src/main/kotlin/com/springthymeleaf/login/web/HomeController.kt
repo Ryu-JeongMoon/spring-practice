@@ -2,6 +2,7 @@ package com.springthymeleaf.login.web
 
 import com.springthymeleaf.login.domain.member.Member
 import com.springthymeleaf.login.domain.member.MemberRepository
+import com.springthymeleaf.login.web.annotation.LoginMember
 import com.springthymeleaf.login.web.login.LOGIN_MEMBER
 import com.springthymeleaf.login.web.session.SessionManager
 import org.slf4j.LoggerFactory
@@ -58,9 +59,19 @@ class HomeController(
     return "login/login-home"
   }
 
-  @GetMapping("/")
+  //  @GetMapping("/")
   fun loginHomeV3WithSpring(
     @SessionAttribute(name = LOGIN_MEMBER, required = false) loginMember: Member?,
+    model: Model
+  ): String {
+
+    loginMember?.let { model.addAttribute("member", loginMember) } ?: let { return "home" }
+    return "login/login-home"
+  }
+
+  @GetMapping("/")
+  fun loginHomeV3WithArgumentResolver(
+    @LoginMember loginMember: Member?,
     model: Model
   ): String {
 

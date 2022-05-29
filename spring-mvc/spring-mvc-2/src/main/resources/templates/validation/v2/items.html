@@ -36,7 +36,8 @@
             <tbody>
             <tr th:each="item : ${itemResponses}">
                 <td>
-                    <a href="item.html" th:href="@{/validation/v2/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">
+                    <a href="item.html" th:href="@{/validation/v2/items/{itemId}(itemId=${item.id})}"
+                       th:text="${item.id}">
                         회원 id
                     </a>
                 </td>

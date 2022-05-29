@@ -5,18 +5,21 @@ import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestParam
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-class LoginControllerV3(
+class LoginControllerV4(
   private val loginService: LoginService,
   private val loginRequestMapper: LoginRequestMapper
 ) {
 
-  //  @PostMapping("/login")
+  @PostMapping("/login")
   fun loginWithSession(
     @Validated @ModelAttribute loginRequest: LoginRequest,
     bindingResult: BindingResult,
+    @RequestParam(defaultValue = "/") redirectURI: String,
     request: HttpServletRequest
   ): String {
     if (bindingResult.hasErrors())
@@ -27,10 +30,10 @@ class LoginControllerV3(
     loginMember ?: bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않슴둥")
 
     loginMember?.let { request.session.setAttribute(LOGIN_MEMBER, loginMember) }
-    return "redirect:/"
+    return "redirect:$redirectURI"
   }
 
-  //  @PostMapping("/logout")
+  @PostMapping("/logout")
   fun logoutWithSession(request: HttpServletRequest): String {
     request.getSession(false)?.invalidate()
     return "redirect:/"

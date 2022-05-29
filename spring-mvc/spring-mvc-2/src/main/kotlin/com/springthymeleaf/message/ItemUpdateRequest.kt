@@ -14,8 +14,7 @@ data class ItemUpdateRequest(
   var price: Int?,
   @field:NotNull
   var quantity: Int?
-) {
-}
+)
 
 /*
 kotlin에서는 @field:NotBlank 처럼 필드에 적용할 것이라고 명시적으로 박아줘야 한다
