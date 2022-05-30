@@ -3,27 +3,25 @@ package com.springthymeleaf.login.web.filter
 import org.slf4j.LoggerFactory
 import org.springframework.util.PatternMatchUtils
 import java.util.*
-import javax.servlet.*
+import javax.servlet.Filter
+import javax.servlet.FilterChain
+import javax.servlet.ServletRequest
+import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 
 val WHITE_LIST: Array<String> = arrayOf(
   "/", "/members/add", "/login",
-  "/logout", "/css/*"
+  "/logout", "/css/**", "/error/**", "/error-page/**"
 )
 
 class LogFilter : Filter {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  override fun init(filterConfig: FilterConfig?) {
-    log.info("LogFilter init")
-  }
-
   override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
-    log.info("LogFilter doFilter")
-
     val httpServletRequest = request as HttpServletRequest
     val requestURI = httpServletRequest.requestURI
+    val dispatcherType = httpServletRequest.dispatcherType
     val uuid = UUID.randomUUID().toString()
 
     if (PatternMatchUtils.simpleMatch(WHITE_LIST, requestURI)) {
@@ -32,17 +30,13 @@ class LogFilter : Filter {
     }
 
     try {
-      log.info("REQUEST [{}][{}]", uuid, requestURI)
+      log.info("REQUEST [{}][{}][{}]", uuid, dispatcherType, requestURI)
       chain?.doFilter(request, response)
     } catch (e: java.lang.Exception) {
       throw e
     } finally {
-      log.info("RESPONSE [{}][{}]", uuid, requestURI)
+      log.info("RESPONSE [{}][{}][{}]", uuid, dispatcherType, requestURI)
     }
-  }
-
-  override fun destroy() {
-    log.info("LogFilter destroy")
   }
 }
 
