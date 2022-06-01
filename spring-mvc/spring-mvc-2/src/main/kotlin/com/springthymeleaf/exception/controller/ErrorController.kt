@@ -1,4 +1,4 @@
-package com.springthymeleaf.servlet
+package com.springthymeleaf.exception.controller
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

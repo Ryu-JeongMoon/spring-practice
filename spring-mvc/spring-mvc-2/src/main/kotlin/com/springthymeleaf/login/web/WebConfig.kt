@@ -1,5 +1,6 @@
 package com.springthymeleaf.login.web
 
+import com.springthymeleaf.exception.resolver.CustomExceptionHandler
 import com.springthymeleaf.login.web.annotation.LoginMemberArgumentResolver
 import com.springthymeleaf.login.web.filter.LogFilter
 import com.springthymeleaf.login.web.filter.LoginCheckFilter
@@ -10,6 +11,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
+import org.springframework.web.servlet.HandlerExceptionResolver
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.servlet.DispatcherType
@@ -20,8 +22,13 @@ import javax.servlet.Filter
 class WebConfig : WebMvcConfigurer {
 
   override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
+    super.addArgumentResolvers(resolvers)
     resolvers.add(LoginMemberArgumentResolver())
   }
+
+//  override fun extendHandlerExceptionResolvers(resolvers: MutableList<HandlerExceptionResolver>) {
+//    resolvers.add(CustomExceptionHandler())
+//  }
 
   override fun addInterceptors(registry: InterceptorRegistry) {
     registry.addInterceptor(LogInterceptor())
