@@ -1,17 +1,21 @@
 package com.springthymeleaf.login.web
 
-import com.springthymeleaf.exception.resolver.CustomExceptionHandler
 import com.springthymeleaf.login.web.annotation.LoginMemberArgumentResolver
 import com.springthymeleaf.login.web.filter.LogFilter
 import com.springthymeleaf.login.web.filter.LoginCheckFilter
 import com.springthymeleaf.login.web.filter.WHITE_LIST
 import com.springthymeleaf.login.web.interceptor.LogInterceptor
 import com.springthymeleaf.login.web.interceptor.LoginCheckInterceptor
+import com.springthymeleaf.typeconverter.converter.IntegerToStringConverter
+import com.springthymeleaf.typeconverter.converter.IpPortToStringConverter
+import com.springthymeleaf.typeconverter.converter.StringToIntegerConverter
+import com.springthymeleaf.typeconverter.converter.StringToIpPortConverter
+import com.springthymeleaf.typeconverter.formatter.NumberFormatter
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.format.FormatterRegistry
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
-import org.springframework.web.servlet.HandlerExceptionResolver
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.servlet.DispatcherType
@@ -20,6 +24,16 @@ import javax.servlet.Filter
 
 @Configuration
 class WebConfig : WebMvcConfigurer {
+
+  // converter 등록 확장 포인트
+  override fun addFormatters(registry: FormatterRegistry) {
+//    registry.addConverter(StringToIntegerConverter())
+//    registry.addConverter(IntegerToStringConverter())
+    registry.addConverter(StringToIpPortConverter())
+    registry.addConverter(IpPortToStringConverter())
+
+//    registry.addFormatter(NumberFormatter())
+  }
 
   override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
     super.addArgumentResolvers(resolvers)

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li>${data.number}: <span th:text="${data.number}"></span></li>
+    <li>${{data.number}}: <span th:text="${{data.number}}"></span></li>
+    <li>${data.localDateTime}: <span th:text="${data.datetime}"></span></li>
+    <li>${{data.localDateTime}}: <span th:text="${{data.datetime}}"></span></li>
+</ul>
+</body>
+</html>
