@@ -6,11 +6,8 @@ import com.springthymeleaf.login.web.filter.LoginCheckFilter
 import com.springthymeleaf.login.web.filter.WHITE_LIST
 import com.springthymeleaf.login.web.interceptor.LogInterceptor
 import com.springthymeleaf.login.web.interceptor.LoginCheckInterceptor
-import com.springthymeleaf.typeconverter.converter.IntegerToStringConverter
 import com.springthymeleaf.typeconverter.converter.IpPortToStringConverter
-import com.springthymeleaf.typeconverter.converter.StringToIntegerConverter
 import com.springthymeleaf.typeconverter.converter.StringToIpPortConverter
-import com.springthymeleaf.typeconverter.formatter.NumberFormatter
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,7 +19,7 @@ import javax.servlet.DispatcherType
 import javax.servlet.Filter
 
 
-@Configuration
+//@Configuration
 class WebConfig : WebMvcConfigurer {
 
   // converter 등록 확장 포인트

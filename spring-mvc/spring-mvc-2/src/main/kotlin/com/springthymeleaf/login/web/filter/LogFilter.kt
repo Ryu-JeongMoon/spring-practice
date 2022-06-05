@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest
 val WHITE_LIST: Array<String> = arrayOf(
   "/", "/members/add", "/login",
   "/logout", "/css/**", "/error/**", "/error-page/**", "/api/**",
-  "/request-ip-port", "/request-string",
-  "/formatter-edit"
+  "/request-ip-port", "/request-string", "/formatter-edit",
+  "/file/**"
 )
 
 class LogFilter : Filter {
