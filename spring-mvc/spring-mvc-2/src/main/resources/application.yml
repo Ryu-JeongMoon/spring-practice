@@ -22,3 +22,6 @@ logging:
   level:
     org:
       apache.coyote.http11: debug
+
+file:
+  directory: /Users/jm/Documents/files/
