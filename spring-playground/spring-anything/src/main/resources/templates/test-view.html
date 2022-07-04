@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang='en' xmlns='http://www.w3.org/1999/xhtml' xmlns:th='http://www.thymeleaf.org'>
+<html lang='en' xmlns:th='http://www.thymeleaf.org'>
 <head>
     <meta charset='utf-8'>
     <meta content='IE=edge' http-equiv='X-UA-Compatible'>
     <meta content='width=device-width, initial-scale=1, shrink-to-fit=no' name='viewport'>
-    <meta content='' name='description'>
-    <meta content='' name='author'>
 </head>
 <body>
 <form action='/test/model-attribute' method='post' th:object='${testRequest}'>
@@ -17,8 +15,13 @@
     </div>
     <div>
         <label for='age'>
-            <input class='form-control bg-light border-0 small' th:field='*{age}' th:value='*{age}' placeholder='age'
-                   type='text'/>
+            <input class='form-control bg-light border-0 small' th:field='*{age}' th:value='*{age}' placeholder='age' type='number'/>
+        </label>
+    </div>
+    <div>
+        <label for='testInnerRequestInnerName'>
+            <input class='form-control bg-light border-0 small' th:field='*{testInnerRequest}' th:value='*{testInnerRequest}'
+                   placeholder='inner-name' type='text'/>
         </label>
     </div>
     <button class='btn btn-primary' type='submit'>
