@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class TestController {
+public class MappingTestController {
 
 	@GetMapping("/test-view")
 	public String testView(Model model) {
-		TestRequest testRequest = new TestRequest("", 0, new TestRequest.TestInnerRequest(""));
+		TestRequest testRequest = TestRequest.of("", 0, new TestRequest.TestInnerRequest(""));
 		model.addAttribute("testRequest", testRequest);
 		return "test-view";
 	}

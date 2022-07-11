@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -26,13 +27,22 @@ public class TestRequest {
 	private int age;
 
 	@XmlElement(name = "xml_inner")
-	private TestInnerRequest testInnerRequest = new TestInnerRequest();
+	private TestInnerRequest testInnerRequest;
+
+	public static TestRequest empty() {
+		return new TestRequest("", 0, new TestInnerRequest());
+	}
+
+	public static TestRequest of(String name, int age, TestInnerRequest testInnerRequest) {
+		return new TestRequest(name, age, testInnerRequest);
+	}
 
 	@XmlAccessorType(XmlAccessType.PROPERTY)
 	@AllArgsConstructor
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@Getter
 	@ToString
+	@EqualsAndHashCode
 	public static class TestInnerRequest {
 
 		@XmlElement(name = "xml_inner_name")

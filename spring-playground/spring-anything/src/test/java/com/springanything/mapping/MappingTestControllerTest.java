@@ -16,9 +16,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 
-@WebMvcTest(controllers = TestController.class)
+@WebMvcTest(controllers = MappingTestController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestControllerTest {
+class MappingTestControllerTest {
 
 	@Autowired
 	WebTestClient webTestClient;
@@ -27,7 +27,7 @@ class TestControllerTest {
 	@DisplayName("JSON - Request Body")
 	void jsonRequestBody() throws Exception {
 		// given
-		TestRequest vo = new TestRequest("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
+		TestRequest vo = TestRequest.of("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
 
 		// when
 		EntityExchangeResult<byte[]> result = webTestClient.post()
@@ -48,7 +48,7 @@ class TestControllerTest {
 	@DisplayName("XML - Request Body")
 	void xmlRequestBody() throws Exception {
 		// given
-		TestRequest vo = new TestRequest("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
+		TestRequest vo = TestRequest.of("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
 
 		// when
 		EntityExchangeResult<byte[]> result = webTestClient.post()
@@ -70,7 +70,7 @@ class TestControllerTest {
 	@DisplayName("FORM-URL-ENCODED - Model Attribute")
 	void formUrlEncodedModelAttribute() throws Exception {
 		// given
-		TestRequest vo = new TestRequest("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
+		TestRequest vo = TestRequest.of("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 		formData.add("name", vo.getName());
 		formData.add("age", String.valueOf(vo.getAge()));
@@ -95,7 +95,7 @@ class TestControllerTest {
 	@DisplayName("FORM-DATA - Model Attribute")
 	void formDataModelAttribute() throws Exception {
 		// given
-		TestRequest vo = new TestRequest("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
+		TestRequest vo = TestRequest.of("test-name", 100, new TestRequest.TestInnerRequest("test-inner-name"));
 		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 		formData.add("name", vo.getName());
 		formData.add("age", String.valueOf(vo.getAge()));

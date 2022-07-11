@@ -21,3 +21,10 @@ spring:
       hibernate:
         ddl-auto: create
         dialect: org.hibernate.dialect.H2Dialect
+
+webclient:
+  max-byte-count: 16777216
+  read-write-timeout-seconds: 3
+  response-timeout-seconds: 15
+  connect-timeout-millis: 3000
+  max-idle-and-life-time-seconds: 18
