@@ -18,7 +18,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class TestRequest {
+public class TestRequest implements SuperTestRequest {
 
 	@XmlElement(name = "xml_name")
 	private String name;
