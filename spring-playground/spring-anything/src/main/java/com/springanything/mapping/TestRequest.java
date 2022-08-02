@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -26,6 +27,7 @@ public class TestRequest implements SuperTestRequest {
 	@XmlElement(name = "xml_age")
 	private int age;
 
+	@Setter
 	@XmlElement(name = "xml_inner")
 	private TestInnerRequest testInnerRequest;
 
