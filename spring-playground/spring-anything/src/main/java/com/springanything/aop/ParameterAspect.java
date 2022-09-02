@@ -17,4 +17,9 @@ public class ParameterAspect {
 			.filter(arg -> arg instanceof AopRequest)
 			.forEach(arg -> ((AopRequest)arg).setName("panda"));
 	}
+
+	@Before("@annotation(BeforePrint)")
+	public void yahoo() {
+		System.out.println("yahoo~!");
+	}
 }
