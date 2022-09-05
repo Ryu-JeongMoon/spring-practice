@@ -22,6 +22,12 @@ spring:
         ddl-auto: create
         dialect: org.hibernate.dialect.H2Dialect
 
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+
 webclient:
   max-byte-count: 16777216
   read-write-timeout-seconds: 3
