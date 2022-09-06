@@ -41,4 +41,11 @@ public class MappingTestController {
 		log.info("testRequest = {}", testRequest);
 		return testRequest;
 	}
+
+	@ResponseBody
+	@GetMapping(value = "/test/nested")
+	public NestedRequest reiterate(@ModelAttribute NestedRequest request) {
+		log.info("request = {}", request);
+		return request;
+	}
 }
