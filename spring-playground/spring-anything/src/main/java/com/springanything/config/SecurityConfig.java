@@ -3,6 +3,7 @@ package com.springanything.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
@@ -11,9 +12,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			// .csrf(AbstractHttpConfigurer::disable) // REST-API의 경우 csrf 토큰을 사용하지 않음
-			.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+			.csrf(AbstractHttpConfigurer::disable) // REST-API의 경우 csrf 토큰을 사용하지 않음
+			// .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer
+			// 	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 
 			.authorizeRequests()
 			.anyRequest().permitAll()
