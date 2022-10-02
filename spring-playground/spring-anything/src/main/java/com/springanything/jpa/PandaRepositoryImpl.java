@@ -1,5 +1,6 @@
 package com.springanything.jpa;
 
+import static com.springanything.jpa.QBamboo.*;
 import static com.springanything.jpa.QPanda.*;
 
 import java.util.Optional;
@@ -20,10 +21,9 @@ public class PandaRepositoryImpl implements PandaRepositoryCustom {
 	public Optional<PandaResponse> findType(Long id) {
 		return Optional.ofNullable(
 			queryFactory
-				.select(new QPandaResponse(panda.id, panda.name, panda.age, panda.bear))
+				.select(new QPandaResponse(panda.id, panda.name, panda.age, panda.bamboo.type))
 				.from(panda)
-				.leftJoin(panda.bear, QBear.bear)
-				.on(panda.bear.id.eq(QBear.bear.id))
+				.leftJoin(panda.bamboo, bamboo).on(panda.bamboo.id.eq(bamboo.id))
 				.fetchOne()
 		);
 	}
@@ -34,7 +34,7 @@ public class PandaRepositoryImpl implements PandaRepositoryCustom {
 			queryFactory
 				.select(panda)
 				.from(panda)
-				.leftJoin(panda.bear, QBear.bear)
+				.leftJoin(panda.bamboo, bamboo)
 				.fetchJoin()
 				.fetchOne()
 		);
@@ -44,11 +44,18 @@ public class PandaRepositoryImpl implements PandaRepositoryCustom {
 	public Optional<PandaChild> findChild(Long id) {
 		return Optional.ofNullable(
 			queryFactory
-				.select(new QPandaChild(panda.id, panda.name, panda.age, panda.bear))
+				.select(new QPandaChild(panda.id, panda.name, panda.age, panda.bamboo))
 				.from(panda)
-				.leftJoin(panda.bear, QBear.bear)
-				.on(panda.bear.id.eq(QBear.bear.id))
-				.fetchOne()
+				.leftJoin(panda.bamboo, bamboo).on(panda.bamboo.id.eq(bamboo.id))
+				.fetchFirst()
 		);
+	}
+
+	@Override
+	public void deleteByBearId(Long bearId) {
+		queryFactory
+			.delete(panda)
+			.where(panda.bearId.eq(bearId))
+			.execute();
 	}
 }

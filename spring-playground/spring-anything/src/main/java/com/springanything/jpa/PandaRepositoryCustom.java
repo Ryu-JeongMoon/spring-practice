@@ -9,4 +9,6 @@ public interface PandaRepositoryCustom {
 	Optional<Panda> findPandaType(Long id);
 
 	Optional<PandaChild> findChild(Long id);
+
+	void deleteByBearId(Long bearId);
 }

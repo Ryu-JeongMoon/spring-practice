@@ -1,34 +1,30 @@
 package com.springanything.jpa;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.AccessLevel;
+import com.springanything.jpa.base.BaseEntity;
+
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class Bear implements Serializable {
+@ToString
+public class Bear extends BaseEntity<Long> {
 
-	@EqualsAndHashCode.Include
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Long id;
 
-	private String type;
+	private String region;
 
 	@Builder
-	public Bear(Long id, String type) {
-		this.id = id;
-		this.type = type;
+	public Bear(String region) {
+		this.region = region;
 	}
 }
