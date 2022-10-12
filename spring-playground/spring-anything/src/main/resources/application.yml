@@ -8,26 +8,34 @@ spring:
     livereload:
       enabled: true
 
-  flyway:
-    enabled: false
-    baseline-on-migrate: true
-    validate-on-migrate: false
-    classpath: db/migration
+#  flyway:
+#    enabled: false
+#    baseline-on-migrate: true
+#    validate-on-migrate: false
+#    classpath: db/migration
 
   datasource:
     hikari:
-      jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
-      driver-class-name: org.h2.Driver
-      username: sa
-      password:
+      jdbc-url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: panda
+      password: bear
+#      jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
+#      driver-class-name: org.h2.Driver
+#      username: sa
+#      password:
 
   jpa:
     generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#      dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-      dialect: org.hibernate.dialect.H2Dialect
-      show_sql: true
-      format_sql: true
 
 server:
   port: 8080
