@@ -11,6 +11,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.inflearnbatch.listener.JobRepositoryListener;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +23,7 @@ public class ExecutionContextBatch {
 
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
+	private final JobRepositoryListener jobRepositoryListener;
 
 	@Bean
 	Job executionContextJob() {
@@ -29,6 +32,7 @@ public class ExecutionContextBatch {
 			.next(executionContextStep2())
 			.next(executionContextStep3())
 			.next(executionContextStep4())
+			.listener(jobRepositoryListener)
 			.build();
 	}
 

@@ -1,5 +1,7 @@
 package com.example.inflearnbatch.runner;
 
+import java.util.Date;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -19,7 +21,7 @@ public abstract class BatchRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		JobParameters jobParameters = new JobParametersBuilder()
 			// .addDate("version", new Date())
-			.addString("version", "2")
+			.addString("version", "1")
 			.toJobParameters();
 
 		jobLauncher.run(job, jobParameters);

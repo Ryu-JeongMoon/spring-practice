@@ -4,6 +4,7 @@ spring:
       initialize-schema: always
     job:
       enabled: false # enable / disable execution by spring batch
+#      names: ${job.name:NONE} # program arguments --job.name=blah_blah
 
   datasource:
     hikari:
