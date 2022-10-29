@@ -1,4 +1,4 @@
-package com.example.inflearnbatch.batch;
+package com.example.inflearnbatch.theory.batch;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.inflearnbatch.CustomItemStreamReader;
+import com.example.inflearnbatch.theory.CustomItemStreamReader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

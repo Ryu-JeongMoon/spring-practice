@@ -20,7 +20,7 @@ public enum WhereExpression {
   private final WhereStringFunction string;
   private final WhereNumberFunction number;
 
-  WhereExpression(WhereStringFunction string, WhereNumberFunction number) {
+  WhereExpression(WhereStringFunction string, WhereNumberFunction<?> number) {
     this.string = string;
     this.number = number;
   }

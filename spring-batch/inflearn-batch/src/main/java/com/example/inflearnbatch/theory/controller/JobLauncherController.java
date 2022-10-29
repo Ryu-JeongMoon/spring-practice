@@ -1,4 +1,4 @@
-package com.example.inflearnbatch.controller;
+package com.example.inflearnbatch.theory.controller;
 
 import java.util.Date;
 

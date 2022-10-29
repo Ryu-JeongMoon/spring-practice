@@ -1,4 +1,4 @@
-package com.example.inflearnbatch.batch;
+package com.example.inflearnbatch.theory.batch;
 
 import java.util.Map;
 
@@ -11,7 +11,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.inflearnbatch.listener.JobRepositoryListener;
+import com.example.inflearnbatch.theory.listener.JobRepositoryListener;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

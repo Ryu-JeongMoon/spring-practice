@@ -1,4 +1,4 @@
-package com.example.inflearnbatch;
+package com.example.inflearnbatch.theory;
 
 import java.util.ArrayList;
 import java.util.List;

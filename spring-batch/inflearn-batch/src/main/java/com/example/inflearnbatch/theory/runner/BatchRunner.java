@@ -1,4 +1,4 @@
-package com.example.inflearnbatch.runner;
+package com.example.inflearnbatch.theory.runner;
 
 import java.util.Date;
 
@@ -21,7 +21,8 @@ public abstract class BatchRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		JobParameters jobParameters = new JobParametersBuilder()
 			// .addDate("version", new Date())
-			.addString("version", "1")
+			// .addString("version", "1")
+			.addString("requestDate", "20210102")
 			.toJobParameters();
 
 		jobLauncher.run(job, jobParameters);

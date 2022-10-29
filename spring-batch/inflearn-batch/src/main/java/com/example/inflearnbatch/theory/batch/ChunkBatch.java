@@ -1,4 +1,4 @@
-package com.example.inflearnbatch.batch;
+package com.example.inflearnbatch.theory.batch;
 
 import java.util.List;
 

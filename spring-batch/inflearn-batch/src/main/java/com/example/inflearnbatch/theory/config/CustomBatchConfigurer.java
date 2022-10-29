@@ -1,4 +1,4 @@
-package com.example.inflearnbatch.config;
+package com.example.inflearnbatch.theory.config;
 
 import javax.sql.DataSource;
 
