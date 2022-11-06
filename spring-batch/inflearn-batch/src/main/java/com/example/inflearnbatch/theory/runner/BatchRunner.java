@@ -1,5 +1,6 @@
 package com.example.inflearnbatch.theory.runner;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.batch.core.Job;
@@ -19,10 +20,9 @@ public abstract class BatchRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 		JobParameters jobParameters = new JobParametersBuilder()
-			// .addDate("version", new Date())
-			// .addString("version", "1")
-			.addString("requestDate", "20210102")
+			.addString("version", formatter.format(new Date()))
 			.toJobParameters();
 
 		jobLauncher.run(job, jobParameters);
