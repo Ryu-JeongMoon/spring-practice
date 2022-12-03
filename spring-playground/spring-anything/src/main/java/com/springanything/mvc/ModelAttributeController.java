@@ -22,7 +22,7 @@ public class ModelAttributeController {
 		// request = getTestRequest(request); -> 불가, 값 매핑되지 않음
 
 		TestRequest result = getTestRequest(request);
-		request.setTestInnerRequest(result.getTestInnerRequest());
+		// request.setTestInnerRequest(result.getTestInnerRequest());
 		return "test-view";
 	}
 

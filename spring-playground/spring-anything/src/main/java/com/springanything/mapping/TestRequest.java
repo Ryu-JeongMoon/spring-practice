@@ -18,6 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @ToString
 // @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TestRequest implements SuperTestRequest {
@@ -29,7 +30,7 @@ public class TestRequest implements SuperTestRequest {
 	private int age;
 
 	@Setter
-	@XmlElement(name = "xml_inner")
+	// @XmlElement(name = "xml_inner")
 	private TestInnerRequest testInnerRequest;
 
 	public static TestRequest empty() {

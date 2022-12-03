@@ -5,7 +5,10 @@ import static com.springanything.jpa.QPanda.*;
 
 import java.util.Optional;
 
+import org.hibernate.Session;
+import org.hibernate.SharedSessionContract;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -51,8 +54,10 @@ public class PandaRepositoryImpl implements PandaRepositoryCustom {
 		);
 	}
 
-	@Override
-	public void deleteByBearId(Long bearId) {
+	@Transactional
+	public void deleteByBearId(Long bearId, SharedSessionContract session) {
+		Session sharedSessionContract = (Session)session;
+		sharedSessionContract.joinTransaction();
 		queryFactory
 			.delete(panda)
 			.where(panda.bearId.eq(bearId))

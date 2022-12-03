@@ -1,7 +1,10 @@
 package com.springanything.jpa.relationship;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -14,7 +17,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "agent_option")
+@Table(name = "agent_option",
+	indexes = @Index(name = "name_idx", columnList = "name")
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode
@@ -22,6 +27,7 @@ import lombok.ToString;
 public class AgentOption {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	private String name;

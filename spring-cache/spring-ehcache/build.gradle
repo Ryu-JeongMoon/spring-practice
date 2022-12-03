@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'net.sf.ehcache:ehcache:2.10.6'
     implementation 'javax.cache:cache-api:1.1.1'
     implementation 'org.ehcache:jcache:1.0.1'

@@ -1,0 +1,1 @@
+insert into flyway_member(name) values('John');

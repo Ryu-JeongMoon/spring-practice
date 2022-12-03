@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.SessionAttribute
 import javax.servlet.http.HttpServletRequest
 
@@ -77,6 +78,24 @@ class HomeController(
 
     loginMember?.let { model.addAttribute("member", loginMember) } ?: let { return "home" }
     return "login/login-home"
+  }
+
+  @ResponseBody
+  @GetMapping("/home")
+  fun homeResponse(): String {
+    return "OK!"
+  }
+
+  @ResponseBody
+  @GetMapping("/test-header")
+  fun header(request: HttpServletRequest): String {
+    val headerNames = request.headerNames
+
+    headerNames.asIterator().forEachRemaining { log.info("header : {}", it) }
+    log.info("accept = {}", request.getHeader("accept"))
+    log.info("Accept = {}", request.getHeader("Accept"))
+
+    return headerNames.toString()
   }
 }
 
