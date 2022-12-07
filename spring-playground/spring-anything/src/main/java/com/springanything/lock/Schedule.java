@@ -20,10 +20,8 @@ public class Schedule {
 		log.info("Schedule.run1 at {}", new Date());
 	}
 
-	@Scheduled(cron = "0/3 * * * * *", zone = "Asia/Seoul")
-	@SchedulerLock(name = "run1", lockAtLeastFor = "1s", lockAtMostFor = "3s")
-	void run2() throws InterruptedException {
-		Thread.sleep(2500);
+	@SchedulerLock(name = "run1", lockAtLeastFor = "30s", lockAtMostFor = "30s")
+	void run2() {
 		log.info("Schedule.run2 at {}", new Date());
 	}
 
