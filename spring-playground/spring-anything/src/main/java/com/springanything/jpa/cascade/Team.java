@@ -43,11 +43,11 @@ public class Team {
 
 	@OneToMany(
 		mappedBy = "team",
-		// cascade = CascadeType.ALL,
-		cascade = { CascadeType.PERSIST, CascadeType.MERGE },
+		cascade = CascadeType.ALL,
+		// cascade = { CascadeType.PERSIST, CascadeType.MERGE },
 		orphanRemoval = true
 	)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	// @OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Flag> flags = new ArrayList<>();
 
 	public Team(String name) {
@@ -65,3 +65,7 @@ public class Team {
 	}
 }
 
+/*
+@OneToMany(mappedBy = "entity")
+mappedBy는 상관 없고 @OnDelete 때문에 DB 삭제해버리니 애플리케이션에서는 쿼리 확인할 수가 없다
+ */
