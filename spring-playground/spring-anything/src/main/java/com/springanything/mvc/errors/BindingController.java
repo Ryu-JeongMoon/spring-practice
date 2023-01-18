@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BindingController {
 
 	@GetMapping("/binding-sample-1")
-	public BindingRequest bindingSample1(
+	public String bindingSample1(
 		@Valid BindingRequest bindingRequest,
 		BindingResult bindingResult,
 		@RequestParam String host,
@@ -27,14 +27,14 @@ public class BindingController {
 
 		if (bindingResult.hasErrors()) {
 			log.info("bindingResult: {}", bindingResult);
-			return null;
+			return "no~~";
 		}
 
-		return bindingRequest;
+		return "ok~~";
 	}
 
 	@GetMapping("/binding-sample-2")
-	public BindingRequest bindingSample2(
+	public String bindingSample2(
 		@Valid BindingRequest bindingRequest,
 		@RequestParam String host,
 		HttpServletRequest servletRequest,
@@ -46,10 +46,10 @@ public class BindingController {
 
 		if (bindingResult.hasErrors()) {
 			log.info("bindingResult: {}", bindingResult);
-			return null;
+			return "no~~";
 		}
 
-		return bindingRequest;
+		return "ok~~";
 	}
 }
 
