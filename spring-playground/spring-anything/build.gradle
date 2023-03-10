@@ -41,9 +41,15 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.hibernate:hibernate-envers'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'net.javacrumbs.shedlock:shedlock-spring:4.42.0'
-    implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:4.42.0'
+
+    implementation 'org.redisson:redisson-spring-boot-starter:3.19.3'
+    implementation 'redis.clients:jedis:3.8.0'
+    implementation 'org.springframework.data:spring-data-redis:3.0.3'
+    implementation ('org.springframework.boot:spring-boot-starter-data-redis:3.0.3') {
+        exclude group: 'io.lettuce', module: 'lettuce-core'
+    }
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:5.2.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:5.2.0'
 
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
     implementation 'com.querydsl:querydsl-jpa'
