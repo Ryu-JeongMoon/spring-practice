@@ -3,14 +3,13 @@ package com.springanything.lock;
 import java.util.Date;
 
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
+// @Component
 public class Schedule {
 
 	@Scheduled(cron = "0/3 * * * * *", zone = "Asia/Seoul")
