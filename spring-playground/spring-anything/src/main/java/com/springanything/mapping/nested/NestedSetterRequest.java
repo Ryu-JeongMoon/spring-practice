@@ -2,7 +2,6 @@ package com.springanything.mapping.nested;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -34,20 +32,9 @@ public class NestedSetterRequest implements Serializable {
 	private final InnerRequest innerRequest = new InnerRequest();
 
 	public NestedSetterRequest update(NestedSetterRequest request) {
-		this.innerRequest.name = request.innerRequest.name;
-		this.innerRequest.nickname = request.innerRequest.nickname;
+		this.innerRequest.setName(request.innerRequest.getName());
+		this.innerRequest.setNickname(request.innerRequest.getNickname());
 		return this;
-	}
-
-	@Embeddable
-	@NoArgsConstructor(access = AccessLevel.PROTECTED)
-	@Setter
-	@Getter
-	@ToString
-	protected static class InnerRequest implements Serializable {
-
-		private String name;
-		private String nickname;
 	}
 }
 
