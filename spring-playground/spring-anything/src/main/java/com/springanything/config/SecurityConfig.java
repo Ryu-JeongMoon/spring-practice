@@ -1,29 +1,29 @@
 package com.springanything.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		return http
 			.csrf(AbstractHttpConfigurer::disable) // REST-API의 경우 csrf 토큰을 사용하지 않음
 			// .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer
 			// 	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 
-			.authorizeRequests()
-			.anyRequest().permitAll()
-			.and()
-
-			.headers()
-			.xssProtection()
-			.and()
-			.contentSecurityPolicy("script-src 'self");
+			.authorizeRequests(authorizeRequestConfigurer ->
+				authorizeRequestConfigurer
+					.anyRequest().permitAll())
+			.headers(httpSecurityHeadersConfigurer ->
+				httpSecurityHeadersConfigurer
+					.xssProtection(xssCustomizer -> xssCustomizer.xssProtectionEnabled(true))
+					.contentSecurityPolicy(customizer -> customizer.policyDirectives("script-src 'self")))
+			.build();
 	}
 }
 
