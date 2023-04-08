@@ -18,11 +18,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findAllJPQL();
 
 	@Query("select distinct u from User u left join fetch u.articles")
-	List<User> findAllJPQLFetch();
+	List<User> findAllByJPQLFetch();
+
+	@EntityGraph(attributePaths = {"articles"}, type = EntityGraph.EntityGraphType.FETCH)
+	@Query("select distinct u from User u left join u.articles")
+	List<User> findAllByEntityGraph();
 
 	@EntityGraph(attributePaths = { "articles" }, type = EntityGraph.EntityGraphType.FETCH)
 	@Query("select distinct u from User u left join u.articles")
-	Page<User> findAllPage(Pageable pageable);
+	Page<User> findAllByPage(Pageable pageable);
 
 	Page<User> findAll(Pageable pageable);
 }

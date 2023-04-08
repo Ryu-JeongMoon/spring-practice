@@ -12,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
+
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,18 +25,26 @@ import lombok.NoArgsConstructor;
 @Getter
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(length = 10, nullable = false)
-	private String name;
+  @Column(length = 10, nullable = false)
+  private String name;
 
-	// @BatchSize(size = 100)
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private Set<Article> articles = Collections.emptySet();
+  @BatchSize(size = 100)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  // @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  private Set<Article> articles = Collections.emptySet();
 
-	public User(String name) {
-		this.name = name;
-	}
+  public User(String name) {
+    this.name = name;
+  }
+
+  @Builder
+  public User(Long id, String name, Set<Article> articles) {
+    this.id = id;
+    this.name = name;
+    this.articles = articles;
+  }
 }
