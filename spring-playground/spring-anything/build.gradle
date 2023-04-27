@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.5'
+    id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
 }
@@ -18,7 +18,7 @@ repositories {
     maven { url 'https://repo.spring.io/milestone' }
     maven { url 'https://repo.spring.io/snapshot' }
     maven { url "https://plugins.gradle.org/m2/" }
-    maven { url "https://redisson.pro/repo/" }
+//    maven { url "https://redisson.pro/repo/" }
 }
 
 ext {
@@ -43,19 +43,21 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.hibernate:hibernate-envers'
 
-    implementation 'pro.redisson:redisson-spring-boot-starter:3.20.0'
-//    implementation 'org.redisson:redisson-spring-boot-starter:3.19.3'
-    implementation 'redis.clients:jedis:3.8.0'
+//    implementation 'org.redisson:redisson-spring-boot-starter:3.20.0'
+    implementation 'redis.clients:jedis:4.3.1'
+//    implementation 'org.apache.commons:commons-pool2:2.11.1'
+
     implementation 'org.springframework.data:spring-data-redis:3.0.3'
-    implementation ('org.springframework.boot:spring-boot-starter-data-redis:3.0.3') {
-        exclude group: 'io.lettuce', module: 'lettuce-core'
-    }
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.0.3'
     implementation 'net.javacrumbs.shedlock:shedlock-spring:5.2.0'
     implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:5.2.0'
 
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-core'
+
+    implementation 'de.mkammerer.snowflake-id:snowflake-id:0.0.2'
+    implementation 'com.fasterxml.uuid:java-uuid-generator:4.1.0'
 
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'org.apache.commons:commons-collections4:4.4'
@@ -64,7 +66,7 @@ dependencies {
     implementation 'io.micrometer:micrometer-core'
     implementation(group: 'io.netty', name: 'netty-resolver-dns-native-macos', version: '4.1.74.Final', classifier: 'osx-aarch_64')
 
-    implementation 'mysql:mysql-connector-java'
+    implementation 'com.mysql:mysql-connector-j:8.0.32'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
