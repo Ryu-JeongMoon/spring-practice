@@ -58,6 +58,8 @@ dependencies {
 
     implementation 'de.mkammerer.snowflake-id:snowflake-id:0.0.2'
     implementation 'com.fasterxml.uuid:java-uuid-generator:4.1.0'
+    implementation 'com.github.f4b6a3:uuid-creator:5.2.0'
+    implementation 'com.github.f4b6a3:tsid-creator:5.2.3'
 
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'org.apache.commons:commons-collections4:4.4'
