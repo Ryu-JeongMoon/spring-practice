@@ -14,13 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class BindingController {
 
-	@GetMapping("/binding-sample-1")
-	public String bindingSample1(
-		@Valid BindingRequest bindingRequest,
-		BindingResult bindingResult,
-		@RequestParam String host,
-		HttpServletRequest servletRequest
-	) {
+	private String handle(BindingRequest bindingRequest, BindingResult bindingResult, String host, HttpServletRequest servletRequest) {
 		log.info("host : {}", host);
 		log.info("bindingRequest: {}", bindingRequest);
 		log.info("ServletContext : {}", servletRequest.getServletContext());
@@ -33,6 +27,16 @@ public class BindingController {
 		return "ok~~";
 	}
 
+	@GetMapping("/binding-sample-1")
+	public String bindingSample1(
+		@Valid BindingRequest bindingRequest,
+		BindingResult bindingResult,
+		@RequestParam String host,
+		HttpServletRequest servletRequest
+	) {
+		return handle(bindingRequest, bindingResult, host, servletRequest);
+	}
+
 	@GetMapping("/binding-sample-2")
 	public String bindingSample2(
 		@Valid BindingRequest bindingRequest,
@@ -40,16 +44,7 @@ public class BindingController {
 		HttpServletRequest servletRequest,
 		BindingResult bindingResult
 	) {
-		log.info("host : {}", host);
-		log.info("bindingRequest: {}", bindingRequest);
-		log.info("ServletContext : {}", servletRequest.getServletContext());
-
-		if (bindingResult.hasErrors()) {
-			log.info("bindingResult: {}", bindingResult);
-			return "no~~";
-		}
-
-		return "ok~~";
+		return handle(bindingRequest, bindingResult, host, servletRequest);
 	}
 }
 
