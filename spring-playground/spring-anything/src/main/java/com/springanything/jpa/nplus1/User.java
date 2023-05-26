@@ -1,6 +1,6 @@
 package com.springanything.jpa.nplus1;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.BatchSize;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,19 +30,23 @@ public class User {
   @Column(length = 10, nullable = false)
   private String name;
 
-  @BatchSize(size = 100)
+  // @BatchSize(size = 100)
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  // @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  private Set<Article> articles = Collections.emptySet();
+  private Set<Article> articles = new HashSet<>();
+  // private List<Article> articles;
+
+  // @BatchSize(size = 100)
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private Set<Question> questions = new HashSet<>();
+  // private List<Question> questions = new ArrayList<>();
 
   public User(String name) {
     this.name = name;
   }
 
   @Builder
-  public User(Long id, String name, Set<Article> articles) {
+  public User(Long id, String name) {
     this.id = id;
     this.name = name;
-    this.articles = articles;
   }
 }

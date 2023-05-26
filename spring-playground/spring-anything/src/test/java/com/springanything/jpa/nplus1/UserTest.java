@@ -16,6 +16,8 @@ class UserTest extends AbstractRepositoryTest {
   private UserRepository userRepository;
   @Autowired
   private ArticleRepository articleRepository;
+  @Autowired
+  private QuestionRepository questionRepository;
 
   private Long firstUserId;
 
@@ -36,6 +38,10 @@ class UserTest extends AbstractRepositoryTest {
     Article article8 = new Article("title8", "content8", user3);
     Article article9 = new Article("title9", "content9", user3);
     articleRepository.saveAll(List.of(article1, article2, article3, article4, article5, article6, article7, article8, article9));
+
+    Question question1 = new Question("question1", user1);
+    Question question2 = new Question("question2", user1);
+    questionRepository.saveAll(List.of(question1, question2));
 
     firstUserId = user1.getId();
     flushAndClear();
@@ -68,6 +74,7 @@ class UserTest extends AbstractRepositoryTest {
       .orElseGet(User::new);
 
     log.info("username : {}", user.getName());
+    log.info("articles : {}", user.getArticles());
   }
 
   /**
@@ -90,7 +97,7 @@ class UserTest extends AbstractRepositoryTest {
    *     FROM
    *         ARTICLE ARTICLES0_
    *     WHERE
-   *         ARTICLES0_.USER_ID=3
+   *         ARTICLES0_.USER_ID=1, 2, 3...
    * }</pre>
    */
   @DisplayName("EAGER Type은 User 전체를 찾을 때, 각각의 User와 연관 관계에 있는 Article 조회하며 N+1 발생")
@@ -110,7 +117,7 @@ class UserTest extends AbstractRepositoryTest {
   @Test
   void findAllByLazy() {
     userRepository.findAll()
-      .forEach(user -> log.info("users size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
   }
 
   /**
@@ -175,14 +182,14 @@ class UserTest extends AbstractRepositoryTest {
   @Test
   void fetchJoin() {
     userRepository.findAllByJPQLFetch()
-      .forEach(user -> log.info("users size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
   }
 
   @DisplayName("N+1 do not happen using entity graph")
   @Test
   void fetchAllByEntityGraph() {
     userRepository.findAllByEntityGraph()
-      .forEach(user -> log.info("users size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
   }
 
   /**
@@ -222,7 +229,7 @@ class UserTest extends AbstractRepositoryTest {
     PageRequest pageRequest = PageRequest.of(0, 2);
 
     userRepository.findAllByPage(pageRequest)
-      .forEach(user -> log.info("users size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
   }
 
   /**
@@ -255,6 +262,47 @@ class UserTest extends AbstractRepositoryTest {
   @Test
   void findAllByBatchSize() {
     userRepository.findAll()
-      .forEach(user -> log.info("users size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
+  }
+
+  /**
+   * more than one bag as List type fetching, <u>MultipleBagFetchException</u> happens
+   * <p>org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.springanything.jpa.nplus1.User.articles, com.springanything.jpa.nplus1.User.questions]; nested exception is java.lang.IllegalArgumentException: org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.springanything.jpa.nplus1.User.articles, com.springanything.jpa.nplus1.User.questions]</p>
+   * <pre>{@code
+   * ----------------------------------
+   *     // using Set type fetching, MultipleBagFetchException doesn't happen
+   *     SELECT
+   *         DISTINCT USER0_.ID AS ID1_30_0_,
+   *         ARTICLES1_.ID AS ID1_2_1_,
+   *         QUESTIONS2_.ID AS ID1_23_2_,
+   *         USER0_.NAME AS NAME2_30_0_,
+   *         ARTICLES1_.CONTENT AS CONTENT2_2_1_,
+   *         ARTICLES1_.TITLE AS TITLE3_2_1_,
+   *         ARTICLES1_.USER_ID AS USER_ID4_2_1_,
+   *         ARTICLES1_.USER_ID AS USER_ID4_2_0__,
+   *         ARTICLES1_.ID AS ID1_2_0__,
+   *         QUESTIONS2_.TITLE AS TITLE2_23_2_,
+   *         QUESTIONS2_.USER_ID AS USER_ID3_23_2_,
+   *         QUESTIONS2_.USER_ID AS USER_ID3_23_1__,
+   *         QUESTIONS2_.ID AS ID1_23_1__
+   *     FROM
+   *         USERS USER0_
+   *     LEFT OUTER JOIN
+   *         ARTICLE ARTICLES1_
+   *             ON USER0_.ID=ARTICLES1_.USER_ID
+   *     LEFT OUTER JOIN
+   *         QUESTION QUESTIONS2_
+   *             ON USER0_.ID=QUESTIONS2_.USER_ID
+   *
+   * }</pre>
+   */
+  @DisplayName("join fetch collections more than one")
+  @Test
+  void findDoubleCollection() {
+    userRepository.findMultipleCollection()
+      .forEach(user -> {
+        log.info("user's articles size = {}", user.getArticles().size());
+        log.info("user's questions size = {}", user.getQuestions().size());
+      });
   }
 }
