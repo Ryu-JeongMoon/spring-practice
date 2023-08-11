@@ -1,0 +1,9 @@
+###
+POST http://localhost:8080/test/variable-string
+Content-Type: application/json
+
+{
+  "name": "panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear panda-bear "
+}
+
+<> 2023-08-09T101443.200.json
