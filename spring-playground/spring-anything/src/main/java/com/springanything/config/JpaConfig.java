@@ -1,6 +1,6 @@
 package com.springanything.config;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JpaConfig {
 
-	private final EntityManager entityManager;
+  private final EntityManager entityManager;
 
-	@Bean
-	public JPAQueryFactory queryFactory() {
-		return new JPAQueryFactory(entityManager);
-	}
+  @Bean
+  public JPAQueryFactory queryFactory() {
+    return new JPAQueryFactory(entityManager);
+  }
 }

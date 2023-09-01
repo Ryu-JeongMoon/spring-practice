@@ -33,79 +33,72 @@ import reactor.netty.resources.ConnectionProvider;
 @EnableConfigurationProperties(WebClientProperties.class)
 public class WebClientConfig {
 
-	private static final String CONNECTION_PROVIDER_NAME = "rview-provider";
-	private static final Duration MAX_IDLE_AND_LIFE_TIME = Duration.ofSeconds(18);
+  private static final String CONNECTION_PROVIDER_NAME = "anything-provider";
+  private static final Duration MAX_IDLE_AND_LIFE_TIME = Duration.ofSeconds(18);
 
-	@Getter(value = AccessLevel.MODULE)
-	private final WebClientProperties webClientProperties;
+  @Getter(value = AccessLevel.MODULE)
+  private final WebClientProperties webClientProperties;
 
-	@Bean
-	public WebClient webClient() {
-		return WebClient.builder()
-			.clientConnector(
-				new ReactorClientHttpConnector(
-					HttpClient
-						.create(getConnectionProvider())
-						.secure(
-							LambdaExceptionConsumer.toUnchecked(
-								sslContextSpec -> sslContextSpec.sslContext(
-									SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build()
-								)
-							)
-						)
-						.responseTimeout(Duration.ofSeconds(webClientProperties.responseTimeoutSeconds()))
-						.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, webClientProperties.connectTimeoutMillis())
-						.doOnConnected(connection -> connection
-							.addHandlerLast(new ReadTimeoutHandler(webClientProperties.readWriteTimeoutSeconds()))
-							.addHandlerLast(new WriteTimeoutHandler(webClientProperties.readWriteTimeoutSeconds()))
-						)
-				)
-			)
-			.exchangeStrategies(getExchangeStrategies())
-			.filter(ExchangeFilterFunction.ofRequestProcessor(
-				clientRequest -> {
-					log.debug("Request: {} {}", clientRequest.method(), clientRequest.url());
-					log.debug("Request Headers: {}", clientRequest.headers());
-					return Mono.just(clientRequest);
-				}
-			))
-			.filter(ExchangeFilterFunction.ofResponseProcessor(
-				clientResponse -> {
-					log.debug("Response : {}", clientResponse);
-					log.debug("Response Headers : {}", clientResponse.headers().asHttpHeaders());
-					return Mono.just(clientResponse);
-				}
-			))
-			.defaultHeaders(this::getDefaultHeaders)
-			.build();
-	}
+  @Bean
+  public WebClient webClient() {
+    return WebClient.builder()
+      .clientConnector(new ReactorClientHttpConnector(
+        HttpClient
+          .create(getConnectionProvider())
+          .secure(LambdaExceptionConsumer.toUnchecked(
+            sslContextSpec -> sslContextSpec.sslContext(
+              SslContextBuilder.forClient()
+                .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                .build()
+            )))
+          .responseTimeout(Duration.ofSeconds(webClientProperties.responseTimeoutSeconds()))
+          .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, webClientProperties.connectTimeoutMillis())
+          .doOnConnected(connection -> connection
+            .addHandlerLast(new ReadTimeoutHandler(webClientProperties.readWriteTimeoutSeconds()))
+            .addHandlerLast(new WriteTimeoutHandler(webClientProperties.readWriteTimeoutSeconds())))))
+      .exchangeStrategies(getExchangeStrategies())
+      .filter(ExchangeFilterFunction.ofRequestProcessor(
+        clientRequest -> {
+          log.debug("Request: {} {}", clientRequest.method(), clientRequest.url());
+          log.debug("Request Headers: {}", clientRequest.headers());
+          return Mono.just(clientRequest);
+        }))
+      .filter(ExchangeFilterFunction.ofResponseProcessor(
+        clientResponse -> {
+          log.debug("Response : {}", clientResponse);
+          log.debug("Response Headers : {}", clientResponse.headers().asHttpHeaders());
+          return Mono.just(clientResponse);
+        }))
+      .defaultHeaders(this::getDefaultHeaders)
+      .build();
+  }
 
-	private ConnectionProvider getConnectionProvider() {
-		return ConnectionProvider.builder(CONNECTION_PROVIDER_NAME)
-			.maxIdleTime(MAX_IDLE_AND_LIFE_TIME)
-			.maxLifeTime(MAX_IDLE_AND_LIFE_TIME)
-			.pendingAcquireMaxCount(-1)
-			.pendingAcquireTimeout(Duration.ofSeconds(webClientProperties.responseTimeoutSeconds()))
-			.lifo()
-			.metrics(true)
-			.build();
-	}
+  private ConnectionProvider getConnectionProvider() {
+    return ConnectionProvider.builder(CONNECTION_PROVIDER_NAME)
+      .maxIdleTime(MAX_IDLE_AND_LIFE_TIME)
+      .maxLifeTime(MAX_IDLE_AND_LIFE_TIME)
+      .pendingAcquireMaxCount(-1)
+      .pendingAcquireTimeout(Duration.ofSeconds(webClientProperties.responseTimeoutSeconds()))
+      .lifo()
+      .metrics(true)
+      .build();
+  }
 
-	private ExchangeStrategies getExchangeStrategies() {
-		ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-			.codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(webClientProperties.maxByteCount()))
-			.build();
+  private ExchangeStrategies getExchangeStrategies() {
+    ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
+      .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(webClientProperties.maxByteCount()))
+      .build();
 
-		exchangeStrategies
-			.messageWriters().stream()
-			.filter(LoggingCodecSupport.class::isInstance)
-			.forEach(writer -> ((LoggingCodecSupport)writer).setEnableLoggingRequestDetails(true));
+    exchangeStrategies
+      .messageWriters().stream()
+      .filter(LoggingCodecSupport.class::isInstance)
+      .forEach(writer -> ((LoggingCodecSupport) writer).setEnableLoggingRequestDetails(true));
 
-		return exchangeStrategies;
-	}
+    return exchangeStrategies;
+  }
 
-	private void getDefaultHeaders(HttpHeaders httpHeaders) {
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-	}
+  private void getDefaultHeaders(HttpHeaders httpHeaders) {
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+  }
 }
