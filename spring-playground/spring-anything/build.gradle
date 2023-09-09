@@ -66,10 +66,13 @@ dependencies {
     implementation 'com.github.f4b6a3:tsid-creator:5.2.4'
 
     implementation 'commons-codec:commons-codec'
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
     implementation 'org.apache.commons:commons-text:1.10.0'
     implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'org.apache.commons:commons-configuration2:2.9.0'
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
 
+    implementation 'io.projectreactor.addons:reactor-pool:1.0.1'
     implementation 'io.micrometer:micrometer-core'
     implementation(group: 'io.netty', name: 'netty-resolver-dns-native-macos', version: '4.1.74.Final', classifier: 'osx-aarch_64')
 
