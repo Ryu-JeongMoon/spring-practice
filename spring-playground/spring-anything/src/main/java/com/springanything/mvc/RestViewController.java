@@ -10,12 +10,12 @@ import com.springanything.mapping.TestRequest;
 @RestController
 public class RestViewController {
 
-	@GetMapping("/test/rest-view")
-	public ModelAndView view(Model model) {
-		TestRequest testRequest = TestRequest.of("", 0, new TestRequest.TestInnerRequest(""));
-		model.addAttribute("testRequest", testRequest);
-		return new ModelAndView("test-view");
-	}
+  @GetMapping("/test/rest-view")
+  public ModelAndView view(Model model) {
+    TestRequest testRequest = TestRequest.of("", 0, new TestRequest.TestInnerRequest(""));
+    model.addAttribute("testRequest", testRequest);
+    return new ModelAndView("test-view");
+  }
 }
 
 /*

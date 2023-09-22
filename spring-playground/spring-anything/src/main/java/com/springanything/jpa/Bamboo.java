@@ -2,10 +2,10 @@ package com.springanything.jpa;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,16 +19,16 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Bamboo implements Serializable {
 
-	@EqualsAndHashCode.Include
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+  @EqualsAndHashCode.Include
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	private String type;
+  private String type;
 
-	@Builder
-	public Bamboo(Long id, String type) {
-		this.id = id;
-		this.type = type;
-	}
+  @Builder
+  public Bamboo(Long id, String type) {
+    this.id = id;
+    this.type = type;
+  }
 }

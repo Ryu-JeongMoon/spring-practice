@@ -1,8 +1,9 @@
 package com.springanything.jpa.cascade;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SubFlag {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	private String name;
+  private String name;
 
-	@Builder
-	public SubFlag(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+  @Builder
+  public SubFlag(Long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class AopRequest {
 
-	private String name;
+  private String name;
 
-	private Integer age;
+  private Integer age;
 }

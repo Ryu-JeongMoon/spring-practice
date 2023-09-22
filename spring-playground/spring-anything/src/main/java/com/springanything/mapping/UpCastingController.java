@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UpCastingController {
 
-	@GetMapping("/test/up-casting")
-	public SuperTestRequest upcasting() {
-		return TestRequest.of("panda", 155, null);
-	}
+  @GetMapping("/test/up-casting")
+  public SuperTestRequest upcasting() {
+    return TestRequest.of("panda", 155, null);
+  }
 
-	@PostMapping("/test/snake_case")
-	public SuperTestRequest snakeCase(@RequestBody TestRequest testRequest) {
-		return testRequest;
-	}
+  @PostMapping("/test/snake_case")
+  public SuperTestRequest snakeCase(@RequestBody TestRequest testRequest) {
+    return testRequest;
+  }
 
 }

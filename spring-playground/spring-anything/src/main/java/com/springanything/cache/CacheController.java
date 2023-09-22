@@ -12,15 +12,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CacheController {
 
-	private final CacheService cacheService;
+  private final CacheService cacheService;
 
-	@GetMapping("/test/cache")
-	public String get(@RequestParam String key) {
-		return cacheService.get(key);
-	}
+  @GetMapping("/test/cache")
+  public String get(@RequestParam String key) {
+    return cacheService.get(key);
+  }
 
-	@GetMapping("/test/caches")
-	public Collection<String> getMultiples(@RequestParam String key) {
-		return cacheService.getMultiples(key);
-	}
+  @GetMapping("/test/caches")
+  public Collection<String> getMultiples(@RequestParam String key) {
+    return cacheService.getMultiples(key);
+  }
 }

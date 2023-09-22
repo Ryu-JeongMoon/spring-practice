@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ParameterAspect {
 
-	@Before("@within(WithParameter)")
-	public void addParameter(JoinPoint joinPoint) {
-		Arrays.stream(joinPoint.getArgs())
-			.filter(arg -> arg instanceof AopRequest)
-			.forEach(arg -> ((AopRequest)arg).setName("panda"));
-	}
+  @Before("@within(WithParameter)")
+  public void addParameter(JoinPoint joinPoint) {
+    Arrays.stream(joinPoint.getArgs())
+      .filter(arg -> arg instanceof AopRequest)
+      .forEach(arg -> ((AopRequest) arg).setName("panda"));
+  }
 
-	@Before("@annotation(BeforePrint)")
-	public void yahoo() {
-		System.out.println("yahoo~!");
-	}
+  @Before("@annotation(BeforePrint)")
+  public void yahoo() {
+    System.out.println("yahoo~!");
+  }
 }

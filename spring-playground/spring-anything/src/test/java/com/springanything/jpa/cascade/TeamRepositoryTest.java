@@ -1,74 +1,85 @@
 package com.springanything.jpa.cascade;
 
 import java.util.List;
+import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Commit;
 
-import com.springanything.config.TestConfig;
+import com.springanything.AbstractRepositoryTest;
 
-import lombok.extern.slf4j.Slf4j;
+class TeamRepositoryTest extends AbstractRepositoryTest {
 
-@Slf4j
-@DataJpaTest
-@Import(TestConfig.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class TeamRepositoryTest {
+  @Autowired
+  private TeamRepository teamRepository;
 
-	@Autowired
-	private TeamRepository teamRepository;
+  private Long id;
 
-	@DisplayName("@OnDelete(action = OnDeleteAction.CASCADE) - DBMS 관리")
-	@Commit
-	@Test
-	void deleteOnCascade() {
-		// given
-		// Long id = insertTeam();
-		// log.info("id: {}", id);
+  @BeforeEach
+  void setUp() {
+    SubFlag subFlag0 = SubFlag.builder()
+      .name("subFlag0")
+      .build();
 
-		// when
-		deleteTeam(5L);
+    SubFlag subFlag1 = SubFlag.builder()
+      .name("subFlag1")
+      .build();
 
-		// then
-		List<Team> teams = teamRepository.findAll();
+    Flag flag0 = Flag.builder()
+      .name("flag0")
+      .subFlags(Set.of(subFlag0, subFlag1))
+      .build();
 
-		log.info("teams: {}", teams);
-	}
+    Flag flag1 = Flag.builder()
+      .name("flag1")
+      .build();
 
-	private Long insertTeam() {
-		Flag flag0 = Flag.builder()
-			.name("flag0")
-			.build();
+    SubFlag subFlag2 = SubFlag.builder()
+      .name("subFlag2")
+      .build();
 
-		Flag flag1 = Flag.builder()
-			.name("flag1")
-			.build();
+    Flag flag2 = Flag.builder()
+      .name("flag2")
+      .subFlags(Set.of(subFlag2))
+      .build();
 
-		Flag flag2 = Flag.builder()
-			.name("flag2")
-			.build();
+    SubFlag subFlag3 = SubFlag.builder()
+      .name("subFlag3")
+      .build();
 
-		Flag flag3 = Flag.builder()
-			.name("flag3")
-			.build();
+    Flag flag3 = Flag.builder()
+      .name("flag3")
+      .subFlags(Set.of(subFlag3))
+      .build();
 
-		Team team = new Team();
-		team.setFlags(List.of(flag0, flag1, flag2, flag3));
-		return teamRepository.save(team).getId();
-	}
+    Team team = new Team();
+    team.setFlags(List.of(flag0, flag1, flag2, flag3));
+    id = teamRepository.save(team).getId();
+  }
 
-	private void deleteTeam(Long id) {
-		Team team = teamRepository.findById(id).get();
-		List<Flag> flags = team.getFlags();
-		log.info("flags: {}", flags);
+  @DisplayName("@OnDelete(action = OnDeleteAction.CASCADE) - DBMS 관리")
+  @Test
+  void deleteOnCascade() {
+    // given
+    deleteTeam(id);
+    flushAndClear();
 
-		teamRepository.delete(team);
-	}
+    // then
+    List<Team> teams = teamRepository.findAll();
+
+    log.info("teams: {}", teams);
+  }
+
+  private void deleteTeam(Long id) {
+    Team team = teamRepository.findById(id).get();
+
+    List<Flag> flags = team.getFlags();
+    log.info("flags: {}", flags);
+
+    teamRepository.delete(team);
+  }
 }
 
 /*

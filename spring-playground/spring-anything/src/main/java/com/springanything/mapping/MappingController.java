@@ -14,17 +14,17 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MappingController {
 
-	@GetMapping("/no-args-mapping")
-	public String view(@ModelAttribute PandaBear pandaBear) {
-		return "mapping-view";
-	}
+  @GetMapping("/no-args-mapping")
+  public String view(@ModelAttribute PandaBear pandaBear) {
+    return "mapping-view";
+  }
 
-	@ResponseBody
-	@PostMapping("/no-args-mapping")
-	public PandaBear save(@ModelAttribute PandaBear pandaBear) {
-		log.info("pandaBear = {}", pandaBear);
-		return pandaBear;
-	}
+  @ResponseBody
+  @PostMapping("/no-args-mapping")
+  public PandaBear save(@ModelAttribute PandaBear pandaBear) {
+    log.info("pandaBear = {}", pandaBear);
+    return pandaBear;
+  }
 }
 
 /*

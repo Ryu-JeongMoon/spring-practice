@@ -1,11 +1,11 @@
 package com.springanything.jpa.relationship;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -18,7 +18,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "agent_option",
-	indexes = @Index(name = "name_idx", columnList = "name")
+  indexes = @Index(name = "name_idx", columnList = "name")
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -26,24 +26,24 @@ import lombok.ToString;
 @ToString
 public class AgentOption {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	private String name;
+  private String name;
 
-	@ColumnDefault("0")
-	private Integer age;
+  @ColumnDefault("0")
+  private Integer age;
 
-	@Builder
-	private AgentOption(Long id, String name, Integer age) {
-		this.id = id;
-		this.name = name;
-		this.age = age;
-	}
+  @Builder
+  private AgentOption(Long id, String name, Integer age) {
+    this.id = id;
+    this.name = name;
+    this.age = age;
+  }
 
-	public void change(String name, Integer age) {
-		this.name = name;
-		this.age = age;
-	}
+  public void change(String name, Integer age) {
+    this.name = name;
+    this.age = age;
+  }
 }

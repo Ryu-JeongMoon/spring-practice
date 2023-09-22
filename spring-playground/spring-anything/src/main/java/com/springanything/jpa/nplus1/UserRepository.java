@@ -1,7 +1,6 @@
 package com.springanything.jpa.nplus1;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-  @Query("select distinct u from User u left join u.articles where u.name = :name")
-  Optional<User> findByNameJPQL(String name);
+  @Query("select u from User u left join u.articles where u.name = :name")
+  List<User> findByNameJPQL(String name);
 
   @Query("select distinct u from User u left join u.articles")
   List<User> findAllJPQL();

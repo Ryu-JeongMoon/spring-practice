@@ -1,8 +1,9 @@
 package com.springanything.jpa;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import com.springanything.jpa.base.BaseEntity;
 
@@ -17,14 +18,14 @@ import lombok.ToString;
 @ToString
 public class Bear extends BaseEntity<Long> {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	private String region;
+  private String region;
 
-	@Builder
-	public Bear(String region) {
-		this.region = region;
-	}
+  @Builder
+  public Bear(String region) {
+    this.region = region;
+  }
 }

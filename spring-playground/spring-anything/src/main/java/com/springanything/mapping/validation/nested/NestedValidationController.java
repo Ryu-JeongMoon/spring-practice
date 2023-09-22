@@ -1,4 +1,4 @@
-package com.springanything.mapping.validation;
+package com.springanything.mapping.validation.nested;
 
 import jakarta.validation.Valid;
 

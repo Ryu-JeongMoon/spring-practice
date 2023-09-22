@@ -23,10 +23,12 @@ class UserTest extends AbstractRepositoryTest {
 
   @BeforeEach
   void setUp() {
+    // user1 exists twice
+    User user0 = User.builder().name("user1").build();
     User user1 = User.builder().name("user1").build();
     User user2 = User.builder().name("user2").build();
     User user3 = User.builder().name("user3").build();
-    userRepository.saveAll(List.of(user1, user2, user3));
+    userRepository.saveAll(List.of(user0, user1, user2, user3));
 
     Article article1 = new Article("title1", "content1", user1);
     Article article2 = new Article("title2", "content2", user1);
@@ -41,7 +43,9 @@ class UserTest extends AbstractRepositoryTest {
 
     Question question1 = new Question("question1", user1);
     Question question2 = new Question("question2", user1);
-    questionRepository.saveAll(List.of(question1, question2));
+    Question question3 = new Question("question3", user1);
+    Question question4 = new Question("question4", user1);
+    questionRepository.saveAll(List.of(question1, question2, question3, question4));
 
     firstUserId = user1.getId();
     flushAndClear();
@@ -49,25 +53,23 @@ class UserTest extends AbstractRepositoryTest {
 
   /**
    * <pre>{@code
-   *  SELECT
-   *         USER0_.ID AS ID1_26_0_,
-   *         USER0_.NAME AS NAME2_26_0_,
-   *         ARTICLES1_.USER_ID AS USER_ID4_2_1_,
-   *         ARTICLES1_.ID AS ID1_2_1_,
-   *         ARTICLES1_.ID AS ID1_2_2_,
-   *         ARTICLES1_.CONTENT AS CONTENT2_2_2_,
-   *         ARTICLES1_.TITLE AS TITLE3_2_2_,
-   *         ARTICLES1_.USER_ID AS USER_ID4_2_2_
+   *     SELECT
+   *         U1_0.ID,
+   *         A1_0.USER_ID,
+   *         A1_0.ID,
+   *         A1_0.CONTENT,
+   *         A1_0.TITLE,
+   *         U1_0.NAME
    *     FROM
-   *         USERS USER0_
-   *     LEFT OUTER JOIN
-   *         ARTICLE ARTICLES1_
-   *             ON USER0_.ID=ARTICLES1_.USER_ID
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
    *     WHERE
-   *         USER0_.ID=?
+   *         U1_0.ID=1
    * }</pre>
    */
-  @DisplayName("EAGER Type은 User를 단일 조회할 때 left outer join 발생")
+  @DisplayName("EAGER Type은 User를 단일 조회할 때 left join 발생")
   @Test
   void findName() {
     User user = userRepository.findById(firstUserId)
@@ -81,23 +83,21 @@ class UserTest extends AbstractRepositoryTest {
    * <pre>{@code
    *     // User's non-collection fields, 1 time happens
    *     SELECT
-   *         USER0_.ID AS ID1_26_,
-   *         USER0_.NAME AS NAME2_26_
+   *         U1_0.ID,
+   *         U1_0.NAME
    *     FROM
-   *         USERS USER0_
+   *         USERS U1_0
    *
    *     // User's collection fields, N times happens
    *     SELECT
-   *         ARTICLES0_.USER_ID AS USER_ID4_2_0_,
-   *         ARTICLES0_.ID AS ID1_2_0_,
-   *         ARTICLES0_.ID AS ID1_2_1_,
-   *         ARTICLES0_.CONTENT AS CONTENT2_2_1_,
-   *         ARTICLES0_.TITLE AS TITLE3_2_1_,
-   *         ARTICLES0_.USER_ID AS USER_ID4_2_1_
+   *         A1_0.USER_ID,
+   *         A1_0.ID,
+   *         A1_0.CONTENT,
+   *         A1_0.TITLE
    *     FROM
-   *         ARTICLE ARTICLES0_
+   *         ARTICLE A1_0
    *     WHERE
-   *         ARTICLES0_.USER_ID=1, 2, 3...
+   *         A1_0.USER_ID=1, 2, 3 ...
    * }</pre>
    */
   @DisplayName("EAGER Type은 User 전체를 찾을 때, 각각의 User와 연관 관계에 있는 Article 조회하며 N+1 발생")
@@ -123,59 +123,50 @@ class UserTest extends AbstractRepositoryTest {
   /**
    * <pre>{@code
    *     SELECT
-   *         DISTINCT USER0_.ID AS ID1_26_,
-   *         USER0_.NAME AS NAME2_26_
+   *         DISTINCT U1_0.ID,
+   *         U1_0.NAME
    *     FROM
-   *         USERS USER0_
-   *     LEFT OUTER JOIN
-   *         ARTICLE ARTICLES1_
-   *             ON USER0_.ID=ARTICLES1_.USER_ID
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
    *     WHERE
-   *         USER0_.NAME='USER1'
+   *         U1_0.NAME='USER1'
    *
    * -------------------------------------------
    *
    *     SELECT
-   *         ARTICLES0_.USER_ID AS USER_ID4_2_0_,
-   *         ARTICLES0_.ID AS ID1_2_0_,
-   *         ARTICLES0_.ID AS ID1_2_1_,
-   *         ARTICLES0_.CONTENT AS CONTENT2_2_1_,
-   *         ARTICLES0_.TITLE AS TITLE3_2_1_,
-   *         ARTICLES0_.USER_ID AS USER_ID4_2_1_
+   *         A1_0.USER_ID,
+   *         A1_0.ID,
+   *         A1_0.CONTENT,
+   *         A1_0.TITLE
    *     FROM
-   *         ARTICLE ARTICLES0_
+   *         ARTICLE A1_0
    *     WHERE
-   *         ARTICLES0_.USER_ID=1
+   *         A1_0.USER_ID=1, 2 ...
    * }</pre>
    */
   @DisplayName("N+1 happens in JPQL")
   @Test
   void findNameByJPQL() {
     userRepository.findByNameJPQL("user1")
-      .ifPresentOrElse(
-        it -> log.info("articles size = {}", it.getArticles().size()),
-        () -> {
-          throw new RuntimeException();
-        }
-      );
+      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
   }
 
   /**
    * <pre>{@code
    *     SELECT
-   *         DISTINCT USER0_.ID AS ID1_26_0_,
-   *         ARTICLES1_.ID AS ID1_2_1_,
-   *         USER0_.NAME AS NAME2_26_0_,
-   *         ARTICLES1_.CONTENT AS CONTENT2_2_1_,
-   *         ARTICLES1_.TITLE AS TITLE3_2_1_,
-   *         ARTICLES1_.USER_ID AS USER_ID4_2_1_,
-   *         ARTICLES1_.USER_ID AS USER_ID4_2_0__,
-   *         ARTICLES1_.ID AS ID1_2_0__
+   *         DISTINCT U1_0.ID,
+   *         A1_0.USER_ID,
+   *         A1_0.ID,
+   *         A1_0.CONTENT,
+   *         A1_0.TITLE,
+   *         U1_0.NAME
    *     FROM
-   *         USERS USER0_
-   *     LEFT OUTER JOIN
-   *         ARTICLE ARTICLES1_
-   *             ON USER0_.ID=ARTICLES1_.USER_ID
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
    * }</pre>
    */
   @DisplayName("N+1 do not happen using fetch join")
@@ -194,33 +185,33 @@ class UserTest extends AbstractRepositoryTest {
 
   /**
    * <pre>{@code
-   * // o.h.h.internal.ast.QueryTranslatorImpl   : HHH000104:
-   * // firstResult/maxResults specified with collection fetch; applying in memory!
-   *
+   *     // o.h.h.internal.ast.QueryTranslatorImpl   : HHH000104:
+   *     // firstResult/maxResults specified with collection fetch; applying in memory!
    *     SELECT
-   *         DISTINCT USER0_.ID AS ID1_26_0_,
-   *         ARTICLES1_.ID AS ID1_2_1_,
-   *         USER0_.NAME AS NAME2_26_0_,
-   *         ARTICLES1_.CONTENT AS CONTENT2_2_1_,
-   *         ARTICLES1_.TITLE AS TITLE3_2_1_,
-   *         ARTICLES1_.USER_ID AS USER_ID4_2_1_,
-   *         ARTICLES1_.USER_ID AS USER_ID4_2_0__,
-   *         ARTICLES1_.ID AS ID1_2_0__
+   *         DISTINCT U1_0.ID,
+   *         A2_0.USER_ID,
+   *         A2_0.ID,
+   *         A2_0.CONTENT,
+   *         A2_0.TITLE,
+   *         U1_0.NAME
    *     FROM
-   *         USERS USER0_
-   *     LEFT OUTER JOIN
-   *         ARTICLE ARTICLES1_
-   *             ON USER0_.ID=ARTICLES1_.USER_ID
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
+   *     LEFT JOIN
+   *         ARTICLE A2_0
+   *             ON U1_0.ID=A2_0.USER_ID
    *
    * --------------------------------------------
    *
    *     SELECT
-   *         COUNT(DISTINCT USER0_.ID) AS COL_0_0_
+   *         COUNT(DISTINCT U1_0.ID)
    *     FROM
-   *         USERS USER0_
-   *     LEFT OUTER JOIN
-   *         ARTICLE ARTICLES1_
-   *             ON USER0_.ID=ARTICLES1_.USER_ID
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
    * }</pre>
    */
   @DisplayName("fetch join paging 처리에서 사용해도 N+1문제가 발생")
@@ -229,40 +220,36 @@ class UserTest extends AbstractRepositoryTest {
     PageRequest pageRequest = PageRequest.of(0, 2);
 
     userRepository.findAllByPage(pageRequest)
-      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's articles = {}", user.getArticles()));
   }
 
   /**
    * <pre>{@code
    *     // user query happens once
    *     SELECT
-   *         USER0_.ID AS ID1_26_,
-   *         USER0_.NAME AS NAME2_26_
+   *         U1_0.ID,
+   *         U1_0.NAME
    *     FROM
-   *         USERS USER0_
+   *         USERS U1_0
    *
    * ----------------------------------
-   *     // articles query happens once
+   *     // questions query happens once
    *     SELECT
-   *         ARTICLES0_.USER_ID AS USER_ID4_2_1_,
-   *         ARTICLES0_.ID AS ID1_2_1_,
-   *         ARTICLES0_.ID AS ID1_2_0_,
-   *         ARTICLES0_.CONTENT AS CONTENT2_2_0_,
-   *         ARTICLES0_.TITLE AS TITLE3_2_0_,
-   *         ARTICLES0_.USER_ID AS USER_ID4_2_0_
+   *         Q1_0.USER_ID,
+   *         Q1_0.ID,
+   *         Q1_0.TITLE
    *     FROM
-   *         ARTICLE ARTICLES0_
+   *         QUESTION Q1_0
    *     WHERE
-   *         ARTICLES0_.USER_ID IN (
-   *             1, 2, 3
-   *         )
+   *         Q1_0.USER_ID IN (1,2,3,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+   *
    * }</pre>
    */
   @DisplayName("'in query' happens instead of N+1 problem by @BatchSize")
   @Test
   void findAllByBatchSize() {
     userRepository.findAll()
-      .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
+      .forEach(user -> log.info("user's questions size = {}", user.getQuestions().size()));
   }
 
   /**

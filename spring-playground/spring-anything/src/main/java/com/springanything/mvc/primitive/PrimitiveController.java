@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PrimitiveController {
 
-	/** @ModelAttribute로 매핑 시 0 & false -> false, 1 & true -> true */
-	@GetMapping("/test/primitive")
-	public BooleanRequest booleanRequest(@ModelAttribute BooleanRequest booleanRequest) {
-		log.info("booleanRequest: {}", booleanRequest);
-		return booleanRequest;
-	}
+  /**
+   * @ModelAttribute로 매핑 시 0 & false -> false, 1 & true -> true
+   */
+  @GetMapping("/test/primitive")
+  public BooleanRequest booleanRequest(@ModelAttribute BooleanRequest booleanRequest) {
+    log.info("booleanRequest: {}", booleanRequest);
+    return booleanRequest;
+  }
 }

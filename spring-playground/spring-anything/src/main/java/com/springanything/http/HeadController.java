@@ -9,11 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HeadController {
 
-	@GetMapping("/test/head")
-	public String head() {
-		log.info("HEAD called");
-		return "head";
-	}
+  @GetMapping("/test/head")
+  public String head() {
+    log.info("HEAD called");
+    return "head";
+  }
 }
 
 /*

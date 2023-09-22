@@ -12,15 +12,15 @@ import lombok.ToString;
 @ToString
 public class PandaChild extends Panda {
 
-	private String type;
+  private String type;
 
-	@QueryProjection
-	public PandaChild(Long id, String name, int age, Bamboo bamboo) {
-		this.id = id;
-		this.name = name;
-		this.age = age;
-		this.type = bamboo.getType();
-	}
+  @QueryProjection
+  public PandaChild(Long id, String name, int age, Bamboo bamboo) {
+    this.id = id;
+    this.name = name;
+    this.age = age;
+    this.type = bamboo.getType();
+  }
 }
 
 /*

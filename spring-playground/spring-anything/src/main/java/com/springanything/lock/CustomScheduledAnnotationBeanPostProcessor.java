@@ -7,8 +7,8 @@ import org.springframework.util.StringValueResolver;
 @Configuration
 public class CustomScheduledAnnotationBeanPostProcessor extends ScheduledAnnotationBeanPostProcessor {
 
-	@Override
-	public void setEmbeddedValueResolver(StringValueResolver resolver) {
-		super.setEmbeddedValueResolver(str -> str.contains("*") ? "*/10 * * * * *" : str);
-	}
+  @Override
+  public void setEmbeddedValueResolver(StringValueResolver resolver) {
+    super.setEmbeddedValueResolver(str -> str.contains("*") ? "*/10 * * * * *" : str);
+  }
 }

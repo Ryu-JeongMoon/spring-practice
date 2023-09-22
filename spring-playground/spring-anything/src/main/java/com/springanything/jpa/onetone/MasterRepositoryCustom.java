@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface MasterRepositoryCustom {
 
-	void deleteByIds(List<Long> ids);
+  void deleteByIds(List<Long> ids);
 }

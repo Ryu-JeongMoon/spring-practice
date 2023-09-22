@@ -9,12 +9,12 @@ import com.springanything.mapping.TestRequest;
 @RestController
 public class ViewRestController {
 
-	@GetMapping("/view-in-rest")
-	public ModelAndView view() {
-		ModelAndView modelAndView = new ModelAndView("test-view");
-		modelAndView.addObject("testRequest", new TestRequest("panda", 255, new TestRequest.TestInnerRequest("yaho!!")));
-		return modelAndView;
-	}
+  @GetMapping("/view-in-rest")
+  public ModelAndView view() {
+    ModelAndView modelAndView = new ModelAndView("test-view");
+    modelAndView.addObject("testRequest", new TestRequest("panda", 255, new TestRequest.TestInnerRequest("yaho!!")));
+    return modelAndView;
+  }
 }
 
 /*

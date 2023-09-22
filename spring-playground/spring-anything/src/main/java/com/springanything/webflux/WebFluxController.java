@@ -14,20 +14,20 @@ import reactor.core.publisher.Flux;
 @RestController
 public class WebFluxController {
 
-	@GetMapping("/test/flux")
-	public Flux<TestRequest> shoot() {
-		return Flux.just(TestRequest.of("panda", 155, new TestRequest.TestInnerRequest("bear")));
-	}
+  @GetMapping("/test/flux")
+  public Flux<TestRequest> shoot() {
+    return Flux.just(TestRequest.of("panda", 155, new TestRequest.TestInnerRequest("bear")));
+  }
 
-	@GetMapping("/test/count")
-	public int returnCount() {
-		return 800;
-	}
+  @GetMapping("/test/count")
+  public int returnCount() {
+    return 800;
+  }
 
-	@PostMapping("/test/agents")
-	public WebFluxRequest shoot2(@RequestBody WebFluxRequest webFluxRequest) throws InterruptedException {
-		log.info("webFluxRequest: {}", webFluxRequest);
-		Thread.sleep(3000);
-		return webFluxRequest;
-	}
+  @PostMapping("/test/agents")
+  public WebFluxRequest shoot2(@RequestBody WebFluxRequest webFluxRequest) throws InterruptedException {
+    log.info("webFluxRequest: {}", webFluxRequest);
+    Thread.sleep(3000);
+    return webFluxRequest;
+  }
 }

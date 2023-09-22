@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class BearListener implements JpaEventListener, PostDeleteEventListener {
 
-	private static PandaService pandaService;
+  private static PandaService pandaService;
 
 /*
 	todo,
@@ -27,35 +27,35 @@ public class BearListener implements JpaEventListener, PostDeleteEventListener {
 	}
 */
 
-	// static 으로 주입해주는 방법도 있둥,
-	// 보기엔 이상하더라도 지연 주입을 해야하기 땜시 setter, 혹은 이름 제멋대로 지으면 됨
-	@Autowired
-	public void setPandaService(PandaService pandaService) {
-		BearListener.pandaService = pandaService;
-	}
+  // static 으로 주입해주는 방법도 있둥,
+  // 보기엔 이상하더라도 지연 주입을 해야하기 땜시 setter, 혹은 이름 제멋대로 지으면 됨
+  @Autowired
+  public void setPandaService(PandaService pandaService) {
+    BearListener.pandaService = pandaService;
+  }
 
-	@Override
-	public void onPostDelete(PostDeleteEvent event) {
-		log.info("[START] BearListener.onPostDelete");
-		log.info("onPostDelete.thread : {}", Thread.currentThread().getId());
+  @Override
+  public void onPostDelete(PostDeleteEvent event) {
+    log.info("[START] BearListener.onPostDelete");
+    log.info("onPostDelete.thread : {}", Thread.currentThread().getId());
 
-		final Object entity = event.getEntity();
-		if (!(entity instanceof Bear bear)) {
-			return;
-		}
+    final Object entity = event.getEntity();
+    if (!(entity instanceof Bear bear)) {
+      return;
+    }
 
-		event.getSession().getActionQueue().registerProcess((success, sessionImplementor) -> {
-			if (success) {
-				doProcess(sessionImplementor, session -> pandaService.deleteByBearId(bear.getId(), session));
-			}
-		});
-	}
+    event.getSession().getActionQueue().registerProcess((success, sessionImplementor) -> {
+      if (success) {
+        doProcess(sessionImplementor, session -> pandaService.deleteByBearId(bear.getId(), session));
+      }
+    });
+  }
 
-	// 요놈에다가 true 줘야 하이버네이트 내부에서 호출할 때 처리해야 할 이벤트가 있다고 인식함둥
-	@Override
-	public boolean requiresPostCommitHanding(EntityPersister persister) {
-		return true;
-	}
+  // 요놈에다가 true 줘야 하이버네이트 내부에서 호출할 때 처리해야 할 이벤트가 있다고 인식함둥
+  @Override
+  public boolean requiresPostCommitHandling(EntityPersister persister) {
+    return true;
+  }
 }
 
 /*

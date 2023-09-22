@@ -1,9 +1,8 @@
-
 package com.springanything.mapping.nested;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,6 +17,6 @@ import lombok.ToString;
 @ToString
 class InnerRequest implements Serializable {
 
-	private String name;
-	private String nickname;
+  private String name;
+  private String nickname;
 }

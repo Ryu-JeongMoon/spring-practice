@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BearService {
 
-	private final BearRepository bearRepository;
+  private final BearRepository bearRepository;
 
-	public void deleteById(Long bambooId) {
-		bearRepository.deleteById(bambooId);
-	}
+  public void deleteById(Long bambooId) {
+    bearRepository.deleteById(bambooId);
+  }
 }

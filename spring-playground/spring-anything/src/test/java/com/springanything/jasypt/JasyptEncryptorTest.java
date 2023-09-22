@@ -1,6 +1,6 @@
 package com.springanything.jasypt;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Test;
@@ -11,41 +11,41 @@ import com.springanything.AbstractIntegrationTest;
 
 class JasyptEncryptorTest extends AbstractIntegrationTest {
 
-	@Autowired
-	private Environment environment;
+  @Autowired
+  private Environment environment;
 
-	@Autowired
-	private StringEncryptor stringEncryptor;
+  @Autowired
+  private StringEncryptor stringEncryptor;
 
-	@Test
-	void encrypt() {
-		// given
-		String username = "test-username";
-		String password = "test-password";
+  @Test
+  void encrypt() {
+    // given
+    String username = "test-username";
+    String password = "test-password";
 
-		// when
-		String encryptedUsername = stringEncryptor.encrypt(username);
-		String encryptedPassword = stringEncryptor.encrypt(password);
+    // when
+    String encryptedUsername = stringEncryptor.encrypt(username);
+    String encryptedPassword = stringEncryptor.encrypt(password);
 
-		// then
-		log.info("Encrypted username: {}", encryptedUsername);
-		log.info("Encrypted password: {}", encryptedPassword);
-	}
+    // then
+    log.info("Encrypted username: {}", encryptedUsername);
+    log.info("Encrypted password: {}", encryptedPassword);
+  }
 
-	@Test
-	void decrypt() {
-		// given
-		String username = "test-username";
-		String password = "test-password";
+  @Test
+  void decrypt() {
+    // given
+    String username = "test-username";
+    String password = "test-password";
 
-		// when
-		String usernameProperty = environment.getProperty("app.username");
-		String passwordProperty = environment.getProperty("app.password");
+    // when
+    String usernameProperty = environment.getProperty("app.username");
+    String passwordProperty = environment.getProperty("app.password");
 
-		// then
-		assertThat(usernameProperty).isEqualTo(username);
-		assertThat(passwordProperty).isEqualTo(password);
-	}
+    // then
+    assertThat(usernameProperty).isEqualTo(username);
+    assertThat(passwordProperty).isEqualTo(password);
+  }
 }
 
 /*

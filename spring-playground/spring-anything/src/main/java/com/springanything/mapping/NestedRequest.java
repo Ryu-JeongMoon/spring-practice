@@ -13,21 +13,21 @@ import lombok.ToString;
 @ToString
 public class NestedRequest implements Serializable {
 
-	private InnerRequest innerRequest = new InnerRequest();
+  private InnerRequest innerRequest = new InnerRequest();
 
-	public NestedRequest(String name, String nickname) {
-		this.innerRequest = new InnerRequest(name, nickname);
-	}
+  public NestedRequest(String name, String nickname) {
+    this.innerRequest = new InnerRequest(name, nickname);
+  }
 
-	@NoArgsConstructor(access = AccessLevel.PROTECTED)
-	@AllArgsConstructor(access = AccessLevel.PRIVATE)
-	@Getter
-	@ToString
-	public static class InnerRequest implements Serializable {
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PRIVATE)
+  @Getter
+  @ToString
+  public static class InnerRequest implements Serializable {
 
-		private String name;
-		private String nickname;
-	}
+    private String name;
+    private String nickname;
+  }
 }
 
 /*

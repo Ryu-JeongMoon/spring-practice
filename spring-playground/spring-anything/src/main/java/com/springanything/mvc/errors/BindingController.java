@@ -1,7 +1,7 @@
 package com.springanything.mvc.errors;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,38 +14,38 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class BindingController {
 
-	private String handle(BindingRequest bindingRequest, BindingResult bindingResult, String host, HttpServletRequest servletRequest) {
-		log.info("host : {}", host);
-		log.info("bindingRequest: {}", bindingRequest);
-		log.info("ServletContext : {}", servletRequest.getServletContext());
+  private String handle(BindingRequest bindingRequest, BindingResult bindingResult, String host, HttpServletRequest servletRequest) {
+    log.info("host : {}", host);
+    log.info("bindingRequest: {}", bindingRequest);
+    log.info("ServletContext : {}", servletRequest.getServletContext());
 
-		if (bindingResult.hasErrors()) {
-			log.info("bindingResult: {}", bindingResult);
-			return "no~~";
-		}
+    if (bindingResult.hasErrors()) {
+      log.info("bindingResult: {}", bindingResult);
+      return "no~~";
+    }
 
-		return "ok~~";
-	}
+    return "ok~~";
+  }
 
-	@GetMapping("/binding-sample-1")
-	public String bindingSample1(
-		@Valid BindingRequest bindingRequest,
-		BindingResult bindingResult,
-		@RequestParam String host,
-		HttpServletRequest servletRequest
-	) {
-		return handle(bindingRequest, bindingResult, host, servletRequest);
-	}
+  @GetMapping("/binding-sample-1")
+  public String bindingSample1(
+    @Valid BindingRequest bindingRequest,
+    BindingResult bindingResult,
+    @RequestParam String host,
+    HttpServletRequest servletRequest
+  ) {
+    return handle(bindingRequest, bindingResult, host, servletRequest);
+  }
 
-	@GetMapping("/binding-sample-2")
-	public String bindingSample2(
-		@Valid BindingRequest bindingRequest,
-		@RequestParam String host,
-		HttpServletRequest servletRequest,
-		BindingResult bindingResult
-	) {
-		return handle(bindingRequest, bindingResult, host, servletRequest);
-	}
+  @GetMapping("/binding-sample-2")
+  public String bindingSample2(
+    @Valid BindingRequest bindingRequest,
+    @RequestParam String host,
+    HttpServletRequest servletRequest,
+    BindingResult bindingResult
+  ) {
+    return handle(bindingRequest, bindingResult, host, servletRequest);
+  }
 }
 
 /*

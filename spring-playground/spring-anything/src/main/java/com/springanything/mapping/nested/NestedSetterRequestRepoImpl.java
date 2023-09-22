@@ -1,6 +1,6 @@
 package com.springanything.mapping.nested;
 
-import static com.springanything.mapping.nested.QNestedSetterRequest.*;
+import static com.springanything.mapping.nested.QNestedSetterRequest.nestedSetterRequest;
 
 import java.util.Optional;
 
@@ -14,14 +14,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NestedSetterRequestRepoImpl implements NestedSetterRequestRepoCustom {
 
-	private final JPAQueryFactory queryFactory;
+  private final JPAQueryFactory queryFactory;
 
-	@Override
-	public Optional<NestedSetterRequest> findByInnerName(String name) {
-		return Optional.ofNullable(
-			queryFactory.selectFrom(nestedSetterRequest)
-				.where(nestedSetterRequest.innerRequest.name.eq(name))
-				.fetchOne()
-		);
-	}
+  @Override
+  public Optional<NestedSetterRequest> findByInnerName(String name) {
+    return Optional.ofNullable(
+      queryFactory.selectFrom(nestedSetterRequest)
+        .where(nestedSetterRequest.innerRequest.name.eq(name))
+        .fetchOne()
+    );
+  }
 }

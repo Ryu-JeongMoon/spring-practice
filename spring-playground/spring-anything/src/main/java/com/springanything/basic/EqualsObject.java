@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class EqualsObject {
 
-	private String id;
+  private String id;
 
-	private final List<String> list = new ArrayList<>();
+  private final List<String> list = new ArrayList<>();
 
-	public EqualsObject(String id, List<String> list) {
-		this.id = id;
-		this.list.addAll(list);
-	}
+  public EqualsObject(String id, List<String> list) {
+    this.id = id;
+    this.list.addAll(list);
+  }
 }
 
 /*

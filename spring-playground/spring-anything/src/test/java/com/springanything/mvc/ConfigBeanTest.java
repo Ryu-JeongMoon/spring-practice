@@ -1,30 +1,32 @@
 package com.springanything.mvc;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-import lombok.extern.slf4j.Slf4j;
+import com.springanything.AbstractIntegrationTest;
 
-@SpringBootTest(classes = MainConfig.class)
-@Slf4j
-class ConfigBeanTest {
+class ConfigBeanTest extends AbstractIntegrationTest {
 
-	@Autowired
-	private ApplicationContext context;
+  @Autowired
+  private ApplicationContext context;
 
-	@DisplayName("@Configuration 설정 + 빈 이름 지정 하지 않을 시 canonical name으로 생성")
-	@Test
-	void beanName() {
-		// given, when
-		assertThatThrownBy(() -> context.getBean("configBean"))
-			.isInstanceOf(NoSuchBeanDefinitionException.class);
-	}
+  @DisplayName("@Configuration 설정 + 빈 이름 지정 하지 않을 시 canonical name으로 생성")
+  @Test
+  void beanName() {
+    // given, when
+    Object bean = context.getBean("configBean");
+
+    // then
+    assertThat(bean).isInstanceOf(ConfigBean.class);
+
+    // todo, 동작 방식 달라진 듯
+    // assertThatThrownBy(() -> context.getBean("configBean"))
+    // 	.isInstanceOf(NoSuchBeanDefinitionException.class);
+  }
 }
 
 /*

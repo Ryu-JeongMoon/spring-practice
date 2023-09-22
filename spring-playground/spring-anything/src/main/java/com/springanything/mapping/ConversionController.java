@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ConversionController {
 
-	@GetMapping("/test-conversion")
-	public String convert(@RequestParam String param) {
-		return param;
-	}
+  @GetMapping("/test-conversion")
+  public String convert(@RequestParam String param) {
+    return param;
+  }
 
-	@PostMapping("/test-body-inner-conversion")
-	@ResponseBody
-	public OuterRequest convertInnerBody(@RequestBody OuterRequest request) {
-		return request;
-	}
+  @PostMapping("/test-body-inner-conversion")
+  @ResponseBody
+  public OuterRequest convertInnerBody(@RequestBody OuterRequest request) {
+    return request;
+  }
 
-	@PostMapping("/test-model-inner-conversion")
-	@ResponseBody
-	public OuterRequest convertInnerModel(@ModelAttribute OuterRequest request) {
-		return request;
-	}
+  @PostMapping("/test-model-inner-conversion")
+  @ResponseBody
+  public OuterRequest convertInnerModel(@ModelAttribute OuterRequest request) {
+    return request;
+  }
 }

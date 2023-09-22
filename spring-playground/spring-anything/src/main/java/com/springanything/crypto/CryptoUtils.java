@@ -15,56 +15,56 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class CryptoUtils {
 
-	// hex representation
-	public static String hex(byte[] bytes) {
-		StringBuilder result = new StringBuilder();
-		for (byte b : bytes) {
-			result.append(String.format("%02x", b));
-		}
-		return result.toString();
-	}
+  // hex representation
+  public static String hex(byte[] bytes) {
+    StringBuilder result = new StringBuilder();
+    for (byte b : bytes) {
+      result.append(String.format("%02x", b));
+    }
+    return result.toString();
+  }
 
-	// print hex with block size split
-	public static String hexWithBlockSize(byte[] bytes, int blockSize) {
+  // print hex with block size split
+  public static String hexWithBlockSize(byte[] bytes, int blockSize) {
 
-		String hex = hex(bytes);
+    String hex = hex(bytes);
 
-		// one hex = 2 chars
-		blockSize = blockSize * 2;
+    // one hex = 2 chars
+    blockSize = blockSize * 2;
 
-		// better idea how to print this?
-		List<String> result = new ArrayList<>();
-		int index = 0;
-		while (index < hex.length()) {
-			result.add(hex.substring(index, Math.min(index + blockSize, hex.length())));
-			index += blockSize;
-		}
+    // better idea how to print this?
+    List<String> result = new ArrayList<>();
+    int index = 0;
+    while (index < hex.length()) {
+      result.add(hex.substring(index, Math.min(index + blockSize, hex.length())));
+      index += blockSize;
+    }
 
-		return result.toString();
-	}
+    return result.toString();
+  }
 
-	public static byte[] getRandomNonce(int numBytes) {
-		byte[] nonce = new byte[numBytes];
-		new SecureRandom().nextBytes(nonce);
-		return nonce;
-	}
+  public static byte[] getRandomNonce(int numBytes) {
+    byte[] nonce = new byte[numBytes];
+    new SecureRandom().nextBytes(nonce);
+    return nonce;
+  }
 
-	// AES secret key
-	public static SecretKey getAESKey(int keySize) throws NoSuchAlgorithmException {
-		KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-		keyGen.init(keySize, SecureRandom.getInstanceStrong());
-		return keyGen.generateKey();
-	}
+  // AES secret key
+  public static SecretKey getAESKey(int keySize) throws NoSuchAlgorithmException {
+    KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+    keyGen.init(keySize, SecureRandom.getInstanceStrong());
+    return keyGen.generateKey();
+  }
 
-	// AES 256 bits secret key derived from a password
-	public static SecretKey getAESKeyFromPassword(char[] password, byte[] salt)
-		throws NoSuchAlgorithmException, InvalidKeySpecException {
+  // AES 256 bits secret key derived from a password
+  public static SecretKey getAESKeyFromPassword(char[] password, byte[] salt)
+    throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-		// iterationCount = 65536
-		// keyLength = 256
-		KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
-		return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
-	}
+    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+    // iterationCount = 65536
+    // keyLength = 256
+    KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+    return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+  }
 
 }

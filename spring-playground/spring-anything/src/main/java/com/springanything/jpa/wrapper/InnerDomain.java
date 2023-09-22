@@ -2,11 +2,10 @@ package com.springanything.jpa.wrapper;
 
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -22,7 +21,6 @@ import lombok.ToString;
 public class InnerDomain {
 
   @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 }

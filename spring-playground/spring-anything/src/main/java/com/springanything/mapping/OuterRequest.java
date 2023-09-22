@@ -12,15 +12,15 @@ import lombok.Setter;
 @Setter
 public class OuterRequest {
 
-	private String name;
-	private OuterEnum outerEnum;
-	private int age;
-	private List<String> list = new ArrayList<>();
+  private String name;
+  private OuterEnum outerEnum;
+  private int age;
+  private List<String> list = new ArrayList<>();
 
-	public OuterRequest(InnerRequest innerRequest) {
-		this.name = innerRequest.getName();
-		this.age = innerRequest.getAge();
-	}
+  public OuterRequest(InnerRequest innerRequest) {
+    this.name = innerRequest.getName();
+    this.age = innerRequest.getAge();
+  }
 }
 
 /*

@@ -2,6 +2,7 @@ package com.springanything.lock;
 
 import java.util.Date;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -19,20 +20,21 @@ public class Schedule {
     log.info("Schedule.run1 at {}", new Date());
   }
 
-  @SchedulerLock(name = "run1", lockAtLeastFor = "30m", lockAtMostFor = "30m")
+  @Scheduled(cron = "0/5 * * * * *", zone = "Asia/Seoul")
+  @SchedulerLock(name = "run2", lockAtLeastFor = "6s", lockAtMostFor = "9s")
   void run2() {
     log.info("Schedule.run2 at {}", new Date());
   }
 
   // @Scheduled(cron = "0/3 * * * * *", zone = "Asia/Seoul")
-  @SchedulerLock(name = "run1", lockAtLeastFor = "1s", lockAtMostFor = "3s")
+  @SchedulerLock(name = "run3", lockAtLeastFor = "1s", lockAtMostFor = "3s")
   void run3() throws InterruptedException {
     Thread.sleep(2500);
     log.info("Schedule.run3 at {}", new Date());
   }
 
   // @Scheduled(cron = "0/3 * * * * *", zone = "Asia/Seoul")
-  @SchedulerLock(name = "run1", lockAtLeastFor = "1s", lockAtMostFor = "3s")
+  @SchedulerLock(name = "run4", lockAtLeastFor = "1s", lockAtMostFor = "3s")
   void run4() throws InterruptedException {
     Thread.sleep(2500);
     log.info("Schedule.run4 at {}", new Date());

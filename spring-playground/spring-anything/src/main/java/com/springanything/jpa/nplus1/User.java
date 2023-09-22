@@ -3,14 +3,16 @@ package com.springanything.jpa.nplus1;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+import org.hibernate.annotations.BatchSize;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,18 +29,18 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(length = 10, nullable = false)
-  private String name;
-
   // @BatchSize(size = 100)
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private Set<Article> articles = new HashSet<>();
-  // private List<Article> articles;
+  // private List<Article> articles = new ArrayList<>();
 
-  // @BatchSize(size = 100)
+  @BatchSize(size = 100)
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private Set<Question> questions = new HashSet<>();
   // private List<Question> questions = new ArrayList<>();
+
+  @Column(length = 10, nullable = false)
+  private String name;
 
   public User(String name) {
     this.name = name;

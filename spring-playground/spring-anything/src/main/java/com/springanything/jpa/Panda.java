@@ -3,16 +3,7 @@ package com.springanything.jpa;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import jakarta.persistence.*;
 
 import com.springanything.jpa.base.BaseEntity;
 
@@ -30,47 +21,47 @@ import lombok.ToString;
 @ToString
 public class Panda extends BaseEntity<Long> {
 
-	@EqualsAndHashCode.Include
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id;
+  @EqualsAndHashCode.Include
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  protected Long id;
 
-	protected String name;
+  protected String name;
 
-	protected int age;
+  protected int age;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "bamboo_id")
-	@ToString.Exclude
-	protected Bamboo bamboo;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "bamboo_id")
+  @ToString.Exclude
+  protected Bamboo bamboo;
 
-	@Transient
-	@ToString.Exclude
-	protected int weight;
+  @Transient
+  @ToString.Exclude
+  protected int weight;
 
-	@Column(name = "bear_id")
-	private Long bearId;
+  @Column(name = "bear_id")
+  private Long bearId;
 
-	@Builder
-	public Panda(String name, int age, Bamboo bamboo, Long bearId, int weight) {
-		this.name = name;
-		this.age = age;
-		this.bamboo = bamboo;
-		this.bearId = bearId;
-		this.weight = weight;
-	}
+  @Builder
+  public Panda(String name, int age, Bamboo bamboo, Long bearId, int weight) {
+    this.name = name;
+    this.age = age;
+    this.bamboo = bamboo;
+    this.bearId = bearId;
+    this.weight = weight;
+  }
 
-	public String getType() {
-		return bamboo.getType();
-	}
+  public String getType() {
+    return bamboo.getType();
+  }
 
-	@Transient
-	public int getDoubleAge() {
-		return age * 2;
-	}
+  @Transient
+  public int getDoubleAge() {
+    return age * 2;
+  }
 
-	@Transient
-	public int getWeight() throws NoSuchAlgorithmException {
-		return SecureRandom.getInstanceStrong().nextInt();
-	}
+  @Transient
+  public int getWeight() throws NoSuchAlgorithmException {
+    return SecureRandom.getInstanceStrong().nextInt();
+  }
 }

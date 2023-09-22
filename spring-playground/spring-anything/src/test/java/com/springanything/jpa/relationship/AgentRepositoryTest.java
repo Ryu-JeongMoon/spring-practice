@@ -1,59 +1,49 @@
 package com.springanything.jpa.relationship;
 
-import static org.assertj.core.api.Assertions.*;
-
-import javax.persistence.EntityManager;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 
-import com.springanything.config.TestConfig;
+import com.springanything.AbstractRepositoryTest;
 
-@DataJpaTest
-@Import(TestConfig.class)
-class AgentRepositoryTest {
+class AgentRepositoryTest extends AbstractRepositoryTest {
 
-	@Autowired
-	EntityManager em;
-	@Autowired
-	AgentRepository agentRepository;
-	@Autowired
-	AgentOptionRepository agentOptionRepository;
+  @Autowired
+  private AgentRepository agentRepository;
+  @Autowired
+  private AgentOptionRepository agentOptionRepository;
 
-	@Test
-	@DisplayName("ID만 넣고 영속화해도 오께이")
-	void save() {
-		// given, AgentOption을 영속화한 상태
-		AgentOption option = AgentOption.builder()
-			.id(1L)
-			.name("panda")
-			.build();
-		agentOptionRepository.save(option);
+  @Test
+  @DisplayName("ID만 넣고 영속화해도 오께이")
+  void save() {
+    // given, AgentOption을 영속화한 상태
+    AgentOption option = AgentOption.builder()
+      .id(1L)
+      .name("panda")
+      .build();
+    agentOptionRepository.save(option);
 
-		em.flush();
-		em.clear();
+    flushAndClear();
 
-		// 임시로 id만 동일하게 만든 AgentOption 생성 (요놈은 영속화 되지 않은 상태)
-		AgentOption simpleOption = AgentOption.builder()
-			.id(1L)
-			.build();
+    // 임시로 id만 동일하게 만든 AgentOption 생성 (요놈은 영속화 되지 않은 상태)
+    AgentOption simpleOption = AgentOption.builder()
+      .id(1L)
+      .build();
 
-		// 영속화 되지 않은 놈으로 Agent 생성 후 영속화
-		Agent agent = Agent.from(simpleOption);
-		Long agentId = agentRepository.save(agent).getId();
+    // 영속화 되지 않은 놈으로 Agent 생성 후 영속화
+    Agent agent = Agent.from(simpleOption);
+    Long agentId = agentRepository.save(agent).getId();
 
-		// when
-		em.flush();
-		em.clear();
+    // when
+    flushAndClear();
 
-		// then, equals 오께이
-		AgentOption findOption = agentRepository.findById(agentId)
-			.orElseThrow()
-			.getOption();
+    // then, equals 오께이
+    AgentOption findOption = agentRepository.findById(agentId)
+      .orElseThrow()
+      .getOption();
 
-		assertThat(findOption).isEqualTo(option);
-	}
+    assertThat(findOption).isEqualTo(option);
+  }
 }

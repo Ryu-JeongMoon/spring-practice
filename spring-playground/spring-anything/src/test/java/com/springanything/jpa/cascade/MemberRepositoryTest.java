@@ -1,126 +1,122 @@
 package com.springanything.jpa.cascade;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 
-import com.springanything.config.TestConfig;
+import com.springanything.AbstractRepositoryTest;
 
-@DataJpaTest
-@Import(TestConfig.class)
-class MemberRepositoryTest {
+class MemberRepositoryTest extends AbstractRepositoryTest {
 
-	@Autowired
-	private MemberRepository memberRepository;
-	@Autowired
-	private TeamRepository teamRepository;
+  @Autowired
+  private MemberRepository memberRepository;
+  @Autowired
+  private TeamRepository teamRepository;
 
-	@DisplayName("CascadeType.REMOVE - Member의 생명주기를 관리하는 Team을 삭제함으로써 Member도 삭제된다")
-	@Test
-	void cascadeType_Remove_InCaseOfTeamRemoval() {
-		// given
-		Member member1 = new Member();
-		Member member2 = new Member();
+  @DisplayName("CascadeType.REMOVE - Member의 생명주기를 관리하는 Team을 삭제함으로써 Member도 삭제된다")
+  @Test
+  void cascadeType_Remove_InCaseOfTeamRemoval() {
+    // given
+    Member member1 = new Member();
+    Member member2 = new Member();
 
-		Team team = new Team();
+    Team team = new Team();
 
-		team.addMember(member1);
-		team.addMember(member2);
+    team.addMember(member1);
+    team.addMember(member2);
 
-		teamRepository.save(team);
+    teamRepository.save(team);
 
-		// when
-		teamRepository.delete(team);
+    // when
+    teamRepository.delete(team);
 
-		// then
-		List<Team> teams = teamRepository.findAll();
-		List<Member> members = memberRepository.findAll();
+    // then
+    List<Team> teams = teamRepository.findAll();
+    List<Member> members = memberRepository.findAll();
 
-		assertThat(teams).hasSize(0);
-		assertThat(members).hasSize(0);
-	}
+    assertThat(teams).hasSize(0);
+    assertThat(members).hasSize(0);
+  }
 
-	// CascadeType.REMOVE 옵션은 부모와 자식의 관계가 끊어졌다 해서 자식을 삭제하지 않는다.
-	@DisplayName("CascadeType.REMOVE - 부모 엔티티(Team)에서 자식 엔티티(Member)를 제거하는 경우")
-	@Test
-	void cascadeType_Remove_InCaseOfMemberRemovalFromTeam() {
-		// given
-		Member member1 = new Member();
-		Member member2 = new Member();
+  // CascadeType.REMOVE 옵션은 부모와 자식의 관계가 끊어졌다 해서 자식을 삭제하지 않는다.
+  @DisplayName("CascadeType.REMOVE - 부모 엔티티(Team)에서 자식 엔티티(Member)를 제거하는 경우")
+  @Test
+  void cascadeType_Remove_InCaseOfMemberRemovalFromTeam() {
+    // given
+    Member member1 = new Member();
+    Member member2 = new Member();
 
-		Team team = new Team();
+    Team team = new Team();
 
-		team.addMember(member1);
-		team.addMember(member2);
+    team.addMember(member1);
+    team.addMember(member2);
 
-		teamRepository.save(team);
+    teamRepository.save(team);
 
-		// when
-		team.getMembers().remove(0);
+    // when
+    team.getMembers().remove(0);
 
-		// then
-		List<Team> teams = teamRepository.findAll();
-		List<Member> members = memberRepository.findAll();
+    // then
+    List<Team> teams = teamRepository.findAll();
+    List<Member> members = memberRepository.findAll();
 
-		assertThat(teams).hasSize(1);
-		assertThat(members).hasSize(1);
-	}
+    assertThat(teams).hasSize(1);
+    assertThat(members).hasSize(1);
+  }
 
-	@DisplayName("orphanRemoval = true - 부모 엔티티(Team)을 삭제하는 경우")
-	@Test
-	void orphanRemoval_True_InCaseOfTeamRemoval() {
-		// given
-		Member member1 = new Member();
-		Member member2 = new Member();
+  @DisplayName("orphanRemoval = true - 부모 엔티티(Team)을 삭제하는 경우")
+  @Test
+  void orphanRemoval_True_InCaseOfTeamRemoval() {
+    // given
+    Member member1 = new Member();
+    Member member2 = new Member();
 
-		Team team = new Team();
+    Team team = new Team();
 
-		team.addMember(member1);
-		team.addMember(member2);
+    team.addMember(member1);
+    team.addMember(member2);
 
-		teamRepository.save(team);
+    teamRepository.save(team);
 
-		// when
-		teamRepository.delete(team);
+    // when
+    teamRepository.delete(team);
 
-		// then
-		List<Team> teams = teamRepository.findAll();
-		List<Member> members = memberRepository.findAll();
+    // then
+    List<Team> teams = teamRepository.findAll();
+    List<Member> members = memberRepository.findAll();
 
-		assertThat(teams).hasSize(0);
-		assertThat(members).hasSize(0);
-	}
+    assertThat(teams).hasSize(0);
+    assertThat(members).hasSize(0);
+  }
 
-	@DisplayName("orphanRemoval = true - 부모 엔티티(Team)에서 자식 엔티티(Member)를 제거하는 경우")
-	@Test
-	void orphanRemoval_True_InCaseOfMemberRemovalFromTeam() {
-		// given
-		Member member1 = new Member();
-		Member member2 = new Member();
+  @DisplayName("orphanRemoval = true - 부모 엔티티(Team)에서 자식 엔티티(Member)를 제거하는 경우")
+  @Test
+  void orphanRemoval_True_InCaseOfMemberRemovalFromTeam() {
+    // given
+    Member member1 = new Member();
+    Member member2 = new Member();
 
-		Team team = new Team();
+    Team team = new Team();
 
-		team.addMember(member1);
-		team.addMember(member2);
+    team.addMember(member1);
+    team.addMember(member2);
 
-		teamRepository.save(team);
+    teamRepository.save(team);
 
-		// when
-		team.getMembers().remove(0);
+    // when
+    team.getMembers().remove(0);
 
-		// then
-		List<Team> teams = teamRepository.findAll();
-		List<Member> members = memberRepository.findAll();
+    // then
+    List<Team> teams = teamRepository.findAll();
+    List<Member> members = memberRepository.findAll();
 
-		assertThat(teams).hasSize(1);
-		assertThat(members).hasSize(1);
-	}
+    assertThat(teams).hasSize(1);
+    assertThat(members).hasSize(1);
+  }
 }
 
 /*

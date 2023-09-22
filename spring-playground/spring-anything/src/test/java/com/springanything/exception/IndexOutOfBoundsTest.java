@@ -13,50 +13,50 @@ import lombok.extern.slf4j.Slf4j;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class IndexOutOfBoundsTest {
 
-	int[] array1;
-	int[] array2;
+  int[] array1;
+  int[] array2;
 
-	@BeforeEach
-	void setUp() {
-		array1 = new int[50];
-		array2 = new int[50];
-	}
+  @BeforeEach
+  void setUp() {
+    array1 = new int[50];
+    array2 = new int[50];
+  }
 
-	@DisplayName("예외 터트려 버리기~~")
-	@RepeatedTest(10)
-	void index() {
-		// given
-		StopWatch stopWatch = new StopWatch();
-		stopWatch.start();
+  @DisplayName("예외 터트려 버리기~~")
+  @RepeatedTest(10)
+  void index() {
+    // given
+    StopWatch stopWatch = new StopWatch();
+    stopWatch.start();
 
-		// when
-		int i = 0;
-		try {
-			while (true)
-				log.info("i = {}, value = {}", i, array1[i++]);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			log.info("i = {}", i);
-		}
+    // when
+    int i = 0;
+    try {
+      while (true)
+        log.info("i = {}, value = {}", i, array1[i++]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      log.info("i = {}", i);
+    }
 
-		// then
-		stopWatch.stop();
-		log.info("time: {}", stopWatch.prettyPrint());
-	}
+    // then
+    stopWatch.stop();
+    log.info("time: {}", stopWatch.prettyPrint());
+  }
 
-	@DisplayName("for-each loop")
-	@RepeatedTest(10)
-	void forLoop() {
-		// given
-		StopWatch stopWatch = new StopWatch();
-		stopWatch.start();
+  @DisplayName("for-each loop")
+  @RepeatedTest(10)
+  void forLoop() {
+    // given
+    StopWatch stopWatch = new StopWatch();
+    stopWatch.start();
 
-		// when
-		for (int i : array2) {
-			log.info("value = {}", i);
-		}
+    // when
+    for (int i : array2) {
+      log.info("value = {}", i);
+    }
 
-		// then
-		stopWatch.stop();
-		log.info("time: {}", stopWatch.prettyPrint());
-	}
+    // then
+    stopWatch.stop();
+    log.info("time: {}", stopWatch.prettyPrint());
+  }
 }

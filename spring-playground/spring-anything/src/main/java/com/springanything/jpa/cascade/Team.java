@@ -3,16 +3,14 @@ package com.springanything.jpa.cascade;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.envers.Audited;
 
 import lombok.Getter;
@@ -26,43 +24,43 @@ import lombok.Setter;
 @Setter
 public class Team {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	private String name;
+  private String name;
 
-	// cascade=ALL is equivalent to cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH}.
-	@OneToMany(
-		mappedBy = "team",
-		fetch = FetchType.LAZY,
-		cascade = { CascadeType.PERSIST, CascadeType.MERGE },
-		orphanRemoval = true
-	)
-	private List<Member> members = new ArrayList<>();
+  // cascade=ALL is equivalent to cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH}.
+  @OneToMany(
+    mappedBy = "team",
+    fetch = FetchType.LAZY,
+    cascade = { CascadeType.PERSIST, CascadeType.MERGE },
+    orphanRemoval = true
+  )
+  private List<Member> members = new ArrayList<>();
 
-	@OneToMany(
-		mappedBy = "team",
-		cascade = CascadeType.ALL,
-		// cascade = { CascadeType.PERSIST, CascadeType.MERGE },
-		orphanRemoval = true
-	)
-	// @OnDelete(action = OnDeleteAction.CASCADE)
-	private List<Flag> flags = new ArrayList<>();
+  @OneToMany(
+    mappedBy = "team",
+    cascade = CascadeType.ALL,
+    // cascade = { CascadeType.PERSIST, CascadeType.MERGE },
+    orphanRemoval = true
+  )
+  // @OnDelete(action = OnDeleteAction.CASCADE)
+  private List<Flag> flags = new ArrayList<>();
 
-	public Team(String name) {
-		this.name = name;
-	}
+  public Team(String name) {
+    this.name = name;
+  }
 
-	public Team(String name, List<Flag> flags) {
-		this.name = name;
-		this.flags = flags;
-	}
+  public Team(String name, List<Flag> flags) {
+    this.name = name;
+    this.flags = flags;
+  }
 
-	public void addMember(Member member) {
-		members.add(member);
-		member.setTeam(this);
-	}
+  public void addMember(Member member) {
+    members.add(member);
+    member.setTeam(this);
+  }
 }
 
 /*

@@ -1,7 +1,7 @@
 package com.springanything.jpa;
 
-import static com.springanything.jpa.QBamboo.*;
-import static com.springanything.jpa.QPanda.*;
+import static com.springanything.jpa.QBamboo.bamboo;
+import static com.springanything.jpa.QPanda.panda;
 
 import java.util.Optional;
 
@@ -18,49 +18,49 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PandaRepositoryImpl implements PandaRepositoryCustom {
 
-	private final JPAQueryFactory queryFactory;
+  private final JPAQueryFactory queryFactory;
 
-	@Override
-	public Optional<PandaResponse> findType(Long id) {
-		return Optional.ofNullable(
-			queryFactory
-				.select(new QPandaResponse(panda.id, panda.name, panda.age, panda.bamboo.type))
-				.from(panda)
-				.leftJoin(panda.bamboo, bamboo).on(panda.bamboo.id.eq(bamboo.id))
-				.fetchOne()
-		);
-	}
+  @Override
+  public Optional<PandaResponse> findType(Long id) {
+    return Optional.ofNullable(
+      queryFactory
+        .select(new QPandaResponse(panda.id, panda.name, panda.age, panda.bamboo.type))
+        .from(panda)
+        .leftJoin(panda.bamboo, bamboo).on(panda.bamboo.id.eq(bamboo.id))
+        .fetchOne()
+    );
+  }
 
-	@Override
-	public Optional<Panda> findPandaType(Long id) {
-		return Optional.ofNullable(
-			queryFactory
-				.select(panda)
-				.from(panda)
-				.leftJoin(panda.bamboo, bamboo)
-				.fetchJoin()
-				.fetchOne()
-		);
-	}
+  @Override
+  public Optional<Panda> findPandaType(Long id) {
+    return Optional.ofNullable(
+      queryFactory
+        .select(panda)
+        .from(panda)
+        .leftJoin(panda.bamboo, bamboo)
+        .fetchJoin()
+        .fetchOne()
+    );
+  }
 
-	@Override
-	public Optional<PandaChild> findChild(Long id) {
-		return Optional.ofNullable(
-			queryFactory
-				.select(new QPandaChild(panda.id, panda.name, panda.age, panda.bamboo))
-				.from(panda)
-				.leftJoin(panda.bamboo, bamboo).on(panda.bamboo.id.eq(bamboo.id))
-				.fetchFirst()
-		);
-	}
+  @Override
+  public Optional<PandaChild> findChild(Long id) {
+    return Optional.ofNullable(
+      queryFactory
+        .select(new QPandaChild(panda.id, panda.name, panda.age, panda.bamboo))
+        .from(panda)
+        .leftJoin(panda.bamboo, bamboo).on(panda.bamboo.id.eq(bamboo.id))
+        .fetchFirst()
+    );
+  }
 
-	@Transactional
-	public void deleteByBearId(Long bearId, SharedSessionContract session) {
-		Session sharedSessionContract = (Session)session;
-		sharedSessionContract.joinTransaction();
-		queryFactory
-			.delete(panda)
-			.where(panda.bearId.eq(bearId))
-			.execute();
-	}
+  @Transactional
+  public void deleteByBearId(Long bearId, SharedSessionContract session) {
+    Session sharedSessionContract = (Session) session;
+    sharedSessionContract.joinTransaction();
+    queryFactory
+      .delete(panda)
+      .where(panda.bearId.eq(bearId))
+      .execute();
+  }
 }

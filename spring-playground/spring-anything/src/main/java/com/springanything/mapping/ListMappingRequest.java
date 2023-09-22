@@ -16,17 +16,17 @@ import lombok.ToString;
 @ToString
 public class ListMappingRequest {
 
-	private String text;
+  private String text;
 
-	@JsonIgnore
-	private List<String> texts;
+  @JsonIgnore
+  private List<String> texts;
 
-	public ListMappingRequest(String text, List<String> texts) {
-		this.text = text;
+  public ListMappingRequest(String text, List<String> texts) {
+    this.text = text;
 
-		if (!StringUtils.hasText(text)) {
-			this.text = String.join("/", texts);
-			this.texts = texts;
-		}
-	}
+    if (!StringUtils.hasText(text)) {
+      this.text = String.join("/", texts);
+      this.texts = texts;
+    }
+  }
 }

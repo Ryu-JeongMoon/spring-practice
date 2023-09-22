@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ListMappingController {
 
-	@GetMapping("/test/list-mapping")
-	public ListMappingRequest mapping(@ModelAttribute ListMappingRequest listMappingRequest) {
-		return listMappingRequest;
-	}
+  @GetMapping("/test/list-mapping")
+  public ListMappingRequest mapping(@ModelAttribute ListMappingRequest listMappingRequest) {
+    return listMappingRequest;
+  }
 
 }

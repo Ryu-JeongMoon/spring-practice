@@ -15,31 +15,31 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class NestedMappingTestController {
 
-	private final NestedSetterService nestedSetterService;
+  private final NestedSetterService nestedSetterService;
 
-	@GetMapping(value = "/test/nested-setter/{id}")
-	public NestedSetterRequest get(@PathVariable String id) {
-		NestedSetterRequest request = nestedSetterService.get(id);
-		log.info("request = {}", request);
-		return request;
-	}
+  @GetMapping(value = "/test/nested-setter/{id}")
+  public NestedSetterRequest get(@PathVariable String id) {
+    NestedSetterRequest request = nestedSetterService.get(id);
+    log.info("request = {}", request);
+    return request;
+  }
 
-	@GetMapping(value = "/test/nested-setter/name/{name}")
-	public NestedSetterRequest findByInnerName(@PathVariable String name) {
-		NestedSetterRequest request = nestedSetterService.findByInnerName(name);
-		log.info("request = {}", request);
-		return request;
-	}
+  @GetMapping(value = "/test/nested-setter/name/{name}")
+  public NestedSetterRequest findByInnerName(@PathVariable String name) {
+    NestedSetterRequest request = nestedSetterService.findByInnerName(name);
+    log.info("request = {}", request);
+    return request;
+  }
 
-	@PostMapping(value = "/test/nested-setter")
-	public NestedSetterRequest save(@ModelAttribute NestedSetterRequest request) {
-		log.info("request = {}", request);
-		return nestedSetterService.save(request);
-	}
+  @PostMapping(value = "/test/nested-setter")
+  public NestedSetterRequest save(@ModelAttribute NestedSetterRequest request) {
+    log.info("request = {}", request);
+    return nestedSetterService.save(request);
+  }
 
-	@PatchMapping(value = "/test/nested-setter/{id}")
-	public NestedSetterRequest patch(@PathVariable String id, @ModelAttribute NestedSetterRequest request) {
-		log.info("request = {}", request);
-		return nestedSetterService.patch(id, request);
-	}
+  @PatchMapping(value = "/test/nested-setter/{id}")
+  public NestedSetterRequest patch(@PathVariable String id, @ModelAttribute NestedSetterRequest request) {
+    log.info("request = {}", request);
+    return nestedSetterService.patch(id, request);
+  }
 }

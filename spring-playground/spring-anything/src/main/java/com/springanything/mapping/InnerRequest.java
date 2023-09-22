@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class InnerRequest {
 
-	private String name;
-	private OuterEnum outerEnum;
-	private int age;
+  private String name;
+  private OuterEnum outerEnum;
+  private int age;
 }

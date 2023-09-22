@@ -10,27 +10,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NestedSetterService {
 
-	private final NestedSetterRequestRepo nestedSetterRequestRepo;
+  private final NestedSetterRequestRepo nestedSetterRequestRepo;
 
-	public NestedSetterRequest get(String id) {
-		return nestedSetterRequestRepo.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("id = " + id));
-	}
+  public NestedSetterRequest get(String id) {
+    return nestedSetterRequestRepo.findById(id)
+      .orElseThrow(() -> new IllegalArgumentException("id = " + id));
+  }
 
-	public NestedSetterRequest findByInnerName(String name) {
-		return nestedSetterRequestRepo.findByInnerName(name)
-			.orElseThrow(() -> new IllegalArgumentException("name = " + name));
-	}
+  public NestedSetterRequest findByInnerName(String name) {
+    return nestedSetterRequestRepo.findByInnerName(name)
+      .orElseThrow(() -> new IllegalArgumentException("name = " + name));
+  }
 
-	@Transactional
-	public NestedSetterRequest save(NestedSetterRequest request) {
-		return nestedSetterRequestRepo.save(request);
-	}
+  @Transactional
+  public NestedSetterRequest save(NestedSetterRequest request) {
+    return nestedSetterRequestRepo.save(request);
+  }
 
-	@Transactional
-	public NestedSetterRequest patch(String id, NestedSetterRequest request) {
-		return nestedSetterRequestRepo.findById(id)
-			.orElseGet(() -> nestedSetterRequestRepo.save(request))
-			.update(request);
-	}
+  @Transactional
+  public NestedSetterRequest patch(String id, NestedSetterRequest request) {
+    return nestedSetterRequestRepo.findById(id)
+      .orElseGet(() -> nestedSetterRequestRepo.save(request))
+      .update(request);
+  }
 }

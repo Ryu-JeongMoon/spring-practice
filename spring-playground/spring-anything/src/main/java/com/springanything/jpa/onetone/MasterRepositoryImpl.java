@@ -1,6 +1,6 @@
 package com.springanything.jpa.onetone;
 
-import static com.springanything.jpa.onetone.QMaster.*;
+import static com.springanything.jpa.onetone.QMaster.master;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MasterRepositoryImpl implements MasterRepositoryCustom {
 
-	private final JPAQueryFactory queryFactory;
+  private final JPAQueryFactory queryFactory;
 
-	@Override
-	public void deleteByIds(List<Long> ids) {
-		queryFactory.delete(master)
-			.where(master.id.in(ids))
-			.execute();
-	}
+  @Override
+  public void deleteByIds(List<Long> ids) {
+    queryFactory.delete(master)
+      .where(master.id.in(ids))
+      .execute();
+  }
 }
