@@ -13,7 +13,7 @@ public class FileUploadController {
 
   @PostMapping("/test/file-upload")
   public String upload(@RequestPart MultipartFile file) {
-    String name = file.getName();
+    String name = file.getOriginalFilename();
     log.info("file = {}", file);
     log.info("name = {}", name);
     return name;
