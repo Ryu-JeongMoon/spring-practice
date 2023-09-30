@@ -1,18 +1,19 @@
-package com.springanything.json;
+package com.springanything.json.creator;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record JsonCreatorResponse(String name, String email) {
 
-	// @JsonCreator
-	// public JsonCreatorResponse(@JsonProperty("NAME") String name, @JsonProperty("EMAIL") String email) {
-	// 	this.name = name;
-	// 	this.email = email;
-	// }
+  @JsonCreator
+  public JsonCreatorResponse(@JsonProperty("NAME") String name, @JsonProperty("EMAIL") String email) {
+    this.name = name;
+    this.email = email;
+  }
 
-	@JsonCreator
-	public JsonCreatorResponse {
-	}
+  // @JsonCreator
+  // public JsonCreatorResponse {
+  // }
 }
 
 /*

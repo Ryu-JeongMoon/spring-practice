@@ -1,4 +1,4 @@
-package com.springanything.json;
+package com.springanything.json.wrap;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
@@ -14,9 +14,9 @@ import lombok.ToString;
 @ToString
 public class JsonBigResponse {
 
-	@JsonUnwrapped
-	private JsonMediumResponse mediumResponse;
+  @JsonUnwrapped
+  private JsonMediumResponse mediumResponse;
 
-	@JsonUnwrapped
-	private JsonSmallResponse smallResponse;
+  @JsonUnwrapped
+  private JsonSmallResponse smallResponse;
 }

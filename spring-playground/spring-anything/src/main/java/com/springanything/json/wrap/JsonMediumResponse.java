@@ -1,4 +1,4 @@
-package com.springanything.json;
+package com.springanything.json.wrap;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,14 +12,14 @@ import lombok.ToString;
 @ToString
 public class JsonMediumResponse {
 
-	@JsonProperty("NAME")
-	private Name name;
+  @JsonProperty("NAME")
+  private Name name;
 
-	@JsonProperty("NICKNAME")
-	private String nickname;
+  @JsonProperty("NICKNAME")
+  private String nickname;
 
-	public JsonMediumResponse(String name, String nickname) {
-		this.name = Name.valueOf(name);
-		this.nickname = nickname;
-	}
+  public JsonMediumResponse(String name, String nickname) {
+    this.name = Name.valueOf(name);
+    this.nickname = nickname;
+  }
 }

@@ -1,6 +1,5 @@
-package com.springanything.json;
+package com.springanything.json.wrap;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AccessLevel;
@@ -13,9 +12,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class JsonBooleanRequest {
+public class JsonSmallResponse {
 
-	@JsonProperty("use_station_shared_drive")
-	@JsonFormat(shape = JsonFormat.Shape.NUMBER)
-	private boolean useStationSharedDrive;
+  @JsonProperty("PHONE")
+  private String phone;
 }
