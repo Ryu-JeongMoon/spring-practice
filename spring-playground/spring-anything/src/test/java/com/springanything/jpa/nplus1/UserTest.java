@@ -2,6 +2,7 @@ package com.springanything.jpa.nplus1;
 
 import java.util.List;
 
+import org.hibernate.loader.MultipleBagFetchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -176,6 +177,25 @@ class UserTest extends AbstractRepositoryTest {
       .forEach(user -> log.info("user's articles size = {}", user.getArticles().size()));
   }
 
+  /**
+   * <pre>{@code
+   *     SELECT
+   *         DISTINCT U1_0.ID,
+   *         A2_0.USER_ID,
+   *         A2_0.ID,
+   *         A2_0.CONTENT,
+   *         A2_0.TITLE,
+   *         U1_0.NAME
+   *     FROM
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
+   *     LEFT JOIN
+   *         ARTICLE A2_0
+   *             ON U1_0.ID=A2_0.USER_ID
+   * }</pre>
+   */
   @DisplayName("N+1 do not happen using entity graph")
   @Test
   void fetchAllByEntityGraph() {
@@ -253,7 +273,7 @@ class UserTest extends AbstractRepositoryTest {
   }
 
   /**
-   * more than one bag as List type fetching, <u>MultipleBagFetchException</u> happens
+   * more than one bag as List type fetching, {@link MultipleBagFetchException} happens
    * <p>org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.springanything.jpa.nplus1.User.articles, com.springanything.jpa.nplus1.User.questions]; nested exception is java.lang.IllegalArgumentException: org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.springanything.jpa.nplus1.User.articles, com.springanything.jpa.nplus1.User.questions]</p>
    * <pre>{@code
    * ----------------------------------
@@ -285,8 +305,40 @@ class UserTest extends AbstractRepositoryTest {
    */
   @DisplayName("join fetch collections more than one")
   @Test
-  void findDoubleCollection() {
+  void findMultipleCollection() {
     userRepository.findMultipleCollection()
+      .forEach(user -> {
+        log.info("user's articles size = {}", user.getArticles().size());
+        log.info("user's questions size = {}", user.getQuestions().size());
+      });
+  }
+
+  /**
+   * <pre>{@code
+   *     SELECT
+   *         DISTINCT U1_0.ID,
+   *         A1_0.USER_ID,
+   *         A1_0.ID,
+   *         A1_0.CONTENT,
+   *         A1_0.TITLE,
+   *         U1_0.NAME,
+   *         Q1_0.USER_ID,
+   *         Q1_0.ID,
+   *         Q1_0.TITLE
+   *     FROM
+   *         USERS U1_0
+   *     LEFT JOIN
+   *         ARTICLE A1_0
+   *             ON U1_0.ID=A1_0.USER_ID
+   *     LEFT JOIN
+   *         QUESTION Q1_0
+   *             ON U1_0.ID=Q1_0.USER_ID
+   * }</pre>
+   */
+  @DisplayName("join fetch collections more than one")
+  @Test
+  void findMultipleCollectionByEntityGraph() {
+    userRepository.findMultipleCollectionByEntityGraph()
       .forEach(user -> {
         log.info("user's articles size = {}", user.getArticles().size());
         log.info("user's questions size = {}", user.getQuestions().size());
