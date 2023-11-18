@@ -1,0 +1,11 @@
+// GET http://localhost:8080/test/enum-request?bears=ㅠㄸㅁ
+{
+  "exception": "org.springframework.web.method.annotation.ModelAttributeMethodProcessor$1",
+  "message": "invalid data mapping",
+  "bindingErrors": [
+    {
+      "field": "bears",
+      "message": "Failed to convert value of type 'java.lang.String' to required type 'com.springanything.mapping.validation.enumeration.Bears'; Failed to convert from type [java.lang.String] to type [@com.springanything.mapping.validation.validator.NotNullEnum com.springanything.mapping.validation.enumeration.Bears] for value [ㅠㄸㅁ]"
+    }
+  ]
+}
