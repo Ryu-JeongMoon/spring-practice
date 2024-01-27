@@ -2,6 +2,7 @@ package com.springanything.lock;
 
 import java.util.Date;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
+@ConditionalOnBean(SchedulingConfig.class)
 public class Schedule {
 
   // @Scheduled(cron = "0/3 * * * * *", zone = "Asia/Seoul")
@@ -44,4 +46,4 @@ public class Schedule {
 /*
 지정한 시간에 하나의 인스턴스에서만 실행되도록
 같은 이름의 lock 사용해 SchedulerLock 걸어뿌림
- */
+*/

@@ -2,15 +2,21 @@ spring:
   thymeleaf:
     cache: false
 
+  cache:
+    type: redis
+
+  threads:
+    virtual:
+      enabled: true
+
+  session:
+    store-type: redis
+
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
-
-  redis:
-    host: localhost
-    port: 6379
 
 #  flyway:
 #    enabled: false
@@ -19,29 +25,35 @@ spring:
 #    classpath: db/migration
 
   datasource:
-#    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: panda
-#    password: bear
     hikari:
       jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
       driver-class-name: org.h2.Driver
       username: sa
       password:
+#      jdbc-url: jdbc:mysql://localhost:3307/batch_test?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+#      driver-class-name: com.mysql.jdbc.Driver
+#      username: panda
+#      password: bear
 
   jpa:
     generate-ddl: true
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-        use_sql_comments: true
-#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
 
 server:
+  tomcat:
+    keep-alive-timeout: 5000
   port: 8080
   servlet:
     session:
@@ -56,13 +68,16 @@ decorator:
 logging:
   level:
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
+    reactor.netty: debug
+    com.springanything.config: debug
+    com.springanything.aop.LogAspect: debug
 
 webclient:
   max-byte-count: 16777216
-  read-write-timeout-seconds: 3
-  response-timeout-seconds: 15
+  read-write-timeout-seconds: 30
+  response-timeout-seconds: 30
   connect-timeout-millis: 3000
-  max-idle-and-life-time-seconds: 18
+  max-idle-and-life-time-seconds: 20
 
 jasypt:
   encryptor:
@@ -73,3 +88,6 @@ jasypt:
 app:
   username: ENC(iT5UJ7IhyP9rFLlzbhuUqXKnC2mI20S9)
   password: ENC(T/0aQ/koEXO7eZahX7YcCwhjXHXvKBhR)
+
+springanything:
+  conditional: TrUe
