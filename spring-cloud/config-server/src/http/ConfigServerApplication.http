@@ -1,0 +1,5 @@
+###
+GET http://localhost:8888/cloud-config/local
+
+###
+POST http://localhost:8888/actuator/refresh
