@@ -1,7 +1,6 @@
 package com.springanything.mapping.validation.enumeration;
 
-import jakarta.validation.Valid;
-
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EnumRequestController {
 
   @GetMapping("/test/enum-request")
-  public Bears mapEnumRequest(@Valid EnumRequest request) {
-    return request.bears();
+  public EnumRequest mapEnumRequest(@Validated EnumRequest request) {
+    return request;
   }
 }

@@ -1,5 +1,7 @@
 ###
-GET http://localhost:8080/test/enum-request?bears=ㅠㄸㅁ
+# GRIZZLY, POLAR, PANDA
+GET http://localhost:8080/test/enum-request?bears=GRIZZL
+#Accept-Language: ko-KR
 
 ###
-GET http://localhost:8080/test/enum-request
+GET http://localhost:8080/test/enum-request?bears=g_R_I_Z__zLy
