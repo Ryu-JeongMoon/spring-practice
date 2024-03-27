@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-  id 'org.springframework.boot' version '3.2.0'
+  id 'org.springframework.boot' version '3.2.4'
   id 'io.spring.dependency-management' version '1.1.4'
   id 'java'
 }
@@ -45,12 +45,13 @@ dependencies {
 
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+  implementation 'org.bouncycastle:bcprov-jdk15to18:1.74'
 
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.hibernate:hibernate-envers:6.2.6.Final'
 
 //    implementation 'org.redisson:redisson-spring-boot-starter:3.20.0'
-  implementation 'redis.clients:jedis:4.4.3'
+  implementation 'redis.clients:jedis:5.1.2'
 //    implementation 'org.apache.commons:commons-pool2:2.11.1'
 
   implementation 'org.springframework.session:spring-session-core'
@@ -68,7 +69,6 @@ dependencies {
   implementation 'com.github.f4b6a3:tsid-creator:5.2.4'
 
   implementation 'commons-codec:commons-codec'
-  implementation 'commons-beanutils:commons-beanutils:1.9.4'
   implementation 'org.apache.commons:commons-text:1.10.0'
   implementation 'org.apache.commons:commons-collections4:4.4'
   implementation 'org.apache.commons:commons-configuration2:2.9.0'
