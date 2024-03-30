@@ -1,4 +1,7 @@
 spring:
+  retry:
+    enabled: true
+
   thymeleaf:
     cache: false
 
@@ -9,20 +12,25 @@ spring:
     virtual:
       enabled: true
 
-  session:
-    store-type: redis
+    # mvc:
+    #   content-negotiation:
+    #     suffix:
+    #       enabled: true
+    #   pathmatch:
+    #     matching-strategy: ant_path_matcher
+    #     use-registered-suffix-pattern: true
 
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
-
-#  flyway:
-#    enabled: false
-#    baseline-on-migrate: true
-#    validate-on-migrate: false
-#    classpath: db/migration
+    
+    # flyway:
+    #   enabled: false
+    #   baseline-on-migrate: true
+    #   validate-on-migrate: false
+    #   classpath: db/migration
 
   datasource:
     hikari:
@@ -30,19 +38,23 @@ spring:
       driver-class-name: org.h2.Driver
       username: sa
       password:
-#      jdbc-url: jdbc:mysql://localhost:3307/batch_test?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-#      driver-class-name: com.mysql.jdbc.Driver
-#      username: panda
-#      password: bear
+      # jdbc-url: jdbc:mysql://localhost:3307/batch_test?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+      # driver-class-name: com.mysql.jdbc.Driver
+      # username: panda
+      # password: bear
 
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+
     properties:
       hibernate:
-#        dialect: org.hibernate.dialect.MySQLDialect
+        # dialect: org.hibernate.dialect.MySQLDialect
         dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
+        format_sql: true
+        highlight_sql: true
     open-in-view: false
 
   data:
@@ -63,10 +75,12 @@ server:
 decorator:
   datasource:
     p6spy:
-      enable-logging: true
+      enable-logging: false
 
 logging:
   level:
+    sql: debug
+    org.hibernate.orm.jdbc.bind: trace
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
     reactor.netty: debug
     com.springanything.config: debug
@@ -82,12 +96,10 @@ webclient:
 jasypt:
   encryptor:
     password: test
-    algorithm: PBEWithMD5AndDES
-    iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
 app:
-  username: ENC(iT5UJ7IhyP9rFLlzbhuUqXKnC2mI20S9)
-  password: ENC(T/0aQ/koEXO7eZahX7YcCwhjXHXvKBhR)
+  username: ENC(n/Wa+KSIgpTEdsQct4bDUHK8utp2+iRiMrCGjMH0LIB+qPM4jjY9oHuDxfnD3O4v)
+  password: ENC(iLvJmw702W4E3HGb1Db21zZOdA6OCeOH/tfkuNccf1EcwQgR73rWOFWOQdfavWFq)
 
 springanything:
-  conditional: TrUe
+  conditional: true
