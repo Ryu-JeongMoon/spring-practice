@@ -1,4 +1,7 @@
 spring:
+  jta:
+    enabled: true
+
   retry:
     enabled: true
 
@@ -12,13 +15,13 @@ spring:
     virtual:
       enabled: true
 
-    # mvc:
-    #   content-negotiation:
-    #     suffix:
-    #       enabled: true
-    #   pathmatch:
-    #     matching-strategy: ant_path_matcher
-    #     use-registered-suffix-pattern: true
+    #mvc:
+    #  content-negotiation:
+    #    suffix:
+    #      enabled: true
+    #  pathmatch:
+    #    matching-strategy: ant_path_matcher
+    #    use-registered-suffix-pattern: true
 
   devtools:
     restart:
@@ -26,36 +29,68 @@ spring:
     livereload:
       enabled: true
     
-    # flyway:
-    #   enabled: false
-    #   baseline-on-migrate: true
-    #   validate-on-migrate: false
-    #   classpath: db/migration
+    #flyway:
+    #  enabled: false
+    #  baseline-on-migrate: true
+    #  validate-on-migrate: false
+    #  classpath: db/migration
 
   datasource:
-    hikari:
-      jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
-      driver-class-name: org.h2.Driver
-      username: sa
-      password:
-      # jdbc-url: jdbc:mysql://localhost:3307/batch_test?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-      # driver-class-name: com.mysql.jdbc.Driver
-      # username: panda
-      # password: bear
+    jpa:
+      hikari:
+        jdbc-url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: sa
+        password: 111111
+        #jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
+        #driver-class-name: org.h2.Driver
+        #username: sa
+        #password:
+
+      xa:
+        min-poolsize: 10
+        max-poolsize: 20
+        xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+        xa-properties:
+          url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+          user: sa
+          password: 111111
+
+    my-batis:
+      hikari:
+        jdbc-url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: sa
+        password: 111111
+        #jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
+        #driver-class-name: org.h2.Driver
+        #username: sa
+        #password:
+
+      xa:
+        min-poolsize: 10
+        max-poolsize: 20
+        xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+        xa-properties:
+          url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+          user: sa
+          password: 111111
 
   jpa:
+    open-in-view: false
     generate-ddl: true
+
     hibernate:
       ddl-auto: create
-
     properties:
       hibernate:
-        # dialect: org.hibernate.dialect.MySQLDialect
-        dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: true
         highlight_sql: true
-    open-in-view: false
+        dialect: org.hibernate.dialect.MySQLDialect
+        # dialect: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
+    database: mysql
 
   data:
     redis:
@@ -65,7 +100,7 @@ spring:
 
 server:
   tomcat:
-    keep-alive-timeout: 5000
+    keep-alive-timeout: 5000ms
   port: 8080
   servlet:
     session:
@@ -79,6 +114,8 @@ decorator:
 
 logging:
   level:
+    #org.hibernate: debug
+    #org.mybatis: debug
     sql: debug
     org.hibernate.orm.jdbc.bind: trace
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
@@ -103,3 +140,12 @@ app:
 
 springanything:
   conditional: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+hibernate:
+  connection:
+    handling_mode: 'DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION'
