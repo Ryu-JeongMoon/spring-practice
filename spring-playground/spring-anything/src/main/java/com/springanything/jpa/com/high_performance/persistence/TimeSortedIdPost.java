@@ -3,6 +3,7 @@ package com.springanything.jpa.com.high_performance.persistence;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,6 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
+@Table(name = "time_sorted_id_post")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString

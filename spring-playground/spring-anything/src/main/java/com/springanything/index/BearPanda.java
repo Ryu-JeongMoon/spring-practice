@@ -16,7 +16,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(indexes = {
+@Table(
+  name = "bear_panda",
+  indexes = {
   @Index(name = "bear_panda_name_idx", columnList = "name1", unique = true),
   @Index(name = "bear_panda_names_idx", columnList = "name2, name3", unique = true)
 })

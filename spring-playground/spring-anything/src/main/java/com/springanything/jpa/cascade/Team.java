@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.envers.Audited;
 
 import lombok.Getter;
@@ -66,4 +68,4 @@ public class Team {
 /*
 @OneToMany(mappedBy = "entity")
 mappedBy는 상관 없고 @OnDelete 때문에 DB 삭제해버리니 애플리케이션에서는 쿼리 확인할 수가 없다
- */
+*/

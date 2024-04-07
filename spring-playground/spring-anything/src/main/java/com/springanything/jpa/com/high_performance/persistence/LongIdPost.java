@@ -1,8 +1,11 @@
 package com.springanything.jpa.com.high_performance.persistence;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -12,6 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
+@Table(name = "long_id_post")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
@@ -19,7 +23,7 @@ import lombok.ToString;
 public class LongIdPost {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;
 

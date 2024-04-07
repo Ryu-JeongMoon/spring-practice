@@ -14,10 +14,10 @@ public class PandaService {
 
   private final PandaRepository pandaRepository;
 
-  @Transactional(readOnly = true)
-  public List<Panda> findByBambooId(Long bambooId) {
-    return pandaRepository.findByBambooId(bambooId);
-  }
+   @Transactional(readOnly = true)
+   public List<Panda> findByBambooId(Long bambooId) {
+     return pandaRepository.findByBambooId(bambooId);
+   }
 
   @Transactional
   public void deleteByBearId(Long bearId, SharedSessionContract session) {
