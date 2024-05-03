@@ -24,7 +24,7 @@ repositories {
   maven { url 'https://repo.spring.io/milestone' }
   maven { url 'https://repo.spring.io/snapshot' }
   maven { url "https://plugins.gradle.org/m2/" }
-//    maven { url "https://redisson.pro/repo/" }
+  // maven { url "https://redisson.pro/repo/" }
 }
 
 ext {
@@ -44,7 +44,7 @@ dependencies {
   implementation 'org.projectlombok:lombok:1.18.24'
   implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-//    implementation 'org.flywaydb:flyway-core:9.4.0'
+  // implementation 'org.flywaydb:flyway-core:9.4.0'
 
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
@@ -53,9 +53,9 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.hibernate:hibernate-envers:6.2.6.Final'
 
-//    implementation 'org.redisson:redisson-spring-boot-starter:3.20.0'
-  implementation 'redis.clients:jedis:5.1.2'
-//    implementation 'org.apache.commons:commons-pool2:2.11.1'
+  implementation 'org.redisson:redisson-spring-boot-starter:3.20.0'
+  // implementation 'redis.clients:jedis:5.1.2'
+  // implementation 'org.apache.commons:commons-pool2:2.11.1'
 
   implementation 'org.springframework.session:spring-session-core'
   implementation 'org.springframework.session:spring-session-data-redis'
@@ -63,6 +63,9 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-redis'
   implementation 'net.javacrumbs.shedlock:shedlock-spring:5.2.0'
   implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:5.2.0'
+
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+  implementation 'com.fasterxml.jackson.core:jackson-databind'
 
   implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
