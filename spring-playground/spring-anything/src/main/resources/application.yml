@@ -1,6 +1,8 @@
 spring:
+  chained-transaction:
+    enabled: false
   jta:
-    enabled: true
+    enabled: false
 
   retry:
     enabled: true
@@ -36,16 +38,15 @@ spring:
     #  classpath: db/migration
 
   datasource:
-    jpa:
-      hikari:
-        jdbc-url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: sa
-        password: 111111
-        #jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
-        #driver-class-name: org.h2.Driver
-        #username: sa
-        #password:
+    hikari:
+      jdbc-url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: sa
+      password: 111111
+      #jdbc-url: jdbc:h2:tcp://localhost/~/spring-anything
+      #driver-class-name: org.h2.Driver
+      #username: sa
+      #password:
 
       xa:
         min-poolsize: 10
@@ -78,19 +79,15 @@ spring:
 
   jpa:
     open-in-view: false
-    generate-ddl: true
-
+    generate-ddl: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
-        highlight_sql: true
-        dialect: org.hibernate.dialect.MySQLDialect
-        # dialect: org.hibernate.dialect.H2Dialect
-    database-platform: org.hibernate.dialect.MySQLDialect
-    database: mysql
+        show_sql: false
+        format_sql: false
+        highlight_sql: false
+        default_batch_fetch_size: 1000
 
   data:
     redis:
@@ -99,6 +96,7 @@ spring:
       password:
 
 server:
+  max-http-request-header-size: 10KB
   tomcat:
     keep-alive-timeout: 5000ms
   port: 8080
@@ -110,14 +108,15 @@ server:
 decorator:
   datasource:
     p6spy:
-      enable-logging: false
+      enable-logging: true
 
 logging:
   level:
+    org.springframework.data.repository: debug
     #org.hibernate: debug
     #org.mybatis: debug
-    sql: debug
-    org.hibernate.orm.jdbc.bind: trace
+    #sql: debug
+    #org.hibernate.orm.jdbc.bind: trace
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
     reactor.netty: debug
     com.springanything.config: debug
