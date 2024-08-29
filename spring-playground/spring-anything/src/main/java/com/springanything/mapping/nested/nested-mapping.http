@@ -1,0 +1,33 @@
+###
+POST http://localhost:8080/nested-class-mapping
+Content-Type: application/json
+
+{
+  "name": "John",
+  "nickname": "Doe",
+  "innerClass": {
+    "innerName": "Jane",
+    "innerNickname": "Doe",
+    "nestedClass": {
+      "nestedName": "Alice",
+      "nestedNickname": "Doe"
+    }
+  }
+}
+
+###
+POST http://localhost:8080/nested-record-mapping
+Content-Type: application/json
+
+{
+  "name": "John",
+  "nickname": "Doe",
+  "innerRecord": {
+    "innerName": "Jane",
+    "innerNickname": "Doe",
+    "nestedRecord": {
+      "nestedName": "Alice",
+      "nestedNickname": "Doe"
+    }
+  }
+}

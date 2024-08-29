@@ -1,22 +1,14 @@
 package com.springanything.mapping.nested;
 
-import java.io.Serializable;
-
-import jakarta.persistence.Embeddable;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
-@ToString
-class InnerRequest implements Serializable {
+public class OuterClass {
 
   private String name;
   private String nickname;
+  private InnerClass innerClass;
 }
