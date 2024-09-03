@@ -1,0 +1,25 @@
+###
+POST http://localhost:8080/etag
+Content-Type: application/json
+
+{
+  "name": "hello",
+  "description": "world"
+}
+
+###
+GET http://localhost:8080/etag?name=hello
+
+> {%
+    client.global.set("etag", response.headers.valueOf("etag"));
+%}
+
+###
+GET http://localhost:8080/etag?name=hello
+If-None-Match: {{etag}}
+
+> {%
+    client.test("Response status is 304", () => {
+        client.assert(response.status === 304, "Response status is not 304");
+    });
+%}
