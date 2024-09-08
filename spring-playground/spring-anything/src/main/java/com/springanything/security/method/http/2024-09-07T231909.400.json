@@ -1,0 +1,10 @@
+{
+  "exception": "org.springframework.web.bind.MethodArgumentNotValidException",
+  "message": "invalid data mapping",
+  "bindingErrors": [
+    {
+      "field": "userId",
+      "message": "must not be blank"
+    }
+  ]
+}

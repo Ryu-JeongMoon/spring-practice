@@ -1,0 +1,25 @@
+###
+POST http://localhost:8080/method-security/users?name=hello&role=USER
+Content-Type: application/x-www-form-urlencoded
+
+> {%
+    client.global.set("id", response.body.id);
+%}
+
+###
+GET http://localhost:8080/method-security/users?userId={{id}}
+Authorization: {{id}}
+
+###
+GET http://localhost:8080/method-security/users/{{id}}
+Authorization: {{id}}
+
+###
+GET http://localhost:8080/method-security/users/{{id}}
+
+> 2024-09-07T232005.403.json
+
+###
+GET http://localhost:8080/method-security/users
+
+> 2024-09-07T231909.400.json
