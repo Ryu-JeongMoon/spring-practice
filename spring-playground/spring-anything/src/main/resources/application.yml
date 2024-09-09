@@ -1,45 +1,55 @@
 spring:
-  chained-transaction:
-    enabled: false
-  jta:
-    enabled: false
-
-  retry:
-    enabled: true
-
-  thymeleaf:
-    cache: false
-
   cache:
     type: redis
-
-  threads:
-    virtual:
-      enabled: true
-
-    #mvc:
-    #  content-negotiation:
-    #    suffix:
-    #      enabled: true
-    #  pathmatch:
-    #    matching-strategy: ant_path_matcher
-    #    use-registered-suffix-pattern: true
-
+  chained-transaction:
+    enabled: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
-    
-    #flyway:
-    #  enabled: false
-    #  baseline-on-migrate: true
-    #  validate-on-migrate: false
-    #  classpath: db/migration
+  jta:
+    enabled: false
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        highlight_sql: false
+        default_batch_fetch_size: 1000
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        debug: true
+        transport.protocol: smtp
+        smtp:
+          auth: true
+          ssl:
+            trust: ${spring.mail.host}
+          starttls:
+            enable: true
+  threads:
+    virtual:
+      enabled: true
+  thymeleaf:
+    cache: false
 
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+      jdbc-url: jdbc:mysql://localhost:3306/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: sa
       password: 111111
@@ -47,19 +57,17 @@ spring:
       #driver-class-name: org.h2.Driver
       #username: sa
       #password:
-
       xa:
         min-poolsize: 10
         max-poolsize: 20
         xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
         xa-properties:
-          url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://localhost:3306/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
           user: sa
           password: 111111
-
     my-batis:
       hikari:
-        jdbc-url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+        jdbc-url: jdbc:mysql://localhost:3306/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: sa
         password: 111111
@@ -67,33 +75,14 @@ spring:
         #driver-class-name: org.h2.Driver
         #username: sa
         #password:
-
       xa:
         min-poolsize: 10
         max-poolsize: 20
         xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
         xa-properties:
-          url: jdbc:mysql://localhost:3307/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://localhost:3306/spring_anything?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
           user: sa
           password: 111111
-
-  jpa:
-    open-in-view: false
-    generate-ddl: false
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        show_sql: false
-        format_sql: false
-        highlight_sql: false
-        default_batch_fetch_size: 1000
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password:
 
 server:
   max-http-request-header-size: 10KB
@@ -113,10 +102,10 @@ decorator:
 logging:
   level:
     org.springframework.data.repository: debug
-    #org.hibernate: debug
     #org.mybatis: debug
     #sql: debug
     #org.hibernate.orm.jdbc.bind: trace
+    #org.hibernate: debug
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
     reactor.netty: debug
     com.springanything.config: debug
@@ -136,6 +125,15 @@ jasypt:
 app:
   username: ENC(n/Wa+KSIgpTEdsQct4bDUHK8utp2+iRiMrCGjMH0LIB+qPM4jjY9oHuDxfnD3O4v)
   password: ENC(iLvJmw702W4E3HGb1Db21zZOdA6OCeOH/tfkuNccf1EcwQgR73rWOFWOQdfavWFq)
+  mail:
+    personal: ${MAIL_PERSONAL}
+    address: ${MAIL_ADDRESS}
+
+condition:
+  enabled:
+    mail: false
+    retry: false
+    method-security: true
 
 springanything:
   conditional: true
