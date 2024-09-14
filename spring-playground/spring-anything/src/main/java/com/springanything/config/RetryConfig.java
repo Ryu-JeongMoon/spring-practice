@@ -10,7 +10,7 @@ import org.springframework.retry.support.RetryTemplate;
 
 @EnableRetry
 @Configuration
-@ConditionalOnProperty(name = "spring.retry.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "condition.enabled.retry", havingValue = "true")
 public class RetryConfig {
 
   @Bean
