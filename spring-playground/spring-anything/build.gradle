@@ -46,6 +46,11 @@ dependencies {
 
   implementation 'org.projectlombok:lombok:1.18.24'
 
+  implementation("software.amazon.awssdk:s3:2.27.17")
+  implementation("software.amazon.awssdk:sts:2.27.17")
+
+  implementation("org.bytedeco:javacv-platform:1.5.10")
+
   // implementation 'org.flywaydb:flyway-core:9.4.0'
 
   implementation 'org.springframework.boot:spring-boot-starter-security'

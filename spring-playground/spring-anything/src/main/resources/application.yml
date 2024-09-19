@@ -13,8 +13,11 @@ spring:
       enabled: true
     livereload:
       enabled: true
-  jta:
-    enabled: false
+    #flyway:
+    #  enabled: false
+    #  baseline-on-migrate: true
+    #  validate-on-migrate: false
+    #  classpath: db/migration
   jpa:
     open-in-view: false
     generate-ddl: true
@@ -26,6 +29,8 @@ spring:
         format_sql: false
         highlight_sql: false
         default_batch_fetch_size: 1000
+  jta:
+    enabled: false
   mail:
     host: smtp.gmail.com
     port: 587
@@ -41,6 +46,13 @@ spring:
             trust: ${spring.mail.host}
           starttls:
             enable: true
+  mybatis:
+    enabled: false
+  servlet:
+    multipart:
+      location: temp-files
+      max-file-size: 100MB
+      max-request-size: 100MB
   threads:
     virtual:
       enabled: true
@@ -101,11 +113,11 @@ decorator:
 
 logging:
   level:
-    org.springframework.data.repository: debug
-    #org.mybatis: debug
     #sql: debug
-    #org.hibernate.orm.jdbc.bind: trace
+    #org.mybatis: debug
     #org.hibernate: debug
+    #org.hibernate.orm.jdbc.bind: trace
+    org.springframework.data.repository: debug
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
     reactor.netty: debug
     com.springanything.config: debug
@@ -146,3 +158,13 @@ mybatis:
 hibernate:
   connection:
     handling_mode: 'DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION'
+
+integration:
+  aws:
+    cloudfront:
+      domain: ${CLOUDFRONT_DOMAIN}
+    s3:
+      region: ${S3_REGION}
+      bucket: ${S3_BUCKET}
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
