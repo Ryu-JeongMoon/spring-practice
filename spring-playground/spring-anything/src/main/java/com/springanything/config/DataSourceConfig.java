@@ -1,13 +1,12 @@
 package com.springanything.config;
 
-import static com.springanything.config.JpaConfig.PACKAGE_TO_SCAN;
+import static com.springanything.config.DataSourceConfig.PACKAGE_TO_SCAN;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -18,13 +17,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.transaction.ChainedTransactionManager;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionManager;
 
 import com.querydsl.jpa.impl.JPAProvider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -36,9 +32,9 @@ import lombok.RequiredArgsConstructor;
 @EntityScan(basePackages = PACKAGE_TO_SCAN)
 @EnableJpaAuditing
 @EnableJpaRepositories(basePackages = PACKAGE_TO_SCAN)
-@ConditionalOnProperty(name = "spring.jta.enabled", havingValue = "false", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.jta", value = "enabled", havingValue = "false", matchIfMissing = true)
 @RequiredArgsConstructor
-public class JpaConfig {
+public class DataSourceConfig {
 
   public static final String PACKAGE_TO_SCAN = "com.springanything";
 
@@ -46,7 +42,7 @@ public class JpaConfig {
 
   @Bean
   @Primary
-  @ConfigurationProperties(prefix = "spring.datasource.jpa.hikari")
+  @ConfigurationProperties(prefix = "spring.datasource.hikari")
   public DataSource jpaDataSource() {
     return DataSourceBuilder.create()
       .type(HikariDataSource.class)
@@ -72,18 +68,9 @@ public class JpaConfig {
   }
 
   @Bean
-  public PlatformTransactionManager transactionManager() {
+  public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
     final JpaTransactionManager transactionManager = new JpaTransactionManager();
-    transactionManager.setEntityManagerFactory(entityManagerFactory());
+    transactionManager.setEntityManagerFactory(entityManagerFactory);
     return transactionManager;
-  }
-
-  @Bean
-  @Primary
-  @SuppressWarnings("deprecation")
-  public TransactionManager chainedTransactionManager(
-    @Qualifier("myBatisDataSource") DataSource myBatisDataSource
-  ) {
-    return new ChainedTransactionManager(transactionManager(), new DataSourceTransactionManager(myBatisDataSource));
   }
 }
