@@ -1,8 +1,6 @@
 spring:
   cache:
     type: redis
-  chained-transaction:
-    enabled: false
   data:
     redis:
       host: localhost
@@ -146,6 +144,7 @@ condition:
     mail: false
     retry: false
     method-security: true
+    chained-transaction: false
 
 springanything:
   conditional: true
