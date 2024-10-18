@@ -46,3 +46,20 @@ Content-Type: application/json
     }
   ]
 }
+
+### Success
+POST http://localhost:8080/test/nested-validation/v2
+Content-Type: application/json
+
+{
+  "outerName": "",
+  "outerBoolean": true,
+  "innerNestedRequests": [
+    {
+      "innerName": "a"
+    },
+    {
+      "innerName": "b"
+    }
+  ]
+}
