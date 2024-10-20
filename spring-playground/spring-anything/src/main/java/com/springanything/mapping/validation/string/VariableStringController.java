@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VariableStringController {
 
   @PostMapping("/test/variable-string")
-  public int mapVariableString(@Valid @RequestBody VariableStringRequest request) {
-    return request.name().length();
+  public VariableStringRequest mapVariableString(@Valid @RequestBody VariableStringRequest request) {
+    return request;
   }
 }
