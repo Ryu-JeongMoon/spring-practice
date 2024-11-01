@@ -16,6 +16,10 @@ import lombok.ToString;
 public class JsonBooleanRequest {
 
   @JsonProperty("use_station_shared_drive")
-  @JsonFormat(shape = JsonFormat.Shape.NUMBER)
   private boolean useStationSharedDrive;
+
+  @JsonProperty("use_station_shared_drive_in_number")
+  @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+  private boolean useStationSharedDriveInNumber;
+
 }

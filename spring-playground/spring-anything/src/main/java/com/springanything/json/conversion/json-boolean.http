@@ -1,0 +1,11 @@
+###
+GET localhost:8080/test-json-boolean-to-int?useStationSharedDrive=1&useStationSharedDriveInNumber=0
+
+###
+POST localhost:8080/test-json-boolean-to-int
+Content-Type: application/json
+
+{
+  "use_station_shared_drive": 1,
+  "use_station_shared_drive_in_number": false
+}
