@@ -1,11 +1,13 @@
 spring:
+  batch:
+    jdbc:
+      initialize-schema: never
   cache:
     type: redis
   data:
     redis:
       host: localhost
       port: 6379
-      password:
   devtools:
     restart:
       enabled: true
@@ -27,8 +29,6 @@ spring:
         format_sql: false
         highlight_sql: false
         default_batch_fetch_size: 1000
-  jta:
-    enabled: false
   mail:
     host: smtp.gmail.com
     port: 587
@@ -36,7 +36,7 @@ spring:
     password: ${MAIL_PASSWORD}
     properties:
       mail:
-        debug: true
+        #debug: true
         transport.protocol: smtp
         smtp:
           auth: true
@@ -44,8 +44,6 @@ spring:
             trust: ${spring.mail.host}
           starttls:
             enable: true
-  mybatis:
-    enabled: false
   servlet:
     multipart:
       location: temp-files
@@ -111,10 +109,8 @@ decorator:
 
 logging:
   level:
-    #sql: debug
-    #org.mybatis: debug
-    #org.hibernate: debug
-    #org.hibernate.orm.jdbc.bind: trace
+    sql: debug
+    org.hibernate.orm.jdbc.bind: trace
     org.springframework.data.repository: debug
     org.hibernate.engine.transaction.internal.TransactionImpl: debug
     reactor.netty: debug
@@ -141,8 +137,10 @@ app:
 
 condition:
   enabled:
+    jta: false
     mail: false
     retry: false
+    redisson: true
     method-security: true
     chained-transaction: false
 
