@@ -1,5 +1,6 @@
 package com.springanything.aws;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "condition.enabled", name = "s3", havingValue = "true")
 public class S3Config {
 
   private final S3Properties s3Properties;

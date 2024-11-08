@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 import jakarta.validation.Valid;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@ConditionalOnBean(S3Service.class)
 public class S3UploadController {
 
   private final S3Service s3Service;

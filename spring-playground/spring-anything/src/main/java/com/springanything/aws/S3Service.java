@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@ConditionalOnBean(S3Client.class)
 public class S3Service {
 
   private final S3Client s3Client;
