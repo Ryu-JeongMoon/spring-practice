@@ -10,7 +10,7 @@ import com.springanything.AbstractRepositoryTest;
 class PandaPriceRepositoryTest extends AbstractRepositoryTest {
 
   @Autowired
-  private PriceRepository priceRepository;
+  private PandaPriceRepository pandaPriceRepository;
 
   @Test
   void save() {
@@ -20,11 +20,11 @@ class PandaPriceRepositoryTest extends AbstractRepositoryTest {
       new PandaOptionGroup("2", 2000),
       new PandaOptionGroup("3", 3000)
     );
-    PandaPrice pandaPrice = priceRepository.save(new PandaPrice(pandaOptionGroups));
+    PandaPrice pandaPrice = pandaPriceRepository.save(new PandaPrice(pandaOptionGroups));
     flushAndClear();
 
     // when
-    PandaPrice found = priceRepository.findById(pandaPrice.getId()).orElseThrow();
+    PandaPrice found = pandaPriceRepository.findById(pandaPrice.getId()).orElseThrow();
     found.update(List.of(
       new PandaOptionGroup("4", 4000),
       new PandaOptionGroup("5", 5000),
@@ -33,7 +33,7 @@ class PandaPriceRepositoryTest extends AbstractRepositoryTest {
     flushAndClear();
 
     // then
-    PandaPrice result = priceRepository.findById(found.getId()).orElseThrow();
+    PandaPrice result = pandaPriceRepository.findById(found.getId()).orElseThrow();
     System.out.println("result = " + result);
     System.out.println("result = " + result.getPandaOptionGroups());
   }
