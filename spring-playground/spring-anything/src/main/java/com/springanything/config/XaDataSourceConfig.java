@@ -1,16 +1,15 @@
 package com.springanything.config;
 
+import javax.sql.DataSource;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +31,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Configuration
 @EnableTransactionManagement
-@ConditionalOnProperty(name = "spring.jta.enabled", havingValue = "true")
+@ConditionalOnMissingBean(DataSourceConfig.class)
 public class XaDataSourceConfig {
 
   public static final String MYSQL_XA_DATASOURCE = "com.mysql.cj.jdbc.MysqlXADataSource";
