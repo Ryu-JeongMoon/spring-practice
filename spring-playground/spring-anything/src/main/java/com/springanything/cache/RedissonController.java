@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@ConditionalOnBean(RedissonClient.class)
+@ConditionalOnBean(RedisConfig.class)
 public class RedissonController {
 
   private final RedissonClient redisson;
