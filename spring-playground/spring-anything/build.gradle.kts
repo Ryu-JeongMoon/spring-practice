@@ -25,6 +25,8 @@ repositories {
 val snippetsDir = file("build/generated-snippets")
 
 dependencies {
+  implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-aop")
   implementation("org.springframework.boot:spring-boot-starter-mail")

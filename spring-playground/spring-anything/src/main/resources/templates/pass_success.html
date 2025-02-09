@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>본인인증 결과</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="HandheldFriendly" content="true">
+</head>
+<body>
+
+<div>
+    <p th:text="${'이름 : ' + passResponse.name()}"></p>
+    <p th:text="${'전화번호 : ' + passResponse.phone()}"></p>
+    <p th:text="${'성별 : ' + passResponse.gender()}"></p>
+</div>
+
+</body>
+</html>
